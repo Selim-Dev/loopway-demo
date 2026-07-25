@@ -1,0 +1,114 @@
+/* ==========================================================================
+   LoopWay — Color tokens
+   Base palette first (raw values, numbered light→dark), then semantic
+   aliases that components should actually reference. Values are copied
+   verbatim from the shipped product screens (~30 screens surveyed) —
+   nothing here is rounded or invented.
+   ========================================================================== */
+:root {
+  /* ---- Brand green (primary action, success) ---- */
+  --lw-green-50:  #F2FBF6;
+  --lw-green-100: #E9F9F0;
+  --lw-green-200: #C6EED7;
+  --lw-green-500: #2ECC71;  /* primary CTA fill */
+  --lw-green-600: #27AE60;  /* primary CTA hover/press */
+  --lw-green-700: #1E8449;  /* success text on green-100 tint */
+  --lw-green-750: #1E9E5A;  /* success text, alt (waybill "live" tag) */
+
+  /* ---- Navy / slate (ink, chrome, dark surfaces) ---- */
+  --lw-navy-900: #2C3E50;   /* primary text, headings, phone-frame chrome */
+  --lw-navy-800: #34495E;   /* secondary buttons text, icon strokes */
+  --lw-navy-700: #51606E;   /* body secondary text */
+  --lw-slate-600: #5B6A75;  /* tertiary text, muted labels */
+  --lw-slate-500: #8A98A4;  /* meta text, placeholders, muted icons */
+  --lw-slate-400: #9AA7B0;  /* disabled/quiet icons, helper microcopy */
+  --lw-slate-300: #B4BFC6;  /* unmet-requirement dots */
+  --lw-slate-200: #C7D0D6;  /* chevrons, quiet borders */
+  --lw-slate-100: #CBD5DB;  /* dashed route connectors */
+
+  /* ---- Surfaces & borders ---- */
+  --lw-bg-canvas: #EEF1F3;  /* outermost app background */
+  --lw-bg-app:    #F1F4F6;  /* screen background (alt) */
+  --lw-bg-app-2:  #F5F7F8;  /* screen background (alt 2) */
+  --lw-bg-subtle: #F7F9FA;  /* inset row / driver-chip background */
+  --lw-surface:   #FFFFFF;  /* card / input surface */
+  --lw-border:        #DCE3E7; /* input borders */
+  --lw-border-subtle: #E7ECEF; /* card borders, icon buttons */
+  --lw-border-faint:  #ECF0F2; /* card hairlines */
+  --lw-divider:       #EDF0F2; /* summary-row dividers */
+  --lw-divider-2:     #F0F3F4; /* list-row dividers */
+  --lw-track:         #EAEEF0; /* progress-bar track */
+  --lw-chip-bg:       #E4E9EC; /* segmented-control track */
+  --lw-icon-tint-bg:  #EEF2F4; /* neutral icon-badge background */
+
+  /* ---- Danger / error ---- */
+  --lw-red-100: #FDECEA;
+  --lw-red-100b:#FDF1F1;
+  --lw-red-border: #F5C9C3;
+  --lw-red-border-b: #F1C6C8;
+  --lw-red-500: #E74C3C;   /* error glyph fill */
+  --lw-red-600: #C0392B;   /* error text */
+  --lw-red-700: #D64045;   /* destructive action text (logout/delete) */
+
+  /* ---- Warning / amber (pending, requires attention) ---- */
+  --lw-amber-100: #FEF6E9;
+  --lw-amber-border: #F6E2BC;
+  --lw-amber-500: #F39C12;  /* required-field asterisk, warning dot */
+  --lw-amber-600: #9A6B12;  /* warning text on amber-100 */
+  --lw-amber-700: #E0A73E;  /* no-results icon stroke */
+
+  /* ---- Info / links ---- */
+  --lw-blue-600: #2D6CC0;   /* "clear filters" link, informational text */
+
+  /* ---- Overlay ink (shadows are keyed off navy, not pure black) ---- */
+  --lw-ink: #2C3E50;
+
+  /* ================= Semantic aliases — use these in components ================= */
+  --color-bg-canvas: var(--lw-bg-canvas);
+  --color-surface: var(--lw-surface);
+  --color-surface-inset: var(--lw-bg-subtle);
+
+  --color-text-primary: var(--lw-navy-900);
+  --color-text-secondary: var(--lw-navy-700);
+  --color-text-muted: var(--lw-slate-500);
+  --color-text-quiet: var(--lw-slate-400);
+  --color-text-on-brand: #FFFFFF;
+  --color-text-on-dark: rgba(255,255,255,.9);
+  --color-text-on-dark-muted: rgba(255,255,255,.65);
+
+  --color-border-default: var(--lw-border);
+  --color-border-subtle: var(--lw-border-subtle);
+
+  --color-brand: var(--lw-green-500);
+  --color-brand-hover: var(--lw-green-600);
+  --color-brand-tint: var(--lw-green-100);
+  --color-brand-tint-text: var(--lw-green-700);
+
+  --color-success: var(--lw-green-500);
+  --color-success-text: var(--lw-green-700);
+  --color-success-bg: var(--lw-green-100);
+
+  --color-danger: var(--lw-red-500);
+  --color-danger-text: var(--lw-red-600);
+  --color-danger-bg: var(--lw-red-100);
+  --color-danger-border: var(--lw-red-border);
+
+  --color-warning: var(--lw-amber-500);
+  --color-warning-text: var(--lw-amber-600);
+  --color-warning-bg: var(--lw-amber-100);
+  --color-warning-border: var(--lw-amber-border);
+
+  --color-info-text: var(--lw-blue-600);
+
+  --color-focus-ring: rgba(46,204,113,.12);
+  --color-scrim: rgba(44,62,80,.55);
+}
+
+/* ---- Added for the web portals ----
+   The B2B trip-row "map preview" and the halo orbs on the live-waybill CTA
+   reference a mid-green that the mobile design system never needed. Value is
+   the midpoint the design source uses inline; declared here so the portals
+   never hard-code it. */
+:root {
+  --lw-green-300: #7FE0A8;
+}

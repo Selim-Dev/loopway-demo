@@ -1,0 +1,52 @@
+/* ==========================================================================
+   LoopWay — Radius, shadow & motion tokens
+   ========================================================================== */
+:root {
+  /* ---- Corner radius ---- */
+  --radius-xs: 7px;    /* small icon badges, status pills */
+  --radius-sm: 9px;    /* chip track, tag pills */
+  --radius-md: 11px;   /* icon buttons */
+  --radius-lg: 12px;   /* buttons, inputs — the workhorse radius */
+  --radius-xl: 14px;   /* small cards, dropdowns */
+  --radius-2xl: 16px;  /* standard cards */
+  --radius-3xl: 18px;  /* larger cards, empty-state icon tile */
+  --radius-4xl: 20px;  /* wallet balance card */
+  --radius-5xl: 22px;  /* shipment card (hero card of the app) */
+  --radius-pill: 999px;/* fully-rounded pills, avatars, segmented buttons */
+  --radius-phone-outer: 50px; /* device-frame bezel used across every mock */
+  --radius-phone-inner: 39px; /* device-frame screen corners */
+
+  /* ---- Shadows (all keyed off navy ink, never pure black) ---- */
+  --shadow-xs: 0 2px 8px rgba(44,62,80,.05);
+  --shadow-sm: 0 4px 12px -10px rgba(44,62,80,.4);
+  --shadow-card: 0 6px 16px -14px rgba(44,62,80,.4);
+  --shadow-card-lg: 0 14px 30px -18px rgba(44,62,80,.28);
+  --shadow-card-xl: 0 14px 30px -20px rgba(44,62,80,.3);
+  --shadow-dropdown: 0 12px 28px -10px rgba(44,62,80,.22);
+  --shadow-balance-card: 0 18px 32px -18px rgba(44,62,80,.7);
+  --shadow-phone: 0 34px 70px -26px rgba(44,62,80,.55), 0 8px 24px rgba(0,0,0,.12);
+  --shadow-cta: 0 8px 18px -8px rgba(46,204,113,.6);
+  --shadow-cta-soft: 0 8px 18px -8px rgba(46,204,113,.5);
+  --shadow-cta-lg: 0 10px 20px -8px rgba(46,204,113,.6);
+
+  /* ---- Borders ---- */
+  --border-thin: 1px;
+  --border-default: 1.5px;
+  --border-thick: 1.6px;
+  --border-otp: 2px;
+
+  /* ---- Motion ---- */
+  --ease-standard: cubic-bezier(.4,0,.2,1); /* @kind other */
+  --duration-fast: .15s; /* @kind other */
+  --duration-base: .5s; /* @kind other */
+  --duration-spin: .7s; /* @kind other */
+  --duration-spin-slow: .8s; /* @kind other */
+}
+
+/* ---- Shared keyframes (spinners, success pop-ins, sheet/fade entrances) ---- */
+@keyframes lw-spin { to { transform: rotate(360deg); } }
+@keyframes lw-pop { 0% { transform: scale(.5); opacity: 0; } 60% { transform: scale(1.08); } 100% { transform: scale(1); opacity: 1; } }
+@keyframes lw-sheet { from { transform: translateY(100%); } to { transform: translateY(0); } }
+@keyframes lw-fade { from { opacity: 0; } to { opacity: 1; } }
+@keyframes lw-slideup { from { transform: translate(0,30px); opacity: 0; } to { transform: translate(0,0); opacity: 1; } }
+@keyframes lw-pulse { 0%,100% { opacity: 1; } 50% { opacity: .45; } }

@@ -1,0 +1,213 @@
+/* ==========================================================================
+   Display atoms: StatusBadge, ScopeTag, StageChip, ProgressBar,
+   AvatarInitial, AmountText, RouteChips, RefCode.
+   Values verbatim from the two designed B2B screens.
+   ========================================================================== */
+
+/* ---- RefCode: any LTR reference code inside RTL copy ---- */
+.ref {
+  font-family: var(--font-latin);
+  direction: ltr;
+  unicode-bidi: isolate;
+  white-space: nowrap;
+  letter-spacing: var(--tracking-snug);
+}
+
+/* ---- StatusBadge ---- */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border-radius: var(--web-r-badge);
+  padding: 5px 11px;
+  font-size: var(--web-text-tiny);
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.badgePill { border-radius: var(--radius-pill); padding: 4px 11px; }
+
+.dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  flex: none;
+}
+
+.dotLg { width: 7px; height: 7px; }
+
+/* ---- ScopeTag ---- */
+.scope {
+  display: inline-flex;
+  align-self: flex-start;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 6px;
+}
+
+.scopeLocal { background: rgba(44, 62, 80, .08); color: var(--lw-slate-600); }
+.scopeIntl { background: rgba(45, 108, 192, .12); color: var(--lw-blue-600); }
+
+/* ---- StageChip ---- */
+.stage {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 8px 13px;
+  border-radius: var(--web-r-chip);
+  justify-self: start;
+  max-width: 100%;
+  overflow: hidden;
+}
+
+.stageLabel {
+  font-size: var(--web-text-meta);
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.stageSpinner {
+  width: 14px;
+  height: 14px;
+  flex: none;
+  border-radius: 50%;
+  border: 2px solid currentColor;
+  animation: lw-spin .8s linear infinite;
+}
+
+.elapsed {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 8px;
+  border-radius: var(--web-r-badge);
+  background: #fff;
+  font-size: var(--web-text-tiny);
+  font-weight: 800;
+  font-family: var(--font-latin);
+  direction: ltr;
+  unicode-bidi: isolate;
+  white-space: nowrap;
+}
+
+/* ---- ProgressBar ---- */
+.track {
+  height: 7px;
+  border-radius: 7px;
+  background: var(--lw-track);
+  overflow: hidden;
+}
+
+.fill {
+  height: 100%;
+  border-radius: 7px;
+  background: var(--lw-green-500);
+  transition: width var(--duration-fast) var(--ease-standard);
+}
+
+/* ---- AvatarInitial ---- */
+.avatar {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+}
+
+.avatarCircle { border-radius: 50%; }
+.avatarSquare { border-radius: 9px; }
+.avatarDriver { background: var(--lw-navy-800); color: #fff; }
+.avatarOffers { background: var(--color-warning-bg); color: var(--lw-amber-600); }
+
+/* ---- AmountText ---- */
+.amount {
+  font-family: var(--font-latin);
+  direction: ltr;
+  unicode-bidi: isolate;
+  text-align: right;
+  font-size: var(--web-text-value);
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.amountHero {
+  font-size: 30px;
+  font-weight: 800;
+  font-family: var(--font-latin);
+  direction: ltr;
+  unicode-bidi: isolate;
+}
+
+.amountCredit { color: var(--lw-green-700); }
+.amountDebit { color: var(--lw-navy-900); }
+.amountMuted { color: var(--lw-slate-400); }
+
+/* ---- RouteChips ---- */
+.route {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.routeChip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: rgba(255, 255, 255, .72);
+  border: 1px solid rgba(255, 255, 255, .9);
+  padding: 4px 9px;
+  border-radius: var(--web-r-tag);
+  font-size: var(--web-text-micro);
+  font-weight: 800;
+  color: var(--lw-navy-900);
+  white-space: nowrap;
+}
+
+.routeArrowWrap {
+  width: 21px;
+  height: 21px;
+  flex: none;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, .55);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--lw-slate-500);
+}
+
+/* The plain variant — on a white surface (calendar panel, drawer). */
+.routePlain { gap: 8px; flex-wrap: wrap; }
+
+.routePlain .routeChip {
+  background: var(--lw-bg-subtle);
+  border: none;
+  padding: 6px 12px;
+  border-radius: var(--web-r-cell);
+  font-size: var(--web-text-value);
+}
+
+.routePlain .routeArrowWrap {
+  width: auto;
+  height: auto;
+  background: none;
+}
+
+.originDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--lw-green-500);
+  flex: none;
+}
+
+.destDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 2px;
+  background: var(--lw-navy-800);
+  flex: none;
+}
+
+.routePlain .originDot,
+.routePlain .destDot { width: 7px; height: 7px; }

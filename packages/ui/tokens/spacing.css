@@ -1,0 +1,46 @@
+/* ==========================================================================
+   LoopWay — Spacing tokens
+   The product does not sit on a strict 8px grid — paddings/gaps of 7, 9, 11,
+   13, 14, 18, 22px etc. recur constantly. The scale below documents the
+   values actually observed, smallest to largest.
+   ========================================================================== */
+:root {
+  --space-1: 4px;
+  --space-2: 6px;
+  --space-3: 7px;
+  --space-4: 8px;
+  --space-5: 9px;
+  --space-6: 10px;
+  --space-7: 11px;
+  --space-8: 12px;
+  --space-9: 13px;
+  --space-10: 14px;
+  --space-11: 16px;
+  --space-12: 18px;
+  --space-13: 20px;
+  --space-14: 22px;
+  --space-15: 24px;
+  --space-16: 28px;
+  --space-17: 32px;
+  --space-18: 40px;
+
+  /* ---- Common semantic spacings ---- */
+  --gap-icon-label: 8px;      /* icon ↔ label inside buttons/rows */
+  --gap-row: 9px;             /* stacked list rows */
+  --gap-card: 15px;           /* between cards in a list */
+  --pad-card: 14px 15px;      /* default card padding */
+  --pad-card-lg: 16px;        /* shipment card body padding */
+  --pad-input: 0 14px;        /* text input horizontal padding */
+  --pad-screen: 6px 24px 26px;/* full-screen scroll-view padding */
+  --pad-screen-tight: 6px 20px 22px;
+
+  /* ---- Control heights (fixed, not derived) ---- */
+  --h-button: 52px;
+  --h-button-sm: 46px;
+  --h-input: 50px;
+  --h-input-lg: 52px;
+  --h-icon-btn: 38px;
+  --h-tab-bar: 40px;
+  --h-otp-box: 56px;
+  --w-otp-box: 46px;
+}

@@ -1,0 +1,217 @@
+/* ==========================================================================
+   The filter-bar family: TabGroup, SearchField, SelectField, PrimaryCta.
+   All four sit on one 44px-tall row (tabs are 38px inside a 4px-padded track,
+   so the track is also 44px). Values verbatim from the designed رحلاتي screen.
+   ========================================================================== */
+
+.bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: nowrap;
+  flex: none;
+}
+
+/* Pushes the trailing group to the far (RTL-left) edge. */
+.spacer { margin-right: auto; display: flex; align-items: center; gap: 8px; flex: none; }
+
+/* ---- TabGroup ---- */
+.tabTrack {
+  display: inline-flex;
+  background: #fff;
+  border: 1px solid var(--lw-border-faint);
+  border-radius: var(--web-r-control);
+  padding: 4px;
+  box-shadow: var(--web-shadow-control);
+  flex: none;
+}
+
+.tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  height: var(--web-h-tab);
+  padding: 0 13px;
+  border: none;
+  border-radius: var(--web-r-cell);
+  font-family: var(--font-sans);
+  font-size: var(--web-text-meta);
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+  background: none;
+  color: var(--lw-slate-500);
+  text-decoration: none;
+  transition: color var(--duration-fast), background var(--duration-fast);
+}
+
+.tab:hover { color: var(--lw-navy-800); }
+
+.tab.tabActive,
+.tab.tabActive:hover {
+  background: var(--lw-navy-900);
+  color: #fff;
+}
+
+.tabCount {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 19px;
+  height: 19px;
+  padding: 0 6px;
+  border-radius: var(--radius-pill);
+  font-size: var(--web-text-nano);
+  font-weight: 800;
+  font-family: var(--font-latin);
+  background: var(--lw-icon-tint-bg);
+  color: var(--lw-slate-500);
+}
+
+.tabActive .tabCount {
+  background: var(--lw-green-500);
+  color: #fff;
+}
+
+/* ---- SearchField ---- */
+.searchWrap {
+  position: relative;
+  flex: 1;
+  min-width: 150px;
+  max-width: 250px;
+}
+
+.searchIcon {
+  position: absolute;
+  right: 13px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  color: var(--lw-slate-400);
+}
+
+.searchInput {
+  width: 100%;
+  height: var(--web-h-control);
+  border: 1px solid var(--lw-border-faint);
+  border-radius: var(--web-r-control);
+  background: #fff;
+  padding: 0 36px 0 10px;
+  font-family: var(--font-sans);
+  font-size: var(--web-text-meta);
+  color: var(--lw-navy-900);
+  outline: none;
+  box-shadow: var(--web-shadow-control);
+}
+
+.searchInput::placeholder { color: var(--lw-slate-500); }
+.searchInput:focus { border-color: var(--lw-green-500); }
+
+/* Compact variant. سجل العمليات المالية runs its filter row 2px shorter and
+   1px tighter on the radius than رحلاتي does — a real difference in the
+   design source, preserved rather than harmonised away. */
+.searchWrapSm { max-width: 320px; min-width: 200px; }
+.searchInputSm { height: 42px; border-radius: var(--web-r-btn); }
+
+/* ---- SelectField ---- */
+.selectWrap { position: relative; flex: none; }
+
+.select {
+  height: var(--web-h-control);
+  border: 1px solid var(--lw-border-faint);
+  border-radius: var(--web-r-control);
+  background: #fff;
+  padding: 0 11px 0 26px;
+  font-family: var(--font-sans);
+  font-size: var(--web-text-label);
+  font-weight: 600;
+  color: var(--lw-navy-800);
+  outline: none;
+  cursor: pointer;
+  appearance: none;
+  box-shadow: var(--web-shadow-control);
+}
+
+.select:focus { border-color: var(--lw-green-500); }
+
+.selectSm { height: 42px; border-radius: var(--web-r-btn); }
+
+.selectChevron {
+  position: absolute;
+  left: 11px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  color: var(--lw-slate-400);
+}
+
+/* Quiet variant — the "حالة العرض" dev control in the pagination bar. */
+.selectQuiet {
+  height: var(--web-h-quiet);
+  border: 1px dashed var(--lw-slate-200);
+  border-radius: var(--web-r-tag);
+  background: var(--lw-bg-subtle);
+  padding: 0 26px 0 12px;
+  font-size: var(--web-text-micro);
+  font-weight: 600;
+  color: var(--lw-slate-600);
+  box-shadow: none;
+}
+
+.selectQuiet + .selectChevron {
+  left: 9px;
+  color: var(--lw-slate-500);
+}
+
+/* ---- PrimaryCta ---- */
+.cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  height: var(--web-h-control);
+  padding: 0 16px;
+  border-radius: var(--web-r-control);
+  border: none;
+  font-family: var(--font-sans);
+  font-size: var(--web-text-cta);
+  font-weight: 700;
+  white-space: nowrap;
+  background: var(--lw-green-500);
+  color: #fff;
+  cursor: pointer;
+  box-shadow: var(--shadow-cta);
+  text-decoration: none;
+  transition: background var(--duration-fast);
+}
+
+.cta:hover { background: var(--lw-green-600); }
+
+.cta:disabled,
+.cta.ctaDisabled {
+  background: var(--web-disabled-fill);
+  color: #fff;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.ctaSecondary {
+  background: #fff;
+  color: var(--lw-navy-800);
+  border: 1.5px solid var(--lw-border);
+  box-shadow: var(--web-shadow-control);
+}
+
+.ctaSecondary:hover {
+  background: #fff;
+  border-color: var(--lw-slate-200);
+}
+
+.ctaSm {
+  height: 42px;
+  padding: 0 18px;
+  border-radius: var(--web-r-btn);
+  font-size: var(--web-text-value);
+  gap: 8px;
+}
+
+.ctaSecondary.ctaSm { box-shadow: none; }

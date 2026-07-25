@@ -1,0 +1,189 @@
+/* ==========================================================================
+   TripCalendar — month grid with lane-packed multi-day trip bars.
+   Values verbatim from buildCalendar() in the designed رحلاتي screen.
+   ========================================================================== */
+
+.calendar {
+  flex: 1;
+  min-width: 0;
+  background: #fff;
+  border: 1px solid var(--lw-border-faint);
+  border-radius: var(--web-r-card);
+  box-shadow: var(--web-shadow-card);
+  display: flex;
+  flex-direction: column;
+  padding: 20px 22px;
+}
+
+.head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.titleGroup { display: flex; align-items: baseline; gap: 12px; }
+
+.month {
+  font-size: var(--web-text-h2);
+  font-weight: 800;
+  color: var(--lw-navy-900);
+  letter-spacing: var(--tracking-snug);
+}
+
+.count {
+  font-size: var(--web-text-label);
+  font-weight: 600;
+  color: var(--lw-slate-500);
+}
+
+.nav { display: flex; align-items: center; gap: 8px; }
+
+.today {
+  height: var(--web-h-page-tab);
+  padding: 0 16px;
+  border-radius: var(--web-r-cell);
+  border: 1.5px solid var(--lw-border);
+  background: #fff;
+  color: var(--lw-navy-800);
+  font-family: var(--font-sans);
+  font-size: var(--web-text-meta);
+  font-weight: 700;
+  cursor: pointer;
+  transition: border-color var(--duration-fast);
+}
+
+.today:hover { border-color: var(--lw-slate-200); }
+
+.navBtn {
+  width: var(--web-h-page-tab);
+  height: var(--web-h-page-tab);
+  border-radius: var(--web-r-cell);
+  border: 1px solid var(--lw-border-subtle);
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--lw-navy-800);
+  padding: 0;
+  transition: background var(--duration-fast);
+}
+
+.navBtn:hover { background: var(--lw-bg-subtle); }
+
+.weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.weekday {
+  text-align: center;
+  font-size: var(--web-text-micro);
+  font-weight: 700;
+  color: var(--lw-slate-500);
+  padding: 4px 0;
+}
+
+.weeks {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: 1;
+  min-height: 0;
+}
+
+.week { position: relative; flex: 1; }
+
+.cells {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  column-gap: 6px;
+}
+
+.cell {
+  background: #fff;
+  border: 1px solid var(--lw-border-faint);
+  border-radius: var(--web-r-cell);
+}
+
+.cellOut {
+  background: #F3F6F7;
+  border: none;
+  border-radius: var(--web-r-cell);
+}
+
+.cellToday {
+  background: #F2FBF6;
+  border: 1.5px solid var(--lw-green-500);
+  border-radius: var(--web-r-cell);
+}
+
+.dayWrap { text-align: right; padding: 5px 8px 0; }
+
+.dayNum {
+  font-size: var(--web-text-label);
+  font-weight: 700;
+  color: var(--lw-navy-800);
+  font-family: var(--font-latin);
+}
+
+.dayNumToday {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--lw-green-500);
+  color: #fff;
+  font-size: var(--web-text-micro);
+  font-weight: 800;
+  font-family: var(--font-latin);
+}
+
+.bars {
+  position: relative;
+  height: 100%;
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  grid-auto-rows: var(--web-h-bar);
+  column-gap: 6px;
+  row-gap: 4px;
+  padding-top: 30px;
+}
+
+.bar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 9px;
+  height: var(--web-h-bar);
+  font-size: var(--web-text-nano);
+  font-weight: 800;
+  white-space: nowrap;
+  overflow: hidden;
+  cursor: pointer;
+  border-style: solid;
+  border-width: 1px;
+  transition: box-shadow .12s ease, transform .12s ease, opacity .12s ease;
+  text-align: right;
+  font-family: var(--font-sans);
+}
+
+.barDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  flex: none;
+}
+
+.barLabel {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

@@ -1,0 +1,7 @@
+/* Admin app-level overrides. Everything visual comes from @loopway/ui. */
+
+:root {
+  --font-arabic: var(--lw-font-tajawal), sans-serif;
+  --font-latin: var(--lw-font-montserrat), sans-serif;
+  --font-sans: var(--lw-font-tajawal), var(--lw-font-montserrat), sans-serif;
+}

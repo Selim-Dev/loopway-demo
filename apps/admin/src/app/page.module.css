@@ -1,0 +1,114 @@
+.kpis {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+  flex: none;
+}
+
+.kpi {
+  background: #fff;
+  border: 1px solid var(--lw-border-faint);
+  border-radius: var(--web-r-panel);
+  box-shadow: var(--web-shadow-control);
+  padding: 15px 17px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+  transition: border-color var(--duration-fast);
+}
+
+.kpi:hover { border-color: var(--lw-slate-200); }
+
+.kpiIcon {
+  width: 40px;
+  height: 40px;
+  flex: none;
+  border-radius: var(--web-r-chip);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.kpiLabel {
+  display: block;
+  font-size: var(--web-text-micro);
+  font-weight: 700;
+  color: var(--lw-slate-500);
+  white-space: nowrap;
+}
+
+.kpiValue {
+  display: block;
+  font-size: 24px;
+  font-weight: 800;
+  color: var(--lw-navy-900);
+  font-family: var(--font-latin);
+  direction: ltr;
+  unicode-bidi: isolate;
+  line-height: 1.2;
+  letter-spacing: var(--tracking-snug);
+}
+
+.queue { overflow: hidden; }
+
+.queueHead {
+  padding: 15px 18px;
+  border-bottom: 1px solid var(--lw-divider-2);
+}
+
+.queueTitle {
+  font-size: var(--web-text-h4);
+  font-weight: 800;
+  color: var(--lw-navy-900);
+}
+
+.queueSub {
+  display: block;
+  font-size: var(--web-text-micro);
+  font-weight: 600;
+  color: var(--lw-slate-500);
+  margin-top: 3px;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 13px 18px;
+  border-bottom: 1px solid var(--lw-divider-2);
+  text-decoration: none;
+  transition: background var(--duration-fast);
+}
+
+.row:last-child { border-bottom: none; }
+.row:hover { background: var(--lw-bg-subtle); }
+
+.rowGlyph {
+  width: 34px;
+  height: 34px;
+  flex: none;
+  border-radius: var(--web-r-cell);
+  background: var(--lw-icon-tint-bg);
+  color: var(--lw-navy-800);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.rowMain { flex: 1; min-width: 0; }
+
+.rowTitle {
+  display: block;
+  font-size: var(--web-text-label);
+  font-weight: 700;
+  color: var(--lw-navy-900);
+}
+
+.rowMeta {
+  display: block;
+  font-size: var(--web-text-micro);
+  font-weight: 600;
+  color: var(--lw-slate-500);
+  margin-top: 3px;
+}

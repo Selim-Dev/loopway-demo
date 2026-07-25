@@ -1,0 +1,244 @@
+/* ==========================================================================
+   سجل العمليات المالية — screen-specific layout.
+   The reusable pieces (WalletCard, DataTable, SidePanel…) live in @loopway/ui;
+   only the top-up sheet and the invoice breakdown are local to this screen.
+   ========================================================================== */
+
+.body {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  gap: 14px;
+}
+
+.filters {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: nowrap;
+}
+
+.filtersSpacer { margin-right: auto; flex: none; }
+
+/* ---- Transaction detail ---- */
+.detailHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.detailId {
+  font-size: 15px;
+  font-weight: 800;
+  font-family: var(--font-latin);
+  direction: ltr;
+  unicode-bidi: isolate;
+  color: var(--lw-navy-900);
+}
+
+.detailType {
+  font-size: var(--web-text-label);
+  font-weight: 600;
+  color: var(--lw-slate-500);
+}
+
+.detailAmount { margin-top: 6px; }
+
+.block { margin-top: 20px; }
+
+.linkedTrip {
+  background: var(--lw-bg-subtle);
+  border-radius: var(--web-r-btn);
+  padding: 12px 14px;
+}
+
+.linkedTripId {
+  font-size: var(--web-text-value);
+  font-weight: 800;
+  font-family: var(--font-latin);
+  direction: ltr;
+  unicode-bidi: isolate;
+  color: var(--lw-navy-900);
+  margin-bottom: 8px;
+}
+
+.linkedCargo {
+  font-size: var(--web-text-micro);
+  font-weight: 600;
+  color: var(--lw-slate-500);
+  margin-top: 8px;
+}
+
+.invoice {
+  border: 1px solid var(--lw-border-subtle);
+  border-radius: var(--web-r-btn);
+  overflow: hidden;
+}
+
+.invoiceRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  font-size: var(--web-text-label);
+  font-weight: 600;
+  color: var(--lw-navy-700);
+  border-bottom: 1px solid var(--lw-divider-2);
+}
+
+.invoiceRow:last-child {
+  border-bottom: none;
+  background: var(--lw-bg-subtle);
+  font-weight: 800;
+  color: var(--lw-navy-900);
+}
+
+.invoiceValue {
+  font-family: var(--font-latin);
+  direction: ltr;
+  unicode-bidi: isolate;
+}
+
+.methodLine {
+  font-size: var(--web-text-meta);
+  font-weight: 700;
+  color: var(--lw-navy-900);
+}
+
+/* ---- Top-up sheet ---- */
+.chipRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.chip {
+  height: 36px;
+  padding: 0 15px;
+  border-radius: var(--web-r-cell);
+  border: 1.5px solid var(--lw-border);
+  background: #fff;
+  color: var(--lw-navy-800);
+  font-family: var(--font-sans);
+  font-size: var(--web-text-label);
+  font-weight: 700;
+  cursor: pointer;
+  transition: border-color var(--duration-fast), background var(--duration-fast);
+}
+
+.chipActive {
+  border-color: var(--lw-green-500);
+  background: var(--color-success-bg);
+  color: var(--lw-green-700);
+}
+
+.fieldLabel {
+  display: block;
+  font-size: var(--web-text-label);
+  font-weight: 600;
+  color: var(--lw-slate-500);
+  margin: 18px 0 8px;
+}
+
+.amountInput {
+  width: 100%;
+  height: var(--web-h-control);
+  border: 1px solid var(--lw-border);
+  border-radius: var(--web-r-btn);
+  background: #fff;
+  padding: 0 14px;
+  font-family: var(--font-latin);
+  direction: ltr;
+  unicode-bidi: isolate;
+  text-align: right;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--lw-navy-900);
+  outline: none;
+}
+
+.amountInput:focus { border-color: var(--lw-green-500); }
+
+.methodCard {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px;
+  border-radius: var(--web-r-btn);
+  border: 1.5px solid var(--lw-border);
+  background: #fff;
+  cursor: pointer;
+  width: 100%;
+  text-align: right;
+  font-family: var(--font-sans);
+  transition: border-color var(--duration-fast), background var(--duration-fast);
+}
+
+.methodCard + .methodCard { margin-top: 8px; }
+
+.methodCardActive {
+  border-color: var(--lw-green-500);
+  background: var(--color-success-bg);
+}
+
+.methodBrand {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  height: 28px;
+  border-radius: 7px;
+  background: var(--lw-icon-tint-bg);
+  color: var(--lw-navy-800);
+  font-size: var(--web-text-tiny);
+  font-weight: 800;
+  font-family: var(--font-latin);
+  flex: none;
+}
+
+.methodLabel {
+  font-size: var(--web-text-meta);
+  font-weight: 700;
+  color: var(--lw-navy-900);
+  font-family: var(--font-latin);
+  direction: ltr;
+  unicode-bidi: isolate;
+}
+
+/* ---- Top-up success ---- */
+.success {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 40px 8px 8px;
+}
+
+.successGlyph {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: var(--color-success-bg);
+  color: var(--lw-green-600);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
+  animation: lw-check-pop .5s ease;
+}
+
+.successTitle {
+  font-size: var(--web-text-h4);
+  font-weight: 800;
+  color: var(--lw-navy-900);
+}
+
+.successBody {
+  font-size: var(--web-text-label);
+  font-weight: 600;
+  color: var(--lw-navy-700);
+  margin-top: 6px;
+}

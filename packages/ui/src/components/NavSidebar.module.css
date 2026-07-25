@@ -1,0 +1,201 @@
+/* ==========================================================================
+   NavSidebar + SidebarShell — the labelled navy navigation.
+
+   PROVENANCE: this is not invented for the Admin portal. It is the shell the
+   Claude Design project shipped in its FIRST iteration of the company
+   dashboard ("لوحة الشركات - رحلاتي.dc.html"), before the design moved the
+   B2B portal to the 78px icon rail. Every value below is copied from that
+   file — the 252px width, the navy fill, the 11px item radius, the
+   rgba(46,204,113,.16) active tint and the 3px green edge marker.
+
+   The Admin portal has sixteen sections (SRS M04-E01…E16); an icon rail cannot
+   carry sixteen unlabelled destinations, so the labelled variant is the right
+   shell there. Group headings are the one addition, and they reuse the same
+   translucent-white ramp the rest of the sidebar already uses.
+   ========================================================================== */
+
+.shell {
+  min-width: 1440px;
+  min-height: 100vh;
+  display: flex;
+  background: var(--lw-bg-canvas);
+  color: var(--lw-navy-900);
+}
+
+.sidebar {
+  width: 252px;
+  flex: none;
+  background: var(--lw-navy-900);
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  padding: 24px 16px;
+  position: sticky;
+  top: 0;
+  align-self: flex-start;
+  height: 100vh;
+  min-height: 940px;
+  overflow: hidden;
+}
+
+/* Only the destination list scrolls; brand and footer stay pinned. */
+.scrollArea {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  /* The active marker sits at right:-16px, outside the item box — the gutter
+     keeps it from being clipped by the scroll container. */
+  padding-right: 16px;
+  margin-right: -16px;
+  padding-bottom: 8px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 6px 10px 22px;
+  flex: none;
+}
+
+.brandTile {
+  width: 38px;
+  height: 38px;
+  flex: none;
+  border-radius: var(--web-r-chip);
+  background: var(--lw-green-500);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+}
+
+.brandName {
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: var(--tracking-snug);
+  line-height: 1;
+  font-family: var(--font-latin);
+}
+
+.brandSub {
+  font-size: var(--web-text-tiny);
+  font-weight: 600;
+  color: rgba(255, 255, 255, .55);
+  margin-top: 3px;
+}
+
+.nav {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-top: 6px;
+}
+
+.groupLabel {
+  font-size: var(--web-text-nano);
+  font-weight: 700;
+  color: rgba(255, 255, 255, .38);
+  padding: 14px 12px 6px;
+  letter-spacing: var(--tracking-wide);
+}
+
+.item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 11px 12px;
+  border-radius: var(--web-r-chip);
+  color: rgba(255, 255, 255, .72);
+  font-size: 14.5px;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background var(--duration-fast), color var(--duration-fast);
+}
+
+.item:hover {
+  background: rgba(255, 255, 255, .07);
+  color: #fff;
+}
+
+.itemActive,
+.itemActive:hover {
+  background: rgba(46, 204, 113, .16);
+  color: #fff;
+  font-weight: 700;
+}
+
+.marker {
+  position: absolute;
+  right: -16px;
+  top: 9px;
+  bottom: 9px;
+  width: 3px;
+  border-radius: 3px;
+  background: var(--lw-green-500);
+}
+
+.itemLabel {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.count {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 6px;
+  border-radius: var(--radius-pill);
+  background: var(--lw-green-500);
+  color: #fff;
+  font-size: var(--web-text-nano);
+  font-weight: 800;
+  font-family: var(--font-latin);
+}
+
+.footer {
+  margin-top: 16px;
+  padding: 14px;
+  border-radius: var(--web-r-inner);
+  background: rgba(255, 255, 255, .05);
+  border: 1px solid rgba(255, 255, 255, .08);
+  flex: none;
+}
+
+.footerTitle {
+  font-size: var(--web-text-label);
+  font-weight: 700;
+  color: rgba(255, 255, 255, .85);
+}
+
+.footerBody {
+  font-size: var(--web-text-micro);
+  color: rgba(255, 255, 255, .5);
+  margin-top: 4px;
+  line-height: 1.5;
+}
+
+/* ---- Content column ---- */
+.main {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.content {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 20px 28px 26px;
+}

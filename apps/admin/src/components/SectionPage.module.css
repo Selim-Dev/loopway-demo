@@ -1,0 +1,55 @@
+.card { padding: 22px 24px; }
+
+.head { display: flex; align-items: flex-start; gap: 14px; }
+
+.glyph {
+  width: 44px;
+  height: 44px;
+  flex: none;
+  border-radius: var(--web-r-chip);
+  background: var(--lw-icon-tint-bg);
+  color: var(--lw-navy-800);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.title {
+  font-size: var(--web-text-h4);
+  font-weight: 800;
+  color: var(--lw-navy-900);
+}
+
+.body {
+  font-size: var(--web-text-label);
+  font-weight: 600;
+  color: var(--lw-navy-700);
+  margin-top: 5px;
+  line-height: 1.7;
+}
+
+.block {
+  margin-top: 22px;
+  padding-top: 18px;
+  border-top: 1px solid var(--lw-divider-2);
+}
+
+.blockTitle {
+  font-size: var(--web-text-meta);
+  font-weight: 800;
+  color: var(--lw-navy-900);
+  margin-bottom: 6px;
+}
+
+.tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 12px;
+  border-radius: var(--web-r-badge);
+  background: var(--color-success-bg);
+  color: var(--lw-green-700);
+  font-size: var(--web-text-tiny);
+  font-weight: 700;
+}

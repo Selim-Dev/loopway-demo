@@ -1,0 +1,32 @@
+/* App-level overrides. Everything visual lives in @loopway/ui — keep this thin.
+   If you find yourself adding component styles here, they belong in the
+   package instead, so the Admin portal inherits them too. */
+
+/* Point the design-system font tokens at the self-hosted next/font families.
+   The token file's own Google-Fonts stack stays as the documented fallback for
+   anyone consuming the raw CSS outside a bundler. See src/app/fonts.ts. */
+:root {
+  --font-arabic: var(--lw-font-tajawal), sans-serif;
+  --font-latin: var(--lw-font-montserrat), sans-serif;
+  --font-sans: var(--lw-font-tajawal), var(--lw-font-montserrat), sans-serif;
+}
+
+/* Shared page-body wrapper: the scrolling region under the header. */
+.pageBody {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.scrollList {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  /* Breathing room so row shadows are not clipped by the scroll container. */
+  padding-left: 4px;
+}

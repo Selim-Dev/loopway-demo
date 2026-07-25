@@ -1,0 +1,27 @@
+{
+  "name": "loopway",
+  "private": true,
+  "version": "0.1.0",
+  "description": "LoopWay / Vlora — land transport & freight marketplace. UI-only workspace (B2B company portal + Admin portal).",
+  "workspaces": [
+    "packages/*",
+    "apps/*"
+  ],
+  "scripts": {
+    "dev": "npm run dev -w apps/b2b",
+    "dev:b2b": "npm run dev -w apps/b2b",
+    "dev:admin": "npm run dev -w apps/admin",
+    "build": "npm run build -w apps/b2b && npm run build -w apps/admin",
+    "build:b2b": "npm run build -w apps/b2b",
+    "build:admin": "npm run build -w apps/admin",
+    "lint": "npm run lint -w apps/b2b && npm run lint -w apps/admin",
+    "typecheck": "tsc -p apps/b2b/tsconfig.json --noEmit && tsc -p apps/admin/tsconfig.json --noEmit"
+  },
+  "devDependencies": {
+    "playwright": "^1.62.0",
+    "typescript": "^5.7.3"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

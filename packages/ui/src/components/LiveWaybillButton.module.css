@@ -1,0 +1,63 @@
+/* ==========================================================================
+   LiveWaybillButton — "البوليصة الحية".
+
+   The single most animated element in the product, and deliberately so: SRS
+   BR-013 makes the waybill a *live* document that regenerates on every
+   material event, and the design signals that with a breathing glow plus two
+   blurred colour orbs drifting behind the label.
+
+   This is the one place the brand's "minimal, functional animation" rule is
+   stretched. Do not copy this treatment onto ordinary CTAs.
+   ========================================================================== */
+
+.button {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+  height: var(--web-h-tab);
+  padding: 0 18px;
+  border-radius: var(--web-r-chip);
+  border: 1.5px solid transparent;
+  background: var(--lw-green-600);
+  color: #fff;
+  font-family: var(--font-sans);
+  font-size: var(--web-text-label);
+  font-weight: 800;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  white-space: nowrap;
+  animation: lw-waybill-glow 3.2s ease-in-out infinite;
+  text-decoration: none;
+}
+
+.button:hover { filter: brightness(1.08); }
+
+.haloA,
+.haloB {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(20px);
+  pointer-events: none;
+}
+
+.haloA {
+  width: 60px;
+  height: 60px;
+  background: var(--lw-blue-600);
+  opacity: .75;
+  animation: lw-halo-a 5.5s ease-in-out infinite;
+}
+
+.haloB {
+  width: 52px;
+  height: 52px;
+  background: var(--lw-green-300);
+  opacity: .7;
+  animation: lw-halo-b 6.2s ease-in-out infinite;
+}
+
+.label { position: relative; z-index: 1; }
+.glyph { position: relative; z-index: 1; }

@@ -1,0 +1,164 @@
+/* PageHeader — 66px chrome bar. Values verbatim from the designed screens. */
+
+.header {
+  background: #fff;
+  border: 1px solid var(--lw-border-faint);
+  border-radius: var(--web-r-panel);
+  box-shadow: var(--web-shadow-header);
+  padding: var(--web-header-pad);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: var(--web-header-h);
+  flex: none;
+}
+
+.title {
+  margin: 0;
+  font-size: var(--web-text-h1);
+  font-weight: 800;
+  letter-spacing: var(--tracking-tight);
+  line-height: 1.2;
+}
+
+.subtitle {
+  margin-top: 6px;
+  font-size: var(--web-text-meta);
+  font-weight: 600;
+  color: var(--lw-slate-500);
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* ---- Page tabs (القائمة / التقويم) ---- */
+.tabs {
+  display: inline-flex;
+  background: var(--lw-bg-subtle);
+  border-radius: var(--web-r-btn);
+  padding: 4px;
+  gap: 2px;
+}
+
+.tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  height: var(--web-h-page-tab);
+  padding: 0 14px;
+  border: none;
+  border-radius: var(--web-r-tag);
+  font-family: var(--font-sans);
+  font-size: var(--web-text-meta);
+  cursor: pointer;
+  white-space: nowrap;
+  background: none;
+  color: var(--lw-slate-500);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.tab:hover { color: var(--lw-navy-800); }
+
+.tab.tabActive,
+.tab.tabActive:hover {
+  background: #fff;
+  color: var(--lw-navy-900);
+  font-weight: 800;
+  box-shadow: var(--web-shadow-page-tab);
+}
+
+/* ---- Icon buttons ---- */
+.iconBtn {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--web-r-btn);
+  border: none;
+  background: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--lw-navy-800);
+  padding: 0;
+  transition: background var(--duration-fast);
+}
+
+.iconBtn:hover { background: var(--lw-bg-subtle); }
+
+.count {
+  position: absolute;
+  top: 4px;
+  left: 5px;
+  min-width: 16px;
+  height: 16px;
+  border-radius: var(--radius-pill);
+  background: var(--lw-red-500);
+  color: #fff;
+  font-size: var(--web-text-pico);
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-latin);
+  border: 2px solid #fff;
+  padding: 0 3px;
+}
+
+.divider {
+  width: 1px;
+  height: 26px;
+  background: var(--lw-border-subtle);
+  margin: 0 6px;
+}
+
+/* ---- Account chip ---- */
+.account {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  padding: 5px 6px 5px 10px;
+  border-radius: var(--web-r-btn);
+  border: none;
+  background: none;
+  text-decoration: none;
+  transition: background var(--duration-fast);
+}
+
+.account:hover { background: var(--lw-bg-subtle); }
+
+.accountAvatar {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--web-r-chip);
+  background: var(--lw-navy-900);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 14px;
+}
+
+.accountText { text-align: right; }
+
+.accountName {
+  font-size: var(--web-text-meta);
+  font-weight: 700;
+  color: var(--lw-navy-900);
+  white-space: nowrap;
+}
+
+.accountId {
+  font-size: var(--web-text-nano);
+  color: var(--lw-slate-500);
+  font-family: var(--font-latin);
+  direction: ltr;
+  unicode-bidi: isolate;
+  text-align: right;
+}

@@ -1,0 +1,90 @@
+/* ==========================================================================
+   LoopWay — WEB SCALE tokens (B2B Company Portal + Admin Portal)
+
+   WHY THIS FILE EXISTS
+   The LoopWay design system in `tokens/` was extracted from the *mobile*
+   client app: 52px buttons, 15.5px button labels, 50px inputs. The desktop
+   portals designed in Claude Design run a materially denser scale — 44/40/38/
+   34px controls and a 13.5 → 10.5px type ramp. Mixing the two is the single
+   most likely source of visual drift between the B2B and Admin portals.
+
+   Every value below is measured from the two designed B2B screens:
+     · "لوحة الشركات - رحلاتي (standalone).html"
+     · "سجل العمليات المالية.dc.html"
+   Nothing here is rounded or invented. See docs/design-system/05-web-scale.md.
+   ========================================================================== */
+:root {
+  /* ---- Shell geometry ---- */
+  --web-frame-w: 1440px;
+  --web-frame-h: 980px;
+  --web-frame-pad: 28px;
+  --web-frame-gap: 22px;
+  --web-rail-w: 78px;
+  --web-col-gap: 18px;          /* header ↔ filter bar ↔ content */
+  --web-header-h: 66px;
+  --web-header-pad: 18px 24px;
+
+  /* ---- Control heights ---- */
+  --web-h-control: 44px;        /* search, select, create CTA */
+  --web-h-action: 40px;         /* row action button, header icon buttons */
+  --web-h-tab: 38px;            /* filter tabs, expanded-row actions */
+  --web-h-rail-btn: 44px;       /* rail nav button */
+  --web-h-page-tab: 34px;       /* القائمة / التقويم, calendar month nav */
+  --web-h-quiet: 32px;          /* view-state select, panel close button */
+  --web-h-pager: 30px;          /* pagination arrows */
+  --web-h-bar: 22px;            /* calendar trip bar */
+
+  /* ---- Type ramp ---- */
+  --web-text-h1: 28px;          /* page title in header */
+  --web-text-h2: 20px;          /* calendar month, trip ID */
+  --web-text-h3: 17px;          /* empty / error / no-results title */
+  --web-text-h4: 15px;          /* side-panel title */
+  --web-text-cta: 13.5px;       /* primary CTA label, state subtitle */
+  --web-text-value: 13px;       /* table cell value, row value */
+  --web-text-meta: 12.5px;      /* tab label, stage label, input text */
+  --web-text-label: 12px;       /* field labels, panel key */
+  --web-text-micro: 11.5px;     /* dense meta, route chip, calendar weekday */
+  --web-text-tiny: 11px;        /* badge, elapsed timer, avatar sub */
+  --web-text-nano: 10.5px;      /* column caption, account ID, bar label */
+  --web-text-pico: 9.5px;       /* notification count */
+
+  /* ---- Radii ---- */
+  --web-r-frame: 28px;
+  --web-r-rail: 24px;
+  --web-r-card: 20px;           /* state cards, calendar card, side panel */
+  --web-r-panel: 18px;          /* header, trip row outer */
+  --web-r-bar: 16px;            /* pagination bar */
+  --web-r-inner: 14px;          /* trip-row white panel, alert banner */
+  --web-r-control: 13px;        /* search, select, CTA, rail button */
+  --web-r-btn: 12px;            /* icon button, account chip */
+  --web-r-chip: 11px;           /* stage chip, row action button */
+  --web-r-cell: 10px;           /* calendar cell, small icon button */
+  --web-r-tag: 9px;             /* route chip, page tab, pager button */
+  --web-r-badge: 8px;           /* status badge */
+
+  /* ---- Shadows (navy-tinted, large negative spread — never pure black) ---- */
+  --web-shadow-frame: 0 34px 70px -26px rgba(44,62,80,.35);
+  --web-shadow-rail: 0 18px 40px -30px rgba(44,62,80,.4);
+  --web-shadow-header: 0 18px 40px -32px rgba(44,62,80,.4);
+  --web-shadow-control: 0 10px 24px -22px rgba(44,62,80,.5);
+  --web-shadow-row: 0 14px 30px -26px rgba(44,62,80,.5);
+  --web-shadow-card: 0 24px 50px -38px rgba(44,62,80,.5);
+  --web-shadow-tooltip: 0 10px 22px -8px rgba(44,62,80,.6);
+  --web-shadow-float: 0 6px 14px -4px rgba(44,62,80,.5);
+  --web-shadow-page-tab: 0 2px 6px -2px rgba(44,62,80,.28);
+  --web-shadow-bar-hot: 0 8px 18px -6px rgba(44,62,80,.5);
+  --web-shadow-rail-active: 0 10px 20px -12px rgba(46,204,113,.8);
+  --web-shadow-cta-sm: 0 6px 14px -8px rgba(46,204,113,.7);
+
+  /* ---- Trip-row grid (رحلاتي list) ---- */
+  --web-triprow-side-w: 216px;
+  --web-triprow-grid: 200px 118px 290px 158px 24px;
+  --web-triprow-pad: 15px 28px;
+  --web-triprow-inner-margin: 7px;
+
+  /* ---- Side panel ---- */
+  --web-panel-w: 372px;
+
+  /* ---- Disabled fill (CTA at plan limit) ---- */
+  --web-disabled-fill: #BCC8CF;
+}

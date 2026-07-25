@@ -1,0 +1,258 @@
+/* ==========================================================================
+   الرئيسية — Dashboard overview.
+
+   DERIVED, NOT DESIGNED. Claude Design never drew this screen; it is built
+   entirely from the identity rules plus SRS M03-E02 (مؤشرات التشغيل الرئيسية +
+   لوحة Action Required). Every value below reuses an existing web-scale token
+   or a measurement lifted from a designed screen — nothing new was invented.
+   See docs/design-system/11-design-source-map.md.
+   ========================================================================== */
+
+.body {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  padding-left: 4px;
+}
+
+/* ---- KPI tiles ---- */
+.kpis {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+  flex: none;
+}
+
+.kpi {
+  background: #fff;
+  border: 1px solid var(--lw-border-faint);
+  border-radius: var(--web-r-panel);
+  box-shadow: var(--web-shadow-control);
+  padding: 16px 18px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  text-decoration: none;
+  transition: border-color var(--duration-fast);
+}
+
+.kpi:hover { border-color: var(--lw-slate-200); }
+
+.kpiIcon {
+  width: 44px;
+  height: 44px;
+  flex: none;
+  border-radius: var(--web-r-chip);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.kpiLabel {
+  font-size: var(--web-text-micro);
+  font-weight: 700;
+  color: var(--lw-slate-500);
+  white-space: nowrap;
+}
+
+.kpiValue {
+  font-size: 26px;
+  font-weight: 800;
+  color: var(--lw-navy-900);
+  font-family: var(--font-latin);
+  direction: ltr;
+  unicode-bidi: isolate;
+  line-height: 1.15;
+  letter-spacing: var(--tracking-snug);
+}
+
+.kpiSuffix {
+  font-size: var(--web-text-label);
+  font-weight: 700;
+  color: var(--lw-slate-500);
+  font-family: var(--font-sans);
+}
+
+/* ---- Two-column split ---- */
+.split {
+  display: grid;
+  grid-template-columns: 1.15fr 1fr;
+  gap: 14px;
+  flex: none;
+  align-items: start;
+}
+
+.panel {
+  background: #fff;
+  border: 1px solid var(--lw-border-faint);
+  border-radius: var(--web-r-panel);
+  box-shadow: var(--web-shadow-header);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.panelHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px 18px;
+  border-bottom: 1px solid var(--lw-divider-2);
+}
+
+.panelTitle {
+  font-size: var(--web-text-h4);
+  font-weight: 800;
+  color: var(--lw-navy-900);
+}
+
+.panelLink {
+  font-size: var(--web-text-label);
+  font-weight: 700;
+  color: var(--lw-blue-600);
+}
+
+/* ---- Action Required rows ---- */
+.actionRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 13px 18px;
+  border-bottom: 1px solid var(--lw-divider-2);
+  text-decoration: none;
+  transition: background var(--duration-fast);
+}
+
+.actionRow:last-child { border-bottom: none; }
+.actionRow:hover { background: var(--lw-bg-subtle); }
+
+.actionGlyph {
+  width: 34px;
+  height: 34px;
+  flex: none;
+  border-radius: var(--web-r-cell);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.actionText { flex: 1; min-width: 0; }
+
+.actionTitle {
+  font-size: var(--web-text-label);
+  font-weight: 700;
+  color: var(--lw-navy-900);
+}
+
+.actionMeta {
+  font-size: var(--web-text-micro);
+  font-weight: 600;
+  color: var(--lw-slate-500);
+  margin-top: 2px;
+}
+
+.actionCta {
+  flex: none;
+  height: var(--web-h-quiet);
+  padding: 0 14px;
+  border-radius: var(--web-r-tag);
+  border: 1.5px solid var(--lw-border);
+  background: #fff;
+  color: var(--lw-navy-800);
+  font-family: var(--font-sans);
+  font-size: var(--web-text-micro);
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.actionCta:hover { border-color: var(--lw-slate-200); }
+
+/* ---- Compact live-trip rows ---- */
+.miniRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 18px;
+  border-bottom: 1px solid var(--lw-divider-2);
+  text-decoration: none;
+  transition: background var(--duration-fast);
+}
+
+.miniRow:last-child { border-bottom: none; }
+.miniRow:hover { background: var(--lw-bg-subtle); }
+
+.miniId {
+  font-size: var(--web-text-label);
+  font-weight: 800;
+  font-family: var(--font-latin);
+  direction: ltr;
+  unicode-bidi: isolate;
+  color: var(--lw-navy-900);
+  white-space: nowrap;
+  flex: none;
+  width: 130px;
+}
+
+.miniRoute {
+  font-size: var(--web-text-micro);
+  font-weight: 700;
+  color: var(--lw-slate-600);
+  white-space: nowrap;
+  flex: none;
+  width: 120px;
+}
+
+.miniProgress { flex: 1; min-width: 0; }
+
+.miniPct {
+  font-size: var(--web-text-tiny);
+  font-weight: 700;
+  color: var(--lw-slate-500);
+  font-family: var(--font-latin);
+  direction: ltr;
+  unicode-bidi: isolate;
+  flex: none;
+  width: 34px;
+  text-align: left;
+}
+
+/* ---- Quick actions ---- */
+.quick {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+  flex: none;
+}
+
+.quickTile {
+  background: #fff;
+  border: 1px solid var(--lw-border-faint);
+  border-radius: var(--web-r-panel);
+  box-shadow: var(--web-shadow-control);
+  padding: 16px 18px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+  transition: border-color var(--duration-fast);
+}
+
+.quickTile:hover { border-color: var(--lw-slate-200); }
+
+.quickLabel {
+  font-size: var(--web-text-label);
+  font-weight: 700;
+  color: var(--lw-navy-900);
+}
+
+.quickSub {
+  font-size: var(--web-text-micro);
+  font-weight: 600;
+  color: var(--lw-slate-500);
+  margin-top: 2px;
+}

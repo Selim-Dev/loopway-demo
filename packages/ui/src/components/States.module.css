@@ -1,0 +1,180 @@
+/* ==========================================================================
+   The five view states every list surface must implement.
+   Geometry verbatim from the designed رحلاتي and سجل العمليات المالية screens.
+   See docs/design-system/07-patterns.md → "Five view states".
+   ========================================================================== */
+
+.card {
+  background: #fff;
+  border: 1px solid var(--lw-border-faint);
+  border-radius: var(--web-r-card);
+  box-shadow: var(--web-shadow-card);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 70px 24px;
+}
+
+.glyph {
+  width: 68px;
+  height: 68px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+
+/* The error glyph is a touch smaller in the source — kept as designed. */
+.glyphError { width: 64px; height: 64px; }
+
+.glyphNeutral { background: var(--lw-icon-tint-bg); color: var(--lw-slate-500); }
+.glyphWarning { background: var(--color-warning-bg); color: var(--lw-amber-700); }
+.glyphDanger { background: var(--color-danger-bg); color: var(--lw-red-600); }
+
+.title {
+  font-size: var(--web-text-h3);
+  font-weight: 800;
+  color: var(--lw-navy-900);
+}
+
+.body {
+  font-size: var(--web-text-cta);
+  font-weight: 500;
+  color: var(--lw-navy-700);
+  margin-top: 6px;
+  max-width: 380px;
+  line-height: 1.6;
+}
+
+.bodyNarrow { max-width: 360px; }
+
+.primaryAction {
+  margin-top: 20px;
+  height: var(--web-h-control);
+  padding: 0 24px;
+  border-radius: var(--web-r-btn);
+  border: none;
+  background: var(--lw-green-500);
+  color: #fff;
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: var(--shadow-cta);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  transition: background var(--duration-fast);
+}
+
+.primaryAction:hover { background: var(--lw-green-600); }
+
+.quietAction {
+  margin-top: 18px;
+  height: var(--web-h-action);
+  padding: 0 20px;
+  border-radius: var(--web-r-chip);
+  border: 1px solid var(--lw-border);
+  background: #fff;
+  color: var(--lw-blue-600);
+  font-family: var(--font-sans);
+  font-size: var(--web-text-cta);
+  font-weight: 700;
+  cursor: pointer;
+  transition: border-color var(--duration-fast);
+}
+
+.quietAction:hover { border-color: var(--lw-slate-200); }
+
+/* ---- AlertBanner ---- */
+.alert {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 13px 16px;
+  border-radius: var(--web-r-inner);
+  flex: none;
+}
+
+.alertText {
+  font-size: var(--web-text-cta);
+  font-weight: 600;
+  line-height: 1.5;
+}
+
+.alertWarning {
+  background: var(--color-warning-bg);
+  border: 1px solid var(--color-warning-border);
+  color: var(--lw-amber-600);
+}
+
+.alertDanger {
+  background: var(--color-danger-bg);
+  border: 1px solid var(--color-danger-border);
+  color: var(--lw-red-600);
+}
+
+.alertInfo {
+  background: var(--lw-bg-subtle);
+  border: 1px solid var(--lw-border-subtle);
+  color: var(--lw-navy-700);
+}
+
+.alertSuccess {
+  background: var(--color-success-bg);
+  border: 1px solid var(--lw-green-200);
+  color: var(--lw-green-700);
+}
+
+/* ---- LoadingState ---- */
+.loadingWrap {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.skeletonRow {
+  background: #fff;
+  border: 1px solid var(--lw-border-faint);
+  border-radius: var(--web-r-panel);
+  padding: 20px 24px;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+/* Static grey blocks, never a shimmer — the brand explicitly forbids it. */
+.sk { background: var(--lw-track); }
+.sk1 { width: 130px; height: 22px; border-radius: 7px; }
+.sk2 { width: 170px; height: 15px; border-radius: 6px; }
+.sk3 { width: 120px; height: 15px; border-radius: 6px; }
+.sk4 { width: 240px; height: 34px; border-radius: 11px; }
+.sk5 { margin-right: auto; width: 120px; height: 36px; border-radius: 11px; }
+
+.loadingFoot {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 8px;
+}
+
+.loadingLabel {
+  font-size: var(--web-text-value);
+  font-weight: 600;
+  color: var(--lw-slate-500);
+}
+
+/* ---- Spinner ---- */
+.spinner {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 2.5px solid var(--lw-track);
+  border-top-color: var(--lw-green-500);
+  animation: lw-spin .75s linear infinite;
+  flex: none;
+}

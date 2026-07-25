@@ -1,0 +1,304 @@
+/* ==========================================================================
+   TripRow — the hero object of the B2B portal.
+
+   A tone-tinted outer card with a 216px identity rail on the RTL right and a
+   white detail panel on the left. Collapsed it is one grid row; expanded it
+   grows a map preview on the rail and a three-column detail strip below.
+
+   Every value here is measured from "لوحة الشركات - رحلاتي (standalone).html".
+   Physical (left/right) properties are intentional — the container is dir=rtl
+   and the design was authored against that.
+   ========================================================================== */
+
+.row {
+  border-radius: var(--web-r-panel);
+  box-shadow: var(--web-shadow-row);
+  overflow: hidden;
+  flex: none;
+}
+
+.inner { display: flex; align-items: stretch; }
+
+/* ---- Identity rail (right side in RTL) ---- */
+.side {
+  width: var(--web-triprow-side-w);
+  flex: none;
+  padding: 15px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.sideExpanded {
+  justify-content: flex-start;
+  cursor: default;
+}
+
+.identity {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.tripId {
+  font-size: var(--web-text-h2);
+  font-weight: 800;
+  font-family: var(--font-latin);
+  direction: ltr;
+  unicode-bidi: isolate;
+  text-align: right;
+  white-space: nowrap;
+  letter-spacing: var(--tracking-snug);
+}
+
+/* ---- White detail panel ---- */
+.panel {
+  flex: 1;
+  min-width: 0;
+  background: #fff;
+  border-radius: var(--web-r-inner);
+  margin: var(--web-triprow-inner-margin);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: var(--web-triprow-grid);
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--web-triprow-pad);
+  cursor: pointer;
+}
+
+.cell {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+
+.cellLabel {
+  font-size: var(--web-text-nano);
+  font-weight: 700;
+  color: var(--lw-slate-500);
+}
+
+.cellValue {
+  font-size: var(--web-text-value);
+  font-weight: 700;
+  color: var(--lw-navy-900);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.action {
+  width: 100%;
+  height: var(--web-h-action);
+  padding: 0 12px;
+  border-radius: var(--web-r-chip);
+  font-family: var(--font-sans);
+  font-size: var(--web-text-meta);
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background var(--duration-fast), border-color var(--duration-fast);
+}
+
+.actionPrimary {
+  border: none;
+  background: var(--lw-green-500);
+  color: #fff;
+  box-shadow: var(--web-shadow-cta-sm);
+}
+
+.actionPrimary:hover { background: var(--lw-green-600); }
+
+.actionSecondary {
+  border: 1.5px solid var(--lw-border);
+  background: #fff;
+  color: var(--lw-navy-800);
+}
+
+.actionSecondary:hover { border-color: var(--lw-slate-200); }
+
+.chevron {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--lw-slate-400);
+  transition: transform var(--duration-fast);
+}
+
+.chevronOpen { transform: rotate(180deg); }
+
+/* ---- Expanded detail strip ---- */
+.divider {
+  border-top: 1px solid var(--lw-divider-2);
+  margin: 0 20px;
+}
+
+.detail {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  align-items: start;
+  align-content: center;
+  flex: 1;
+  padding: 16px 26px;
+}
+
+.detailProgress { padding-left: 26px; }
+.detailWho { border-right: 1px solid var(--lw-divider-2); padding: 0 26px; }
+.detailActions { border-right: 1px solid var(--lw-divider-2); padding-right: 26px; }
+
+.detailTitle {
+  font-size: var(--web-text-meta);
+  font-weight: 800;
+  color: var(--lw-navy-900);
+  margin-bottom: 10px;
+}
+
+.progressHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+
+.progressStage {
+  font-size: var(--web-text-label);
+  font-weight: 700;
+  color: var(--lw-navy-700);
+  white-space: nowrap;
+}
+
+.progressPct {
+  font-size: var(--web-text-micro);
+  font-weight: 700;
+  color: var(--lw-slate-500);
+  font-family: var(--font-latin);
+  direction: ltr;
+  unicode-bidi: isolate;
+}
+
+.whoRow { display: flex; align-items: center; gap: 9px; }
+
+.whoLabel {
+  display: block;
+  font-size: var(--web-text-value);
+  font-weight: 700;
+  color: var(--lw-navy-900);
+  white-space: nowrap;
+}
+
+.whoSub {
+  display: block;
+  font-size: var(--web-text-tiny);
+  font-weight: 600;
+  color: var(--lw-slate-500);
+  white-space: nowrap;
+}
+
+.actionRow { display: flex; align-items: center; gap: 10px; }
+
+.ghostBtn {
+  flex: 1;
+  height: var(--web-h-tab);
+  padding: 0 18px;
+  border-radius: var(--web-r-chip);
+  border: 1.5px solid var(--lw-border);
+  background: #fff;
+  color: var(--lw-navy-800);
+  font-family: var(--font-sans);
+  font-size: var(--web-text-label);
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  transition: border-color var(--duration-fast);
+}
+
+.ghostBtn:hover { border-color: var(--lw-slate-200); }
+
+/* ---- Map preview (rail, expanded only) ---- */
+.map {
+  position: relative;
+  flex: 1;
+  min-height: 82px;
+  margin-top: 3px;
+}
+
+.mapClip {
+  position: absolute;
+  inset: 0;
+  border-radius: 13px;
+  overflow: hidden;
+  border: 1px solid rgba(44, 62, 80, .12);
+}
+
+.mapSvg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.mapTipWrap { position: absolute; top: 8px; left: 8px; }
+
+.mapBtn {
+  width: 31px;
+  height: 31px;
+  border-radius: 50%;
+  border: none;
+  background: #fff;
+  box-shadow: var(--web-shadow-float);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding: 0;
+  color: var(--lw-navy-800);
+}
+
+.mapTip {
+  position: absolute;
+  top: 39px;
+  left: 0;
+  width: 148px;
+  background: var(--lw-navy-900);
+  color: #fff;
+  font-size: var(--web-text-nano);
+  font-weight: 600;
+  line-height: 1.5;
+  padding: 8px 10px;
+  border-radius: var(--web-r-cell);
+  box-shadow: var(--web-shadow-tooltip);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-3px);
+  transition: opacity .16s ease, transform .16s ease, visibility .16s;
+}
+
+.mapTipWrap:hover .mapTip,
+.mapTipWrap:focus-within .mapTip {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.mapTipArrow {
+  position: absolute;
+  top: -4px;
+  left: 13px;
+  width: 9px;
+  height: 9px;
+  background: var(--lw-navy-900);
+  transform: rotate(45deg);
+}

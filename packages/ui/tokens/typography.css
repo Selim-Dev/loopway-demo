@@ -1,0 +1,54 @@
+/* ==========================================================================
+   LoopWay — Typography tokens
+   Arabic-first, RTL by default. Headings run heavy (700/800) with tight
+   negative tracking; body copy sits at 500/600. Numerals, currency and
+   waybill/shipment codes stay LTR even inside RTL copy.
+   ========================================================================== */
+:root {
+  --font-arabic: 'Tajawal', sans-serif;
+  --font-latin: 'Montserrat', sans-serif;
+  --font-sans: 'Tajawal', 'Montserrat', sans-serif;   /* default stack used on every screen */
+  --font-mono: ui-monospace, 'SF Mono', monospace;      /* rare: doc placeholders */
+
+  --weight-regular: 400;
+  --weight-medium: 500;
+  --weight-semibold: 600;
+  --weight-bold: 700;
+  --weight-black: 800;
+
+  /* ---- Type scale (px, as used in product) ---- */
+  --text-display: 34px;   /* wallet balance figure */
+  --text-section: 28px;   /* Figma/canvas section titles only */
+  --text-h1: 23px;        /* screen title, e.g. "رحلاتي" */
+  --text-h2: 21px;        /* dialog / auth headline */
+  --text-h3: 19px;        /* sub-section headline */
+  --text-h4: 17px;        /* nav-bar title */
+  --text-body-lg: 15.5px; /* primary button label */
+  --text-body: 15px;      /* input value / paragraph */
+  --text-body-sm: 14px;   /* secondary paragraph, card title */
+  --text-label: 13.5px;   /* card meta line */
+  --text-caption: 13px;   /* form labels */
+  --text-meta: 12.5px;    /* helper text, list meta */
+  --text-small: 12px;     /* pill labels, timestamps */
+  --text-micro: 11.5px;   /* dense meta rows */
+  --text-tiny: 11px;      /* badges */
+  --text-nano: 10.5px;    /* status pills */
+
+  /* ---- Line height ---- */
+  --leading-tight: 1.1;
+  --leading-snug: 1.25;
+  --leading-normal: 1.55;
+  --leading-relaxed: 1.65;
+
+  /* ---- Letter spacing (headings run slightly negative) ---- */
+  --tracking-tight: -.5px;
+  --tracking-snug: -.3px;
+  --tracking-normal: 0;
+  --tracking-wide: .3px;
+  --tracking-wider: .5px;
+}
+
+body {
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}

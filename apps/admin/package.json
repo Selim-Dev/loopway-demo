@@ -1,0 +1,27 @@
+{
+  "name": "@loopway/admin",
+  "version": "0.1.0",
+  "private": true,
+  "description": "LoopWay — لوحة الإدارة (Admin Portal). Scaffold only: shell + M04 routes on the shared @loopway/ui layer.",
+  "scripts": {
+    "dev": "next dev -p 3001",
+    "build": "next build",
+    "start": "next start -p 3001",
+    "lint": "next lint",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@loopway/ui": "*",
+    "next": "^15.1.6",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.7",
+    "@types/react": "^19.0.7",
+    "@types/react-dom": "^19.0.3",
+    "eslint": "^9.18.0",
+    "eslint-config-next": "^15.1.6",
+    "typescript": "^5.7.3"
+  }
+}

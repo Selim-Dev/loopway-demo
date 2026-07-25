@@ -1,0 +1,42 @@
+/* ==========================================================================
+   AppShell — the 1440×980 desktop frame from the designed B2B screens.
+
+   FIDELITY STRATEGY
+   The design is a fixed 1440×980 card. Here the card is the *minimum*: the
+   page enforces a 1480px min-width (1440 frame + 2×20px page padding), so at a
+   1480×1020 viewport every pixel matches the design exactly. Wider viewports
+   let the frame grow fluidly; narrower ones scroll horizontally rather than
+   reflowing, which would break fidelity.
+   ========================================================================== */
+
+.page {
+  min-width: 1480px;
+  min-height: 100vh;
+  padding: 20px;
+  background: var(--lw-bg-canvas);
+}
+
+.frame {
+  width: 100%;
+  height: calc(100vh - 40px);
+  min-height: 980px;
+  padding: var(--web-frame-pad);
+  display: flex;
+  gap: var(--web-frame-gap);
+  background: #fff;
+  border: 1px solid var(--lw-border-faint);
+  border-radius: var(--web-r-frame);
+  box-shadow: var(--web-shadow-frame);
+  color: var(--lw-navy-900);
+  align-items: stretch;
+}
+
+.column {
+  flex: 1;
+  min-width: 0;
+  height: 100%;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--web-col-gap);
+}

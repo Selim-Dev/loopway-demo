@@ -1,0 +1,17 @@
+/* ==========================================================================
+   LoopWay — Webfonts
+   Arabic UI copy sets in Tajawal; Latin copy, numerals and the odd LTR
+   fragment (amounts, waybill codes, phone numbers) set in Montserrat. This
+   is exactly the stack the product screens ship (`font-family:'Tajawal',
+   'Montserrat',sans-serif`). Both are open-source Google Fonts.
+
+   NOTE ON SOURCING: an uploaded "UI Style Guide" PDF in the source project
+   names IBM Plex Sans Arabic as the brand typeface, but every one of the
+   ~30 production screens actually reviewed renders in Tajawal + Montserrat.
+   The extensive, consistent implementation wins as ground truth here — see
+   docs/design-system/03-typography-rtl.md for the full note.
+   ========================================================================== */
+
+/* Full weight range, loaded live from Google Fonts — matches upstream
+   delivery exactly (dynamic woff2/ttf negotiated per user-agent). */
+@import url("https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&family=Montserrat:wght@400;500;600;700;800&display=swap");
