@@ -62,7 +62,20 @@ type Action =
   | { type: 'compatibility/set'; key: string; value: Compatibility; label: string }
   | { type: 'template/update'; next: NotificationTemplate };
 
-const ACTOR = { name: 'فريق التشغيل', id: 'LW-ADM-0001' };
+/**
+ * The signed-in operator. Exported so the header and the account screen show
+ * the same identity the audit entries are filed under — three copies of the
+ * same name is how they drift apart.
+ */
+export const ACTOR = {
+  name: 'فريق التشغيل',
+  id: 'LW-ADM-0001',
+  initial: 'ت',
+  role: 'مسؤول تشغيل',
+  email: 'ops@loopway.sa',
+  phone: '0555 000 1001',
+  joinedAt: '3 فبراير 2026',
+};
 
 /**
  * Timestamps are derived from a fixed session clock rather than `Date.now()`.

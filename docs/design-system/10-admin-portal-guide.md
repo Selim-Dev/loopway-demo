@@ -39,6 +39,19 @@ scaffold:
 `SectionPage` — the placeholder these screens replaced — has been deleted. If
 you are adding a seventeenth section, build it from the patterns below.
 
+Plus one route that is **not** an SRS section: `/account`
+(`apps/admin/src/app/account/AccountScreen.tsx`). `PageHeader` puts an account
+chip on every screen, and that chip has to land somewhere. Its permissions
+block is read-only — roles are assigned in the back office, and a screen that
+lets an operator widen their own permissions is the one screen an audit log
+cannot save you from.
+
+> **`PageHeader` defaults its three chrome links to B2B routes** —
+> `/notifications`, `/support`, `/account`. Admin must pass its own
+> `notificationsHref` / `supportHref` / `accountHref`, or the bell and the
+> account chip 404. `AdminHeader` now does. Pass `linkAs={Link}` too, otherwise
+> the chrome navigates with full page reloads.
+
 ### Two things that are pinned on purpose
 
 **`SESSION_DATE`** in `AdminStore.tsx` is a fixed string, not `new Date()`. The
