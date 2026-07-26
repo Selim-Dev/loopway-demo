@@ -1,0 +1,108 @@
+import type { Penalty } from '@loopway/ui';
+
+/**
+ * Penalty review queue — SRS M04-E12, matrix §13.2.
+ *
+ * BR-012 is the rule this whole screen exists to enforce: a penalty is
+ * `Pending Review` (محتملة) until an admin approves it. Nothing here has been
+ * charged. 4 pending records match the sidebar badge.
+ */
+export const PENALTIES: Penalty[] = [
+  {
+    id: 'PEN-2026-0067',
+    type: 'إلغاء بعد التحرك',
+    shipmentId: 'LW-2026-002910',
+    route: 'جدة ← مكة',
+    responsibleParty: 'العميل',
+    responsibleName: 'شركة الرحلة اللوجستية',
+    trigger: 'أُلغيت الرحلة بعد 42 دقيقة من تسجيل حدث «متجه إلى نقطة الاستلام».',
+    proposedAmount: '420',
+    status: 'Pending Review',
+    raisedAt: '16 يوليو 2026 · 12:48 م',
+    evidence: ['سجل تتبّع الرحلة', 'إحداثيات السائق عند الإلغاء', 'رسالة الإلغاء من العميل'],
+  },
+  {
+    id: 'PEN-2026-0065',
+    type: 'انتظار التحميل',
+    shipmentId: 'LW-2026-002955',
+    route: 'جدة ← المدينة',
+    responsibleParty: 'العميل',
+    responsibleName: 'مؤسسة نجد للنقل',
+    trigger: 'انتظر السائق 2:40 ساعة في موقع التحميل — الحد المسموح 1:30 ساعة.',
+    proposedAmount: '275',
+    status: 'Pending Review',
+    raisedAt: '17 يوليو 2026 · 09:15 ص',
+    evidence: ['طابع دخول منطقة التحميل', 'طابع اكتمال التحميل', 'ملاحظة السائق'],
+  },
+  {
+    id: 'PEN-2026-0063',
+    type: 'تأخير الجمارك',
+    shipmentId: 'LW-2026-002962',
+    route: 'الرياض ← الكويت',
+    responsibleParty: 'العميل',
+    responsibleName: 'شركة الرحلة اللوجستية',
+    trigger: 'تجاوز التخليص 5:10 ساعات بسبب نقص في البيان الجمركي — الحد 3:00 ساعات.',
+    proposedAmount: '610',
+    status: 'Pending Review',
+    raisedAt: '21 يوليو 2026 · 04:02 م',
+    evidence: ['البيان الجمركي المرفوع', 'سجل أحداث الحدود', 'إفادة المخلّص'],
+  },
+  {
+    id: 'PEN-2026-0061',
+    type: 'انتظار التفريغ',
+    shipmentId: 'LW-2026-002905',
+    route: 'الدمام ← دبي',
+    responsibleParty: 'العميل',
+    responsibleName: 'مصنع الخليج للكيماويات',
+    trigger: 'انتظر السائق 1:25 ساعة في موقع التفريغ — الحد المسموح 1:00 ساعة.',
+    proposedAmount: '180',
+    status: 'Pending Review',
+    raisedAt: '8 يوليو 2026 · 02:20 م',
+    evidence: ['طابع دخول منطقة التفريغ', 'طابع اكتمال التفريغ'],
+  },
+
+  /* ---- Decided ---- */
+  {
+    id: 'PEN-2026-0058',
+    type: 'انتظار التحميل',
+    shipmentId: 'LW-2026-002900',
+    route: 'الرياض ← جدة',
+    responsibleParty: 'العميل',
+    responsibleName: 'شركة الرحلة اللوجستية',
+    trigger: 'انتظر السائق 2:05 ساعة — الحد المسموح 1:30 ساعة.',
+    proposedAmount: '240',
+    adjustedAmount: '150',
+    status: 'Adjusted',
+    raisedAt: '10 يوليو 2026 · 10:40 ص',
+    evidence: ['طابع دخول منطقة التحميل', 'طابع اكتمال التحميل'],
+    decisionReason: 'جزء من التأخير يعود لازدحام البوابة وليس للعميل — خُفض المبلغ.',
+  },
+  {
+    id: 'PEN-2026-0054',
+    type: 'إلغاء بعد التحرك',
+    shipmentId: 'LW-2026-002912',
+    route: 'الرياض ← الدمام',
+    responsibleParty: 'السائق',
+    responsibleName: 'فهد العتيبي',
+    trigger: 'انسحب السائق بعد تأكيد الحجز وقبل الوصول لموقع التحميل.',
+    proposedAmount: '350',
+    status: 'Approved',
+    raisedAt: '3 يوليو 2026 · 07:55 ص',
+    evidence: ['سجل حالة الرحلة', 'رسالة الانسحاب'],
+    decisionReason: 'الانسحاب غير مبرر ومتكرر — تطبّق الغرامة كاملة.',
+  },
+  {
+    id: 'PEN-2026-0051',
+    type: 'تأخير الجمارك',
+    shipmentId: 'LW-2026-002915',
+    route: 'الرياض ← الكويت',
+    responsibleParty: 'العميل',
+    responsibleName: 'شركة الرحلة اللوجستية',
+    trigger: 'تجاوز التخليص 3:40 ساعة — الحد 3:00 ساعات.',
+    proposedAmount: '190',
+    status: 'Rejected',
+    raisedAt: '1 يوليو 2026 · 01:10 م',
+    evidence: ['سجل أحداث الحدود'],
+    decisionReason: 'التأخير كان بسبب إغلاق المنفذ لظروف تشغيلية خارجة عن إرادة الطرفين.',
+  },
+];

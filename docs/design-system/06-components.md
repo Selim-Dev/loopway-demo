@@ -156,7 +156,146 @@ treatment elsewhere.
 | `TableCard` + `DataTable` | sticky head, hover rows, `min-width: 920px` |
 | `CellStack`, `CellPrimary`, `CellSecondary`, `CellEmpty`, `RowIcon`, `IconButtonSm` | table cell building blocks (`ltr` prop on the cell texts) |
 | `WalletCard` + `WalletCta` | the one gradient surface; optional `stats` |
-| `StatusTimeline` | dot + connector + label/meta/note steps |
+| `StatusTimeline` | dot + connector + label/meta/note steps — the **compact** variant. For the full 22px-glyph version see `Timeline` below |
+
+---
+
+## Layout
+
+Promoted out of `apps/b2b/src/app/(portal)/derived.module.css` when the Admin
+portal needed the same pieces. Nothing here was re-authored — the rules were
+lifted verbatim and the B2B screens repointed at the package, which is why the
+B2B portal renders identically before and after.
+
+| Component | Props | Notes |
+|---|---|---|
+| `PageBody` | `variant: 'stack' \| 'row'` | `stack` = scrolling column; `row` = table + side panel |
+| `Grid` | `cols: 2 \| 3 \| 4` | equal-width card grid |
+| `Split` | `ratio` | two panes, main + aside |
+| `Section` | `title` `subtitle` `action` `flush` | the white card with a titled head. `flush` removes body padding — use it when the body is a list or table |
+| `ListRow` | `icon` `iconBackground` `iconColor` `title` `meta` `metaSecondary` `side` `href` `onClick` `unread` `linkAs` | the 36px-glyph list row. `linkAs={Link}` to route with `next/link` |
+| `ContentTabs` | `tabs` `value` `onChange` | navy pill set **inside** a page body — distinct from `TabGroup`, which lives in the filter bar |
+| `ActionBar` | `note` + children | a filter/action strip for screens that have no table to attach one to |
+| `Tag` / `ChipList` | `tone` | small labels; `ChipList` wraps them with the right gaps |
+| `KpiTile` / `KpiGrid` | `label` `value` `suffix` `icon` `background` `color` `href` `linkAs` · `cols` | de-duplicates the tile that had been copied into both portals |
+| `InlineLink`, `Muted` | — | the two text atoms the sections kept re-declaring |
+
+> **`ListRow`, `KpiTile` and `PageHeader`'s account chip render their two lines
+> as `<span>`** so the whole row can be a single `<a>`. That makes the
+> container's `display: flex; flex-direction: column` load-bearing — drop it and
+> the two lines run together on one line with no space between them. If you
+> build another stacked-text row, set it on the wrapper.
+
+---
+
+## Forms
+
+| Component | Props | Notes |
+|---|---|---|
+| `FormGrid` | `cols` | the two-column field grid |
+| `Field` | `label` `required` `help` `error` `wide` `htmlFor` | label + control + help line. `error` renders `help` in danger red; `wide` spans both columns |
+| `TextInput` | `ltr` `unit` + native input props | `ltr` isolates IDs/amounts inside RTL copy; `unit` renders the trailing ر.س / % chip |
+| `TextArea` | `rows` + native props | |
+| `FormSelect` | `options` `value` `onChange` | the form-scale select (`SelectField` is the filter-bar one) |
+| `ChoiceRow` / `ChoiceCard` | `columns: 2 \| 3` · `active` `title` `body` `onClick` | radio-style selectable cards |
+| `Toggle` | `checked` `onChange` `label` `help` | 44×26 track, green when on; **the knob slides left** because the product is RTL |
+| `Checkbox` | `checked` `indeterminate` `onChange` | `indeterminate` is what makes a select-all header checkbox honest |
+
+---
+
+## Overlays
+
+### `Modal`
+`open` · `onClose` · `title` · `subtitle` · `wide` · `footer` · children
+(`wide` = 720px instead of 480px — for a document review or a wide form.)
+
+Scrim `var(--color-scrim)` + the `lw-scrim-in` / `lw-drawer-in` keyframes that
+were already declared in `packages/ui/styles/global.css`. Esc closes, body
+scroll locks while open, focus returns to the trigger on close, and a mousedown
+on the scrim dismisses.
+
+### `ConfirmDialog`
+`open` · `onClose` · `onConfirm(reason)` · `title` · `body` ·
+`tone: 'default' \| 'danger' \| 'warning'` · `confirmLabel` · `cancelLabel` ·
+`reasonRequired` · `reasonLabel` · `reasonPlaceholder` · `summary`
+
+Built on `Modal`. When `reasonRequired` is set the confirm button stays
+**disabled until the reason is non-empty**, and the field's help line says why.
+This is the mechanism behind the Admin rule *"rejecting always requires a
+reason — no silent rejects."* Use it for irreversible actions only; reversible
+decisions belong in the `SidePanel` footer.
+
+`summary` is a strip above the reason field for counts and totals — the bulk
+payout release uses it to restate driver count and amount before the operator
+commits.
+
+### `ModalButton`
+`variant: 'primary' \| 'ghost' \| 'danger'` — the dialog footer button.
+
+---
+
+## Timeline (full)
+
+### `Timeline`
+`items: { id, label, meta?, note?, state }[]` ·
+`state: 'done' \| 'active' \| 'upcoming' \| 'danger'`
+
+22px glyph dots and a 2px connector. **Not** interchangeable with
+`StatusTimeline` — that one is the compact two-or-three-step history that sits
+inside a side panel. Use `Timeline` when the sequence is the content of the
+screen, `StatusTimeline` when it is a detail on something else.
+
+---
+
+## Documents
+
+### `DocumentViewer`
+`name` · `meta` · `src` · `tall` · `onDownload` · `onExpand` ·
+`onApprove` / `onReject` · `decision: 'approved' \| 'rejected' \| null`
+
+With no `src` it renders the **diagonal-hatch placeholder plate**, not an image.
+`01-identity.md` rules photography out of this product, so a document preview is
+a plate with a glyph and a caption — never stock imagery.
+
+`onApprove`/`onReject` render the per-document decision strip, which is what the
+driver and truck queues need: a request can be sound apart from one bad
+document, and the reviewer has to be able to say exactly that. Once `decision`
+is set the buttons are replaced by the outcome.
+
+`meta` is composed by the caller (`"PDF · 620 ك.ب"`) — the component does not
+format file sizes.
+
+### `PhotoGrid`
+`captions: string[]` — a grid of hatch plates for the truck photo set.
+
+---
+
+## Matrix
+
+### `CompatibilityMatrix`
+`rows` (cargo types) · `columns` (truck types) ·
+`value: Record<"rowId:columnId", Compatibility>` · `onChange` · `readOnly`
+
+Clicking a cell cycles `allowed → warning → blocked`. Missing entries read as
+`allowed`. `COMPATIBILITY_LABEL` exports the approved Arabic for the three
+states — do not coin your own.
+
+---
+
+## Charts
+
+### `BarList` + `toBarData()`
+`data: { label, value, percent, color? }[]`
+
+**There is no chart library in this product, deliberately.** The brand has no
+chart vocabulary — no axes, no legends, no plotting palette are defined anywhere
+in the design system, so any real chart would be invented from scratch and drift
+on first contact. `BarList` says the same thing with tokens the product already
+speaks.
+
+`value` is rendered as-is, so pre-format it. `toBarData(rows, format?)` takes
+`{label, value: number, color?}[]`, normalises `percent` against the largest
+row, and applies `format` (default `toLocaleString('en-US')`).
 
 ---
 

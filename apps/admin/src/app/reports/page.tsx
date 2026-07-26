@@ -1,8 +1,8 @@
-﻿import type { Metadata } from 'next';
-import { SectionPage } from '@/components/SectionPage';
+import type { Metadata } from 'next';
+import { ReportsScreen } from './ReportsScreen';
 
 export const metadata: Metadata = { title: 'التقارير — LoopWay' };
 
 export default function Page() {
-  return <SectionPage href="/reports" />;
+  return <ReportsScreen />;
 }

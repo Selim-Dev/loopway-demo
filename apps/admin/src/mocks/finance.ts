@@ -1,0 +1,61 @@
+import type { AdminPayment, LedgerEntry, Payout } from '@loopway/ui';
+
+/**
+ * Payments, ledger and payouts — SRS M04-E10 / M04-E11.
+ *
+ * The `TXN-2026-…` ids are the SAME records the B2B portal shows at /finance.
+ * That overlap is deliberate: it is what makes the two portals read as one
+ * product rather than two demos.
+ */
+
+export const ADMIN_PAYMENTS: AdminPayment[] = [
+  { id: 'TXN-2026-01923', shipmentId: 'LW-2026-002962', payerName: 'شركة الرحلة اللوجستية', payerType: 'شركة', method: 'مدى •••• 7723', amount: '1,240', subtotal: '1,078.26', vat: '161.74', status: 'Captured', gatewayReference: 'PG-9F2A-4471', date: '21 يوليو 2026', time: '09:14 ص' },
+  { id: 'TXN-2026-01918', payerName: 'شركة الرحلة اللوجستية', payerType: 'شركة', method: 'بطاقة ائتمان •••• 4412', amount: '5,000', status: 'Captured', gatewayReference: 'PG-1B77-2093', date: '20 يوليو 2026', time: '16:40 م' },
+  { id: 'TXN-2026-01911', shipmentId: 'LW-2026-002960', payerName: 'شركة الرحلة اللوجستية', payerType: 'شركة', method: 'محفظة LoopWay', amount: '3,850', subtotal: '3,347.83', vat: '502.17', status: 'Captured', gatewayReference: 'WL-4471-0021', date: '20 يوليو 2026', time: '08:02 ص' },
+  { id: 'TXN-2026-01905', shipmentId: 'LW-2026-002951', payerName: 'شركة الرحلة اللوجستية', payerType: 'شركة', method: 'محفظة LoopWay', amount: '6,200', subtotal: '5,391.30', vat: '808.70', status: 'Captured', gatewayReference: 'WL-4471-0019', date: '19 يوليو 2026', time: '11:27 ص' },
+  { id: 'TXN-2026-01899', payerName: 'شركة الرحلة اللوجستية', payerType: 'شركة', method: 'تحويل بنكي — SA** •••• 4471', amount: '10,000', status: 'Pending', gatewayReference: 'BT-7712-8890', date: '18 يوليو 2026', time: '14:10 م', note: 'طلب السحب قيد المراجعة من الفريق المالي.' },
+  { id: 'TXN-2026-01888', shipmentId: 'LW-2026-002955', payerName: 'مؤسسة نجد للنقل', payerType: 'شركة', method: 'محفظة LoopWay', amount: '2,150', subtotal: '1,869.57', vat: '280.43', status: 'Captured', gatewayReference: 'WL-6102-0044', date: '17 يوليو 2026', time: '07:45 ص' },
+  { id: 'TXN-2026-01881', shipmentId: 'LW-2026-002910', payerName: 'شركة الرحلة اللوجستية', payerType: 'شركة', method: 'مدى •••• 7723', amount: '1,450', subtotal: '1,260.87', vat: '189.13', status: 'Failed', gatewayReference: 'PG-3C10-7788', date: '16 يوليو 2026', time: '12:20 م', note: 'رُفضت العملية من قبل البنك — رصيد غير كافٍ.' },
+  { id: 'TXN-2026-01874', shipmentId: 'LW-2026-002948', payerName: 'سارة العتيبي', payerType: 'فرد', method: 'مدى •••• 2214', amount: '980', subtotal: '852.17', vat: '127.83', status: 'Authorized', gatewayReference: 'PG-8A21-3390', date: '18 يوليو 2026', time: '10:05 ص' },
+  { id: 'TXN-2026-01860', payerName: 'شركة الرحلة اللوجستية', payerType: 'شركة', method: 'مدى •••• 7723', amount: '2,000', status: 'Captured', gatewayReference: 'PG-5D04-1120', date: '15 يوليو 2026', time: '10:05 ص' },
+  { id: 'TXN-2026-01852', shipmentId: 'LW-2026-002970', payerName: 'مصنع الخليج للكيماويات', payerType: 'شركة', method: 'محفظة LoopWay', amount: '4,320', subtotal: '3,756.52', vat: '563.48', status: 'Captured', gatewayReference: 'WL-5510-0012', date: '14 يوليو 2026', time: '13:40 م' },
+  { id: 'TXN-2026-01840', shipmentId: 'LW-2026-002900', payerName: 'شركة الرحلة اللوجستية', payerType: 'شركة', method: 'محفظة LoopWay', amount: '1,450', subtotal: '1,260.87', vat: '189.13', status: 'Captured', gatewayReference: 'WL-4471-0011', date: '10 يوليو 2026', time: '09:30 ص' },
+  { id: 'TXN-2026-01833', shipmentId: 'LW-2026-002912', payerName: 'شركة الرحلة اللوجستية', payerType: 'شركة', method: 'محفظة LoopWay', amount: '2,900', subtotal: '2,521.74', vat: '378.26', status: 'Refunded', gatewayReference: 'WL-4471-0009', date: '3 يوليو 2026', time: '08:12 ص', note: 'استُرد المبلغ بعد انسحاب السائق.' },
+  { id: 'TXN-2026-01820', shipmentId: 'LW-2026-002905', payerName: 'مصنع الخليج للكيماويات', payerType: 'شركة', method: 'محفظة LoopWay', amount: '6,050', subtotal: '5,260.87', vat: '789.13', status: 'Captured', gatewayReference: 'WL-5510-0008', date: '8 يوليو 2026', time: '13:12 م' },
+  { id: 'TXN-2026-01812', shipmentId: 'LW-2026-002915', payerName: 'سارة العتيبي', payerType: 'فرد', method: 'بطاقة ائتمان •••• 9982', amount: '3,180', subtotal: '2,765.22', vat: '414.78', status: 'Captured', gatewayReference: 'PG-2E90-4471', date: '1 يوليو 2026', time: '07:20 ص' },
+  { id: 'TXN-2026-01804', payerName: 'مؤسسة نجد للنقل', payerType: 'شركة', method: 'مدى •••• 6610', amount: '7,500', status: 'Captured', gatewayReference: 'PG-6B12-0034', date: '28 يونيو 2026', time: '15:55 م' },
+];
+
+export const LEDGER_ENTRIES: LedgerEntry[] = [
+  { id: 'LED-2026-11840', type: 'Capture', shipmentId: 'LW-2026-002962', debitParty: 'شركة الرحلة اللوجستية', creditParty: 'حساب المنصة الوسيط', amount: '1,240.00', currency: 'SAR', status: 'Posted', reference: 'TXN-2026-01923', createdAt: '21 يوليو 2026 · 09:14 ص' },
+  { id: 'LED-2026-11841', type: 'Commission', shipmentId: 'LW-2026-002962', debitParty: 'حساب المنصة الوسيط', creditParty: 'إيرادات LoopWay', amount: '148.80', currency: 'SAR', status: 'Posted', reference: 'TXN-2026-01923', createdAt: '21 يوليو 2026 · 09:14 ص' },
+  { id: 'LED-2026-11842', type: 'Tax', shipmentId: 'LW-2026-002962', debitParty: 'حساب المنصة الوسيط', creditParty: 'ضريبة القيمة المضافة', amount: '161.74', currency: 'SAR', status: 'Posted', reference: 'TXN-2026-01923', createdAt: '21 يوليو 2026 · 09:14 ص' },
+  { id: 'LED-2026-11843', type: 'Split', shipmentId: 'LW-2026-002962', debitParty: 'حساب المنصة الوسيط', creditParty: 'سعد المطيري', amount: '929.46', currency: 'SAR', status: 'Pending', reference: 'PO-2026-0331', createdAt: '21 يوليو 2026 · 09:15 ص' },
+  { id: 'LED-2026-11828', type: 'Wallet Top-up', debitParty: 'بطاقة ائتمان •••• 4412', creditParty: 'محفظة شركة الرحلة اللوجستية', amount: '5,000.00', currency: 'SAR', status: 'Posted', reference: 'TXN-2026-01918', createdAt: '20 يوليو 2026 · 16:40 م' },
+  { id: 'LED-2026-11815', type: 'Capture', shipmentId: 'LW-2026-002960', debitParty: 'محفظة شركة الرحلة اللوجستية', creditParty: 'حساب المنصة الوسيط', amount: '3,850.00', currency: 'SAR', status: 'Posted', reference: 'TXN-2026-01911', createdAt: '20 يوليو 2026 · 08:02 ص' },
+  { id: 'LED-2026-11816', type: 'Fee', shipmentId: 'LW-2026-002960', debitParty: 'حساب المنصة الوسيط', creditParty: 'إيرادات LoopWay', amount: '25.00', currency: 'SAR', status: 'Posted', reference: 'TXN-2026-01911', createdAt: '20 يوليو 2026 · 08:02 ص' },
+  { id: 'LED-2026-11817', type: 'Penalty Hold', shipmentId: 'LW-2026-002955', debitParty: 'مؤسسة نجد للنقل', creditParty: 'حساب الغرامات المعلّقة', amount: '275.00', currency: 'SAR', status: 'Pending', reference: 'PEN-2026-0065', createdAt: '17 يوليو 2026 · 09:15 ص' },
+  { id: 'LED-2026-11801', type: 'Authorization', shipmentId: 'LW-2026-002948', debitParty: 'سارة العتيبي', creditParty: 'حساب المنصة الوسيط', amount: '980.00', currency: 'SAR', status: 'Pending', reference: 'TXN-2026-01874', createdAt: '18 يوليو 2026 · 10:05 ص' },
+  { id: 'LED-2026-11790', type: 'Refund', shipmentId: 'LW-2026-002912', debitParty: 'حساب المنصة الوسيط', creditParty: 'محفظة شركة الرحلة اللوجستية', amount: '2,900.00', currency: 'SAR', status: 'Posted', reference: 'TXN-2026-01833', createdAt: '3 يوليو 2026 · 09:40 ص' },
+  { id: 'LED-2026-11782', type: 'Payout', debitParty: 'حساب المنصة الوسيط', creditParty: 'عبدالله الغامدي', amount: '5,141.30', currency: 'SAR', status: 'Posted', reference: 'PO-2026-0318', createdAt: '12 يوليو 2026 · 11:00 ص' },
+  { id: 'LED-2026-11770', type: 'Adjustment', shipmentId: 'LW-2026-002900', debitParty: 'حساب الغرامات المعلّقة', creditParty: 'شركة الرحلة اللوجستية', amount: '90.00', currency: 'SAR', status: 'Posted', reference: 'PEN-2026-0058', createdAt: '11 يوليو 2026 · 04:15 م' },
+];
+
+export const PAYOUTS: Payout[] = [
+  { id: 'PO-2026-0331', driverName: 'سعد المطيري', driverId: 'DRV-2026-0384', driverInitial: 'س', shipmentIds: ['LW-2026-002962'], grossAmount: '1,078.26', deductions: '148.80', netAmount: '929.46', bankAccount: 'SA** •••• 1120', status: 'Ready for Payout', settledAt: '21 يوليو 2026' },
+  { id: 'PO-2026-0330', driverName: 'خالد ناصر', driverId: 'DRV-2026-0388', driverInitial: 'خ', shipmentIds: ['LW-2026-002960'], grossAmount: '3,347.83', deductions: '426.74', netAmount: '2,921.09', bankAccount: 'SA** •••• 2260', status: 'Ready for Payout', settledAt: '21 يوليو 2026' },
+  { id: 'PO-2026-0329', driverName: 'عبدالله الغامدي', driverId: 'DRV-2026-0386', driverInitial: 'ع', shipmentIds: ['LW-2026-002951'], grossAmount: '5,391.30', deductions: '688.96', netAmount: '4,702.34', bankAccount: 'SA** •••• 7741', status: 'Ready for Payout', settledAt: '20 يوليو 2026' },
+  { id: 'PO-2026-0328', driverName: 'عمر السالم', driverId: 'DRV-2026-0390', driverInitial: 'ع', shipmentIds: ['LW-2026-002955'], grossAmount: '1,869.57', deductions: '236.14', netAmount: '1,633.43', bankAccount: 'SA** •••• 3390', status: 'Ready for Payout', settledAt: '20 يوليو 2026' },
+  { id: 'PO-2026-0327', driverName: 'تركي الشهري', driverId: 'DRV-2026-0391', driverInitial: 'ت', shipmentIds: ['LW-2026-002970'], grossAmount: '3,756.52', deductions: '478.30', netAmount: '3,278.22', bankAccount: 'SA** •••• 8812', status: 'Ready for Payout', settledAt: '19 يوليو 2026' },
+  { id: 'PO-2026-0326', driverName: 'ماجد العنزي', driverId: 'DRV-2026-0374', driverInitial: 'م', shipmentIds: ['LW-2026-002944'], grossAmount: '2,104.35', deductions: '268.10', netAmount: '1,836.25', bankAccount: 'SA** •••• 4471', status: 'Ready for Payout', settledAt: '19 يوليو 2026' },
+  { id: 'PO-2026-0325', driverName: 'فيصل الدوسري', driverId: 'DRV-2026-0393', driverInitial: 'ف', shipmentIds: ['LW-2026-002948'], grossAmount: '852.17', deductions: '108.60', netAmount: '743.57', bankAccount: 'SA** •••• 9920', status: 'Ready for Payout', settledAt: '18 يوليو 2026' },
+  { id: 'PO-2026-0324', driverName: 'ناصر القحطاني', driverId: 'DRV-2026-0394', driverInitial: 'ن', shipmentIds: ['LW-2026-002965'], grossAmount: '2,608.70', deductions: '332.17', netAmount: '2,276.53', bankAccount: 'SA** •••• 5540', status: 'Ready for Payout', settledAt: '18 يوليو 2026' },
+  { id: 'PO-2026-0323', driverName: 'بندر العتيبي', driverId: 'DRV-2026-0396', driverInitial: 'ب', shipmentIds: ['LW-2026-002972'], grossAmount: '4,130.43', deductions: '526.11', netAmount: '3,604.32', bankAccount: 'SA** •••• 6633', status: 'Ready for Payout', settledAt: '17 يوليو 2026' },
+
+  { id: 'PO-2026-0322', driverName: 'سعد المطيري', driverId: 'DRV-2026-0384', driverInitial: 'س', shipmentIds: ['LW-2026-002915'], grossAmount: '2,765.22', deductions: '352.10', netAmount: '2,413.12', bankAccount: 'SA** •••• 1120', status: 'Pending Settlement', settledAt: '—' },
+  { id: 'PO-2026-0321', driverName: 'عمر السالم', driverId: 'DRV-2026-0390', driverInitial: 'ع', shipmentIds: ['LW-2026-002888'], grossAmount: '1,420.00', deductions: '180.90', netAmount: '1,239.10', bankAccount: 'SA** •••• 3390', status: 'Pending Settlement', settledAt: '—' },
+  { id: 'PO-2026-0320', driverName: 'خالد ناصر', driverId: 'DRV-2026-0388', driverInitial: 'خ', shipmentIds: ['LW-2026-002877'], grossAmount: '3,010.00', deductions: '383.40', netAmount: '2,626.60', bankAccount: 'SA** •••• 2260', status: 'Payout Pending', settledAt: '15 يوليو 2026' },
+  { id: 'PO-2026-0318', driverName: 'عبدالله الغامدي', driverId: 'DRV-2026-0386', driverInitial: 'ع', shipmentIds: ['LW-2026-002900', 'LW-2026-002905'], grossAmount: '5,860.00', deductions: '718.70', netAmount: '5,141.30', bankAccount: 'SA** •••• 7741', status: 'Paid Out', settledAt: '11 يوليو 2026', paidAt: '12 يوليو 2026' },
+  { id: 'PO-2026-0315', driverName: 'بدر الشهراني', driverId: 'DRV-2026-0377', driverInitial: 'ب', shipmentIds: ['LW-2026-002860'], grossAmount: '1,980.00', deductions: '252.20', netAmount: '1,727.80', bankAccount: 'SA** •••• 4410', status: 'Failed', settledAt: '5 يوليو 2026', failureReason: 'رقم الآيبان غير مطابق لاسم صاحب الحساب.' },
+  { id: 'PO-2026-0312', driverName: 'فهد العتيبي', driverId: 'DRV-2026-0380', driverInitial: 'ف', shipmentIds: ['LW-2026-002845'], grossAmount: '2,240.00', deductions: '635.30', netAmount: '1,604.70', bankAccount: 'SA** •••• 2205', status: 'On Hold', settledAt: '2 يوليو 2026', failureReason: 'محتجز حتى البتّ في الغرامة PEN-2026-0054.' },
+];

@@ -1,0 +1,54 @@
+/* ==========================================================================
+   BarList — horizontal bar rows.
+
+   PROVENANCE: lifted verbatim from apps/b2b/src/app/(portal)/derived.module.css
+   where /reports uses it.
+
+   WHY THIS AND NOT A CHART LIBRARY: the brand has no chart vocabulary — no
+   axes, no legends, no plotting colours are defined anywhere in the design
+   system. Importing one would introduce a visual language the product has
+   never agreed to. A labelled bar built from existing tokens says the same
+   thing and stays on-brand. Swap in real charts only once they are designed.
+   See docs/design-system/10-admin-portal-guide.md → "What not to invent".
+   ========================================================================== */
+
+.bars { display: flex; flex-direction: column; gap: 12px; }
+
+.row { display: flex; align-items: center; gap: 12px; }
+
+.label {
+  font-size: var(--web-text-label);
+  font-weight: 700;
+  color: var(--lw-navy-800);
+  width: 148px;
+  flex: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.track {
+  flex: 1;
+  height: 10px;
+  border-radius: 10px;
+  background: var(--lw-track);
+  overflow: hidden;
+}
+
+.fill {
+  height: 100%;
+  border-radius: 10px;
+  transition: width var(--duration-fast) var(--ease-standard);
+}
+
+.value {
+  font-size: var(--web-text-label);
+  font-weight: 800;
+  font-family: var(--font-latin);
+  direction: ltr;
+  unicode-bidi: isolate;
+  color: var(--lw-navy-900);
+  width: 58px;
+  flex: none;
+  text-align: left;
+}

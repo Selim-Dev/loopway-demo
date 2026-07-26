@@ -1,0 +1,186 @@
+/* ==========================================================================
+   Modal + ConfirmDialog — NEW.
+
+   Nothing overlay-shaped except `SidePanel` existed in the design source,
+   because neither designed screen needed a blocking decision. The Admin
+   portal does: docs/design-system/10-admin-portal-guide.md makes
+   "rejecting always requires a reason" a hard rule, and a reason cannot be
+   captured in a toast or a row.
+
+   The treatment is derived, not invented:
+     · scrim  → var(--color-scrim), already in tokens/colors.css
+     · enter  → lw-scrim-in / lw-drawer-in, already in styles/global.css
+                (both were declared for the superseded v1 drawer and unused)
+     · card   → the same white + hairline + navy-tinted shadow as every
+                other surface, at --web-r-card
+   No new colour, radius or shadow is introduced.
+
+   USE SPARINGLY. The default review surface is `SidePanel`, which leaves the
+   list usable. A modal is for the irreversible step only.
+   ========================================================================== */
+
+.scrim {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  background: var(--color-scrim);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  animation: lw-scrim-in .16s ease;
+}
+
+.modal {
+  width: 100%;
+  max-width: 480px;
+  max-height: calc(100vh - 48px);
+  background: #fff;
+  border: 1px solid var(--lw-border-faint);
+  border-radius: var(--web-r-card);
+  box-shadow: 0 34px 70px -26px rgba(44, 62, 80, .55);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  animation: lw-drawer-in .2s ease;
+}
+
+.modalWide { max-width: 720px; }
+
+.head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 18px 20px 14px;
+  flex: none;
+}
+
+.headText { min-width: 0; }
+
+.title {
+  font-size: var(--web-text-h3);
+  font-weight: 800;
+  color: var(--lw-navy-900);
+  letter-spacing: var(--tracking-snug);
+}
+
+.subtitle {
+  font-size: var(--web-text-label);
+  font-weight: 600;
+  color: var(--lw-navy-700);
+  margin-top: 6px;
+  line-height: 1.6;
+}
+
+.close {
+  width: var(--web-h-quiet);
+  height: var(--web-h-quiet);
+  flex: none;
+  border-radius: var(--web-r-cell);
+  border: 1px solid var(--lw-border-subtle);
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--lw-navy-800);
+  padding: 0;
+  transition: background var(--duration-fast);
+}
+
+.close:hover { background: var(--lw-bg-subtle); }
+
+.body {
+  padding: 0 20px 4px;
+  overflow-y: auto;
+  flex: 1;
+  min-height: 0;
+}
+
+.foot {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 8px;
+  padding: 16px 20px 18px;
+  flex: none;
+}
+
+/* Icon plate above the title on a ConfirmDialog. */
+.glyph {
+  width: 44px;
+  height: 44px;
+  flex: none;
+  border-radius: var(--web-r-chip);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 14px;
+}
+
+.glyphDanger { background: var(--color-danger-bg); color: var(--lw-red-600); }
+.glyphWarning { background: var(--color-warning-bg); color: var(--lw-amber-600); }
+.glyphDefault { background: var(--color-success-bg); color: var(--lw-green-700); }
+
+/* ---- Buttons ---- */
+.btn {
+  height: var(--web-h-action);
+  padding: 0 18px;
+  border-radius: var(--web-r-chip);
+  font-family: var(--font-sans);
+  font-size: var(--web-text-cta);
+  font-weight: 700;
+  cursor: pointer;
+  border: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  white-space: nowrap;
+  transition: background var(--duration-fast), border-color var(--duration-fast);
+}
+
+.btnGhost {
+  background: #fff;
+  color: var(--lw-navy-800);
+  border: 1.5px solid var(--lw-border);
+}
+
+.btnGhost:hover { border-color: var(--lw-slate-200); }
+
+.btnPrimary {
+  background: var(--lw-green-500);
+  color: #fff;
+  box-shadow: var(--web-shadow-cta-sm);
+}
+
+.btnPrimary:hover { background: var(--lw-green-600); }
+
+.btnDanger {
+  background: var(--lw-red-500);
+  color: #fff;
+  box-shadow: 0 6px 14px -8px rgba(231, 76, 60, .7);
+}
+
+.btnDanger:hover { background: var(--lw-red-600); }
+
+.btn:disabled {
+  background: var(--web-disabled-fill);
+  color: #fff;
+  border-color: transparent;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* Summary strip inside a ConfirmDialog — "9 سائقين · 42,300 ر.س". */
+.summary {
+  margin-top: 4px;
+  padding: 12px 14px;
+  border-radius: var(--web-r-btn);
+  background: var(--lw-bg-subtle);
+  font-size: var(--web-text-label);
+  font-weight: 600;
+  color: var(--lw-slate-600);
+  line-height: 1.7;
+}

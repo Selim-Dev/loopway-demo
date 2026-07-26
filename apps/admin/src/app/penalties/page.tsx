@@ -1,8 +1,8 @@
-﻿import type { Metadata } from 'next';
-import { SectionPage } from '@/components/SectionPage';
+import type { Metadata } from 'next';
+import { PenaltiesScreen } from './PenaltiesScreen';
 
 export const metadata: Metadata = { title: 'مراجعة الغرامات — LoopWay' };
 
 export default function Page() {
-  return <SectionPage href="/penalties" />;
+  return <PenaltiesScreen />;
 }

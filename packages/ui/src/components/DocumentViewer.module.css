@@ -1,0 +1,197 @@
+/* ==========================================================================
+   DocumentViewer — NEW.
+
+   The approval queues (drivers, trucks, documents) all need the reviewer to
+   look at a file before deciding.
+
+   NO PHOTOGRAPHY. docs/design-system/01-identity.md is explicit: there is no
+   imagery anywhere in this product, and where the source material needed a
+   photo it used a diagonal-hatch placeholder box rather than stock. This
+   component renders exactly that plate plus real file chrome (name, type,
+   size, expiry, download). When a real file URL exists it is rendered in an
+   <img>/<iframe> instead — the plate is the empty state, not the design.
+   ========================================================================== */
+
+.viewer {
+  border: 1px solid var(--lw-border-subtle);
+  border-radius: var(--web-r-inner);
+  overflow: hidden;
+  background: #fff;
+}
+
+.plate {
+  position: relative;
+  height: 190px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* The diagonal hatch the source uses in place of a photograph. */
+  background-color: var(--lw-bg-subtle);
+  background-image: repeating-linear-gradient(
+    45deg,
+    transparent,
+    transparent 9px,
+    rgba(44, 62, 80, .045) 9px,
+    rgba(44, 62, 80, .045) 18px
+  );
+}
+
+.plateTall { height: 260px; }
+
+.plateInner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 9px;
+  color: var(--lw-slate-500);
+}
+
+.plateLabel {
+  font-size: var(--web-text-micro);
+  font-weight: 700;
+  color: var(--lw-slate-500);
+}
+
+.image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* ---- File chrome ---- */
+.meta {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 11px 13px;
+  border-top: 1px solid var(--lw-divider-2);
+}
+
+.icon {
+  width: 34px;
+  height: 34px;
+  flex: none;
+  border-radius: var(--web-r-cell);
+  background: var(--lw-icon-tint-bg);
+  color: var(--lw-navy-800);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.metaText { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+
+.name {
+  font-size: var(--web-text-label);
+  font-weight: 700;
+  color: var(--lw-navy-900);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.sub {
+  font-size: var(--web-text-micro);
+  font-weight: 600;
+  color: var(--lw-slate-500);
+  margin-top: 2px;
+}
+
+.actions { flex: none; display: flex; align-items: center; gap: 7px; }
+
+.iconBtn {
+  width: var(--web-h-quiet);
+  height: var(--web-h-quiet);
+  border-radius: var(--web-r-tag);
+  border: 1px solid var(--lw-border-subtle);
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--lw-navy-800);
+  padding: 0;
+  transition: border-color var(--duration-fast);
+}
+
+.iconBtn:hover { border-color: var(--lw-slate-200); }
+
+/* ---- Per-document decision strip ---- */
+.decide {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 13px;
+  border-top: 1px solid var(--lw-divider-2);
+  background: var(--lw-bg-subtle);
+}
+
+.decideBtn {
+  height: 32px;
+  padding: 0 14px;
+  border-radius: var(--web-r-tag);
+  border: 1.5px solid var(--lw-border);
+  background: #fff;
+  font-family: var(--font-sans);
+  font-size: var(--web-text-micro);
+  font-weight: 700;
+  cursor: pointer;
+  color: var(--lw-navy-800);
+  transition: border-color var(--duration-fast), background var(--duration-fast);
+}
+
+.decideBtn:hover { border-color: var(--lw-slate-200); }
+
+.decideApprove {
+  border-color: var(--lw-green-200);
+  background: var(--color-success-bg);
+  color: var(--lw-green-700);
+}
+
+.decideApprove:hover { border-color: var(--lw-green-500); background: var(--color-success-bg); }
+
+.decideReject {
+  border-color: var(--lw-red-border-b);
+  background: var(--lw-red-100b);
+  color: var(--lw-red-600);
+}
+
+.decideReject:hover { border-color: var(--lw-red-500); background: var(--lw-red-100b); }
+
+.decideSpacer { margin-right: auto; }
+
+/* ---- Grid of plates (truck photos) ---- */
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.gridPlate {
+  position: relative;
+  height: 108px;
+  border-radius: var(--web-r-cell);
+  border: 1px solid var(--lw-border-subtle);
+  overflow: hidden;
+  background-color: var(--lw-bg-subtle);
+  background-image: repeating-linear-gradient(
+    45deg,
+    transparent,
+    transparent 8px,
+    rgba(44, 62, 80, .045) 8px,
+    rgba(44, 62, 80, .045) 16px
+  );
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 6px;
+  color: var(--lw-slate-500);
+}
+
+.gridCaption {
+  font-size: var(--web-text-nano);
+  font-weight: 700;
+  color: var(--lw-slate-500);
+}

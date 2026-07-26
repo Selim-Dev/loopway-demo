@@ -1,0 +1,68 @@
+/* ==========================================================================
+   Timeline — the FULL variant: 22px dots that hold a glyph, 2px connector,
+   three states (done / active / upcoming).
+
+   PROVENANCE: lifted verbatim from apps/b2b/src/app/(portal)/derived.module.css
+   where it renders the trip tracking log.
+
+   Not to be confused with `StatusTimeline` in Surfaces.tsx — that is the
+   COMPACT variant (10px dots, 1px connector) for two- or three-step histories
+   inside a side panel. Both are documented in 07-patterns.md → "Timeline".
+   ========================================================================== */
+
+.timeline { padding: 6px 0; }
+
+.step { display: flex; gap: 14px; }
+
+.rail {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: none;
+  width: 22px;
+}
+
+.dot {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  border: 2px solid var(--lw-track);
+  background: #fff;
+  color: var(--lw-slate-400);
+}
+
+.dotDone { border-color: var(--lw-green-500); background: var(--lw-green-500); color: #fff; }
+.dotActive { border-color: var(--lw-green-500); background: #fff; color: var(--lw-green-600); }
+.dotDanger { border-color: var(--lw-red-500); background: var(--lw-red-500); color: #fff; }
+
+.line { width: 2px; flex: 1; min-height: 22px; background: var(--lw-track); margin: 3px 0; }
+.lineDone { background: var(--lw-green-200); }
+
+.body { padding-bottom: 18px; flex: 1; min-width: 0; }
+
+.label {
+  font-size: var(--web-text-meta);
+  font-weight: 800;
+  color: var(--lw-navy-900);
+}
+
+.labelUpcoming { color: var(--lw-slate-400); font-weight: 700; }
+
+.meta {
+  font-size: var(--web-text-micro);
+  font-weight: 600;
+  color: var(--lw-slate-500);
+  margin-top: 3px;
+}
+
+.note {
+  font-size: var(--web-text-micro);
+  font-weight: 600;
+  color: var(--lw-slate-600);
+  margin-top: 6px;
+  line-height: 1.7;
+}

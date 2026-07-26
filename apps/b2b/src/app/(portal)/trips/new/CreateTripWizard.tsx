@@ -2,7 +2,27 @@
 
 import * as React from 'react';
 import Link from 'next/link';
-import { AlertBanner, Icon, PrimaryCta, StatusBadge, type IconName } from '@loopway/ui';
+import {
+  ActionBar,
+  AlertBanner,
+  ChipList,
+  ChoiceCard,
+  ChoiceRow,
+  Field,
+  FormGrid,
+  FormSelect,
+  Icon,
+  ListRow,
+  Muted,
+  PageBody,
+  PrimaryCta,
+  Section,
+  StatusBadge,
+  Tag,
+  TextArea,
+  TextInput,
+  type IconName,
+} from '@loopway/ui';
 import { Header } from '@/components/Header';
 import { BROKERS, SAVED_LOCATIONS } from '@/mocks/company';
 import styles from '../../derived.module.css';
@@ -76,20 +96,17 @@ export function CreateTripWizard() {
         ))}
       </div>
 
-      <div className={styles.body}>
+      <PageBody>
         {current.key === 'basics' ? <BasicsStep /> : null}
         {current.key === 'route' ? <RouteStep /> : null}
         {current.key === 'cargo' ? <CargoStep /> : null}
         {current.key === 'truck' ? <TruckStep value={truck} onChange={setTruck} /> : null}
         {current.key === 'docs' ? <DocsStep /> : null}
         {current.key === 'pricing' ? <PricingStep value={pricing} onChange={setPricing} /> : null}
-      </div>
+      </PageBody>
 
-      <div className={styles.actionBar}>
-        <span className={styles.actionBarNote}>
-          تُحفظ البيانات كمسودة تلقائياً. يمكنك العودة لاستكمالها في أي وقت.
-        </span>
-        <div className={styles.actionBarGroup}>
+      <ActionBar note="تُحفظ البيانات كمسودة تلقائياً. يمكنك العودة لاستكمالها في أي وقت.">
+        <>
           <PrimaryCta size="sm" variant="secondary" href="/trips" linkAs={Link}>
             إلغاء
           </PrimaryCta>
@@ -112,66 +129,40 @@ export function CreateTripWizard() {
               نشر الرحلة
             </PrimaryCta>
           )}
-        </div>
-      </div>
+        </>
+      </ActionBar>
     </>
-  );
-}
-
-function Section({ title, sub, children }: { title: string; sub?: string; children: React.ReactNode }) {
-  return (
-    <section className={styles.section}>
-      <div className={styles.sectionHead}>
-        <div>
-          <div className={styles.sectionTitle}>{title}</div>
-          {sub ? <div className={styles.sectionSub}>{sub}</div> : null}
-        </div>
-      </div>
-      <div className={styles.sectionBody}>{children}</div>
-    </section>
-  );
-}
-
-function Field({ label, required, help, children }: { label: string; required?: boolean; help?: string; children: React.ReactNode }) {
-  return (
-    <div className={styles.field}>
-      <label className={styles.fieldLabel}>
-        {label} {required ? <span className={styles.required}>*</span> : null}
-      </label>
-      {children}
-      {help ? <span className={styles.help}>{help}</span> : null}
-    </div>
   );
 }
 
 function BasicsStep() {
   return (
-    <Section title="البيانات الأساسية ومرجع الشحنة" sub="تُستخدم في البوليصة وكشوف الحساب">
-      <div className={styles.formGrid}>
+    <Section title="البيانات الأساسية ومرجع الشحنة" subtitle="تُستخدم في البوليصة وكشوف الحساب">
+      <FormGrid>
         <Field label="تاريخ الاستلام" required>
-          <input className={styles.control} type="date" defaultValue="2026-07-24" />
+          <TextInput type="date" defaultValue="2026-07-24" />
         </Field>
         <Field label="وقت الاستلام المفضّل">
-          <input className={styles.control} type="time" defaultValue="08:00" />
+          <TextInput type="time" defaultValue="08:00" />
         </Field>
         <Field label="رقم أمر الشراء PO">
-          <input className={styles.control} placeholder="PO-2026-0000" />
+          <TextInput placeholder="PO-2026-0000" />
         </Field>
         <Field label="رقم الفاتورة">
-          <input className={styles.control} placeholder="INV-2026-0000" />
+          <TextInput placeholder="INV-2026-0000" />
         </Field>
         <Field label="رقم إذن التسليم">
-          <input className={styles.control} placeholder="DN-2026-0000" />
+          <TextInput placeholder="DN-2026-0000" />
         </Field>
         <Field label="مرجع داخلي للشركة" help="يظهر في التقارير وكشوف الحساب فقط.">
-          <input className={styles.control} placeholder="اختياري" />
+          <TextInput placeholder="اختياري" />
         </Field>
         <div style={{ gridColumn: '1 / -1' }}>
           <Field label="ملاحظات عامة">
-            <textarea className={`${styles.control} ${styles.textarea}`} placeholder="أي تعليمات خاصة للسائق أو لمشرف التحميل…" />
+            <TextArea placeholder="أي تعليمات خاصة للسائق أو لمشرف التحميل…" />
           </Field>
         </div>
-      </div>
+      </FormGrid>
     </Section>
   );
 }
@@ -179,65 +170,66 @@ function BasicsStep() {
 function RouteStep() {
   return (
     <>
-      <Section title="موقع الاستلام" sub="اختر من المواقع المحفوظة أو أدخل موقعاً جديداً">
-        <div className={styles.chipList} style={{ marginBottom: 16 }}>
-          {SAVED_LOCATIONS.map((l) => (
-            <span key={l.id} className={styles.tag}>
-              <Icon name={l.isPort ? 'truck' : 'home'} size={14} />
-              {l.label}
-            </span>
-          ))}
+      <Section title="موقع الاستلام" subtitle="اختر من المواقع المحفوظة أو أدخل موقعاً جديداً">
+        <div style={{ marginBottom: 16 }}>
+          <ChipList>
+            {SAVED_LOCATIONS.map((l) => (
+              <Tag key={l.id} icon={l.isPort ? 'truck' : 'home'}>
+                {l.label}
+              </Tag>
+            ))}
+          </ChipList>
         </div>
-        <div className={styles.formGrid}>
+        <FormGrid>
           <Field label="الدولة" required>
-            <select className={styles.control} defaultValue="sa">
+            <FormSelect defaultValue="sa">
               <option value="sa">السعودية</option>
               <option value="ae">الإمارات</option>
               <option value="kw">الكويت</option>
-            </select>
+            </FormSelect>
           </Field>
           <Field label="المدينة" required>
-            <select className={styles.control} defaultValue="riyadh">
+            <FormSelect defaultValue="riyadh">
               <option value="riyadh">الرياض</option>
               <option value="jeddah">جدة</option>
               <option value="dammam">الدمام</option>
-            </select>
+            </FormSelect>
           </Field>
           <div style={{ gridColumn: '1 / -1' }}>
             <Field label="العنوان التفصيلي" required>
-              <input className={styles.control} placeholder="الحي، الشارع، رقم المستودع" />
+              <TextInput placeholder="الحي، الشارع، رقم المستودع" />
             </Field>
           </div>
           <Field label="مشرف التحميل">
-            <input className={styles.control} placeholder="الاسم" />
+            <TextInput placeholder="الاسم" />
           </Field>
           <Field label="جوال المشرف">
-            <input className={styles.control} inputMode="tel" placeholder="05X XXX XXXX" />
+            <TextInput inputMode="tel" placeholder="05X XXX XXXX" />
           </Field>
-        </div>
+        </FormGrid>
       </Section>
 
       <Section title="موقع التسليم">
-        <div className={styles.formGrid}>
+        <FormGrid>
           <Field label="الدولة" required>
-            <select className={styles.control} defaultValue="ae">
+            <FormSelect defaultValue="ae">
               <option value="sa">السعودية</option>
               <option value="ae">الإمارات</option>
               <option value="kw">الكويت</option>
-            </select>
+            </FormSelect>
           </Field>
           <Field label="المدينة" required>
-            <select className={styles.control} defaultValue="dubai">
+            <FormSelect defaultValue="dubai">
               <option value="dubai">دبي</option>
               <option value="abudhabi">أبوظبي</option>
-            </select>
+            </FormSelect>
           </Field>
           <div style={{ gridColumn: '1 / -1' }}>
             <Field label="العنوان التفصيلي" required>
-              <input className={styles.control} defaultValue="المنطقة الحرة جبل علي — القطاع 6" />
+              <TextInput defaultValue="المنطقة الحرة جبل علي — القطاع 6" />
             </Field>
           </div>
-        </div>
+        </FormGrid>
         <div style={{ marginTop: 14 }}>
           <AlertBanner tone="warning">
             موقع التسليم ميناء ويتطلب تصريح دخول. سيظهر التصريح في خطوة الوثائق كمطلوب لاحقاً قبل التحميل.
@@ -250,39 +242,48 @@ function RouteStep() {
 
 function CargoStep() {
   return (
-    <Section title="تفاصيل الحمولة" sub="كلما كان الوصف أدق، كانت العروض أدق">
-      <div className={styles.formGrid}>
+    <Section title="تفاصيل الحمولة" subtitle="كلما كان الوصف أدق، كانت العروض أدق">
+      <FormGrid>
         <Field label="نوع الشحنة" required>
-          <select className={styles.control} defaultValue="general">
+          <FormSelect defaultValue="general">
             <option value="general">بضائع عامة</option>
             <option value="reefer">مواد غذائية مبردة</option>
             <option value="dangerous">مواد خطرة</option>
             <option value="oversized">حجم غير اعتيادي</option>
-          </select>
+          </FormSelect>
         </Field>
         <Field label="الوزن الإجمالي" required>
-          <input className={styles.control} inputMode="numeric" placeholder="بالطن" />
+          <TextInput inputMode="numeric" placeholder="بالطن" />
         </Field>
         <Field label="الأبعاد أو الحجم">
-          <input className={styles.control} placeholder="الطول × العرض × الارتفاع" />
+          <TextInput placeholder="الطول × العرض × الارتفاع" />
         </Field>
         <Field label="درجة الحرارة المطلوبة" help="تُترك فارغة لغير المبرّد.">
-          <input className={styles.control} placeholder="مثال: 2° — 8°" />
+          <TextInput placeholder="مثال: 2° — 8°" />
         </Field>
         <div style={{ gridColumn: '1 / -1' }}>
           <Field label="وصف الحمولة" required>
-            <textarea className={`${styles.control} ${styles.textarea}`} placeholder="صف محتوى الشحنة بوضوح ليتمكن السائقون من تقييمها." />
+            <TextArea placeholder="صف محتوى الشحنة بوضوح ليتمكن السائقون من تقييمها." />
           </Field>
         </div>
-      </div>
+      </FormGrid>
 
       <div style={{ marginTop: 18 }}>
-        <div className={styles.fieldLabel} style={{ marginBottom: 10 }}>متطلبات مناولة خاصة</div>
-        <div className={styles.chipList}>
-          {['رافعة عند التحميل', 'رافعة عند التفريغ', 'تثبيت وربط إضافي', 'مواد قابلة للكسر', 'تحميل ليلي'].map((t) => (
-            <span key={t} className={styles.tag}>{t}</span>
-          ))}
+        <div
+          style={{
+            fontSize: 'var(--web-text-label)',
+            fontWeight: 600,
+            color: 'var(--lw-slate-600)',
+            marginBottom: 10,
+          }}
+        >
+          متطلبات مناولة خاصة
         </div>
+        <ChipList>
+          {['رافعة عند التحميل', 'رافعة عند التفريغ', 'تثبيت وربط إضافي', 'مواد قابلة للكسر', 'تحميل ليلي'].map((t) => (
+            <Tag key={t}>{t}</Tag>
+          ))}
+        </ChipList>
       </div>
     </Section>
   );
@@ -293,32 +294,20 @@ function TruckStep({ value, onChange }: { value: string; onChange: (v: string) =
 
   return (
     <>
-      <Section title="نوع الشاحنة المناسبة" sub="الأنواع الموصى بها مبنية على نوع الحمولة ووزنها">
-        <div className={`${styles.choiceRow} ${styles.choiceRow2}`}>
+      <Section title="نوع الشاحنة المناسبة" subtitle="الأنواع الموصى بها مبنية على نوع الحمولة ووزنها">
+        <ChoiceRow>
           {TRUCK_TYPES.map((t) => (
-            <button
+            <ChoiceCard
               key={t.key}
-              type="button"
-              className={value === t.key ? `${styles.choice} ${styles.choiceActive}` : styles.choice}
-              onClick={() => onChange(t.key)}
-            >
-              <span className={styles.glyph} style={{ background: 'transparent' }}>
-                <Icon name="truck" size={22} />
-              </span>
-              <span style={{ flex: 1, minWidth: 0 }}>
-                <span className={styles.choiceTitle}>
-                  {t.title}
-                  {t.recommended ? (
-                    <span style={{ marginRight: 8 }}>
-                      <StatusBadge tone="success">موصى بها</StatusBadge>
-                    </span>
-                  ) : null}
-                </span>
-                <span className={styles.choiceBody}>{t.body}</span>
-              </span>
-            </button>
+              icon="truck"
+              title={t.title}
+              body={t.body}
+              selected={value === t.key}
+              onSelect={() => onChange(t.key)}
+              badge={t.recommended ? <StatusBadge tone="success">موصى بها</StatusBadge> : undefined}
+            />
           ))}
-        </div>
+        </ChoiceRow>
       </Section>
 
       {selected && !selected.recommended ? (
@@ -341,42 +330,39 @@ function DocsStep() {
   return (
     <>
       <Section title="الوثائق والتصاريح">
-        <div className={styles.help} style={{ marginBottom: 4 }}>
+        <Muted>
           الوثائق المطلوبة الآن تمنع النشر حتى ترفعها. المطلوبة لاحقاً لا تمنع النشر لكنها تمنع بدء التحميل.
-        </div>
+        </Muted>
       </Section>
 
-      <section className={styles.section}>
-        <div className={styles.sectionBodyFlush}>
-          {rows.map((r) => (
-            <div key={r.name} className={styles.row}>
-              <span className={styles.glyph}>
-                <Icon name={r.icon} size={18} />
-              </span>
-              <div className={styles.rowMain}>
-                <div className={styles.rowTitle}>{r.name}</div>
-                <div className={styles.rowMeta}>{r.when}</div>
-              </div>
-              <div className={styles.rowSide}>
+      <Section flush>
+        {rows.map((r) => (
+          <ListRow
+            key={r.name}
+            icon={r.icon}
+            title={r.name}
+            meta={r.when}
+            side={
+              <>
                 <StatusBadge tone={r.tone}>{r.label}</StatusBadge>
                 <PrimaryCta size="sm" variant="secondary" icon="upload">
                   رفع
                 </PrimaryCta>
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
+              </>
+            }
+          />
+        ))}
+      </Section>
 
-      <Section title="البروكر / المخلّص الجمركي" sub="اختياري — يُستخدم للشحن الدولي فقط">
-        <div className={styles.chipList}>
+      <Section title="البروكر / المخلّص الجمركي" subtitle="اختياري — يُستخدم للشحن الدولي فقط">
+        <ChipList>
           {BROKERS.map((b) => (
-            <span key={b.id} className={styles.tag}>
+            <Tag key={b.id}>
               <Icon name="user" size={14} />
               {b.name} · {b.portOrBorder}
-            </span>
+            </Tag>
           ))}
-        </div>
+        </ChipList>
       </Section>
     </>
   );
@@ -385,53 +371,36 @@ function DocsStep() {
 function PricingStep({ value, onChange }: { value: 'fixed' | 'tender' | null; onChange: (v: 'fixed' | 'tender') => void }) {
   return (
     <>
-      <Section title="نوع السعر" sub="اختيار نوع السعر إلزامي قبل النشر">
-        <div className={`${styles.choiceRow} ${styles.choiceRow2}`}>
-          <button
-            type="button"
-            className={value === 'fixed' ? `${styles.choice} ${styles.choiceActive}` : styles.choice}
-            onClick={() => onChange('fixed')}
-          >
-            <span className={styles.glyph} style={{ background: 'transparent' }}>
-              <Icon name="card" size={22} />
-            </span>
-            <span>
-              <span className={styles.choiceTitle}>سعر ثابت</span>
-              <span className={styles.choiceBody}>
-                تحدّد أنت السعر الأساسي، ويقبله السائق أو يرفضه. لا يقدّم السائق سعراً بديلاً.
-              </span>
-            </span>
-          </button>
-
-          <button
-            type="button"
-            className={value === 'tender' ? `${styles.choice} ${styles.choiceActive}` : styles.choice}
-            onClick={() => onChange('tender')}
-          >
-            <span className={styles.glyph} style={{ background: 'transparent' }}>
-              <Icon name="clock" size={22} />
-            </span>
-            <span>
-              <span className={styles.choiceTitle}>مناقصة مفتوحة</span>
-              <span className={styles.choiceBody}>
-                يقدّم كل سائق مؤهل عرض سعر واحداً، وتختار أنت العرض المناسب.
-              </span>
-            </span>
-          </button>
-        </div>
+      <Section title="نوع السعر" subtitle="اختيار نوع السعر إلزامي قبل النشر">
+        <ChoiceRow>
+          <ChoiceCard
+            icon="card"
+            title="سعر ثابت"
+            body="تحدّد أنت السعر الأساسي، ويقبله السائق أو يرفضه. لا يقدّم السائق سعراً بديلاً."
+            selected={value === 'fixed'}
+            onSelect={() => onChange('fixed')}
+          />
+          <ChoiceCard
+            icon="clock"
+            title="مناقصة مفتوحة"
+            body="يقدّم كل سائق مؤهل عرض سعر واحداً، وتختار أنت العرض المناسب."
+            selected={value === 'tender'}
+            onSelect={() => onChange('tender')}
+          />
+        </ChoiceRow>
       </Section>
 
       {value === 'fixed' ? (
         <Section title="السعر الأساسي">
-          <div className={styles.formGrid}>
+          <FormGrid>
             <Field
               label="السعر الأساسي (ر.س)"
               required
               help="هذا هو السعر الأساسي فقط. تُضاف الرسوم والعمولة وضريبة القيمة المضافة عند الدفع."
             >
-              <input className={styles.control} inputMode="numeric" placeholder="0" style={{ fontFamily: 'var(--font-latin)', direction: 'ltr', textAlign: 'right' }} />
+              <TextInput inputMode="numeric" placeholder="0" style={{ fontFamily: 'var(--font-latin)', direction: 'ltr', textAlign: 'right' }} />
             </Field>
-          </div>
+          </FormGrid>
           <div style={{ marginTop: 14 }}>
             <AlertBanner tone="info" icon="document">
               لا تعرض المنصة سعراً مرجعياً أو تقديرياً. السعر الذي تحدّده هو ما يراه السائقون.
@@ -442,15 +411,15 @@ function PricingStep({ value, onChange }: { value: 'fixed' | 'tender' | null; on
 
       {value === 'tender' ? (
         <Section title="إعدادات المناقصة">
-          <div className={styles.formGrid}>
+          <FormGrid>
             <Field label="مدة استقبال العروض" required>
-              <select className={styles.control} defaultValue="12">
+              <FormSelect defaultValue="12">
                 <option value="6">6 ساعات</option>
                 <option value="12">12 ساعة</option>
                 <option value="24">24 ساعة</option>
-              </select>
+              </FormSelect>
             </Field>
-          </div>
+          </FormGrid>
           <div style={{ marginTop: 14 }}>
             <AlertBanner tone="info" icon="document">
               لا تعرض المنصة سعراً مرجعياً. كل مبلغ سيصلك هو عرض السائق نفسه.

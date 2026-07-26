@@ -139,7 +139,9 @@
   justify-content: center;
 }
 
-.actionText { flex: 1; min-width: 0; }
+/* Column flex, not a bare span: title and meta are <span>s so the whole row can
+   be an <a>, and inline children would run the two lines together. */
+.actionText { flex: 1; min-width: 0; display: flex; flex-direction: column; }
 
 .actionTitle {
   font-size: var(--web-text-label);

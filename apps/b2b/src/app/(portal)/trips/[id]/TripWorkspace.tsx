@@ -7,16 +7,26 @@ import {
   AmountText,
   AvatarInitial,
   Card,
+  ContentTabs,
+  DetailList,
+  DetailRow,
   Icon,
   LiveWaybillButton,
+  ListRow,
+  Muted,
+  PageBody,
   PrimaryCta,
   ProgressBar,
   RouteChips,
   ScopeTag,
+  Section,
+  Split,
   StageChip,
   StatusBadge,
+  Timeline,
   formatElapsed,
   useSecondTick,
+  type TimelineItem,
   type Trip,
 } from '@loopway/ui';
 import { Header } from '@/components/Header';
@@ -33,7 +43,7 @@ import styles from '../../derived.module.css';
 
 type Tab = 'overview' | 'timeline' | 'offers' | 'documents' | 'payment';
 
-const TABS: { key: Tab; label: string }[] = [
+const TABS = [
   { key: 'overview', label: 'نظرة عامة' },
   { key: 'timeline', label: 'التتبّع' },
   { key: 'offers', label: 'العروض' },
@@ -60,7 +70,7 @@ export function TripWorkspace({ trip }: { trip: Trip }) {
     <>
       <Header title="تفاصيل الرحلة" subtitle={`${trip.id} · ${trip.from} ← ${trip.to}`} />
 
-      <div className={styles.body}>
+      <PageBody>
         <Card tight style={{ padding: '18px 20px', flex: 'none' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 20, flexWrap: 'wrap' }}>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 9 }}>
@@ -113,182 +123,110 @@ export function TripWorkspace({ trip }: { trip: Trip }) {
           </div>
         </Card>
 
-        <div className={styles.tabs} role="tablist">
-          {TABS.map((t) => (
-            <button
-              key={t.key}
-              type="button"
-              role="tab"
-              aria-selected={tab === t.key}
-              className={tab === t.key ? `${styles.tab} ${styles.tabActive}` : styles.tab}
-              onClick={() => setTab(t.key)}
-            >
-              {t.label}
-            </button>
-          ))}
-        </div>
+        <ContentTabs tabs={TABS} active={tab} onChange={(k) => setTab(k as Tab)} />
 
         {tab === 'overview' ? <OverviewTab trip={trip} /> : null}
         {tab === 'timeline' ? <TimelineTab /> : null}
         {tab === 'offers' ? <OffersTab /> : null}
         {tab === 'documents' ? <DocumentsTab /> : null}
         {tab === 'payment' ? <PaymentTab /> : null}
-      </div>
+      </PageBody>
     </>
   );
 }
 
 function OverviewTab({ trip }: { trip: Trip }) {
   return (
-    <div className={styles.split}>
-      <section className={styles.section}>
-        <div className={styles.sectionHead}>
-          <span className={styles.sectionTitle}>بيانات الرحلة</span>
-        </div>
-        <div className={styles.sectionBody}>
-          <div className={styles.kv}>
-            <span className={styles.kvKey}>الحمولة</span>
-            <span className={styles.kvValue}>{trip.cargo}</span>
-          </div>
-          <div className={styles.kv}>
-            <span className={styles.kvKey}>نوع الشاحنة المطلوب</span>
-            <span className={styles.kvValue}>ستة محاور — سطحة</span>
-          </div>
-          <div className={styles.kv}>
-            <span className={styles.kvKey}>تاريخ الاستلام</span>
-            <span className={styles.kvValue}>{trip.pickupDate}</span>
-          </div>
-          <div className={styles.kv}>
-            <span className={styles.kvKey}>موقع الاستلام</span>
-            <span className={styles.kvValue}>{trip.from} — المنطقة الصناعية الثانية، مستودع 14</span>
-          </div>
-          <div className={styles.kv}>
-            <span className={styles.kvKey}>موقع التسليم</span>
-            <span className={styles.kvValue}>{trip.to} — ميناء الملك عبدالعزيز، البوابة 3</span>
-          </div>
-          <div className={styles.kv}>
-            <span className={styles.kvKey}>مشرف التحميل</span>
-            <span className={styles.kvValue}>ماجد العنزي · <span className="lw-ltr">0555 210 4471</span></span>
-          </div>
-          <div className={styles.kv}>
-            <span className={styles.kvKey}>رقم مرجعي للشركة</span>
-            <span className={styles.kvValue}><span className="lw-ltr">PO-2026-4471</span></span>
-          </div>
-        </div>
-      </section>
+    <Split>
+      <Section title="بيانات الرحلة">
+        <DetailList>
+          <DetailRow label="الحمولة">{trip.cargo}</DetailRow>
+          <DetailRow label="نوع الشاحنة المطلوب">ستة محاور — سطحة</DetailRow>
+          <DetailRow label="تاريخ الاستلام">{trip.pickupDate}</DetailRow>
+          <DetailRow label="موقع الاستلام">{trip.from} — المنطقة الصناعية الثانية، مستودع 14</DetailRow>
+          <DetailRow label="موقع التسليم">{trip.to} — ميناء الملك عبدالعزيز، البوابة 3</DetailRow>
+          <DetailRow label="مشرف التحميل">
+            ماجد العنزي · <span className="lw-ltr">0555 210 4471</span>
+          </DetailRow>
+          <DetailRow label="رقم مرجعي للشركة">
+            <span className="lw-ltr">PO-2026-4471</span>
+          </DetailRow>
+        </DetailList>
+      </Section>
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
-        <section className={styles.section}>
-          <div className={styles.sectionHead}>
-            <span className={styles.sectionTitle}>{trip.driver ? 'السائق والشاحنة' : 'العروض'}</span>
-          </div>
-          <div className={styles.sectionBody}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 14 }}>
-              <AvatarInitial
-                initial={trip.driver ? trip.who.trim().charAt(0) : '؟'}
-                variant={trip.driver ? 'driver' : 'offers'}
-                size={40}
-                fontSize={15}
-              />
-              <div>
-                <div style={{ fontSize: 'var(--web-text-meta)', fontWeight: 800, color: 'var(--lw-navy-900)' }}>{trip.who}</div>
-                <div className={styles.rowMeta}>{trip.whoSub}</div>
+        <Section title={trip.driver ? 'السائق والشاحنة' : 'العروض'}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 14 }}>
+            <AvatarInitial
+              initial={trip.driver ? trip.who.trim().charAt(0) : '؟'}
+              variant={trip.driver ? 'driver' : 'offers'}
+              size={40}
+              fontSize={15}
+            />
+            <div>
+              <div style={{ fontSize: 'var(--web-text-meta)', fontWeight: 800, color: 'var(--lw-navy-900)' }}>
+                {trip.who}
+              </div>
+              <div style={{ fontSize: 'var(--web-text-micro)', fontWeight: 600, color: 'var(--lw-slate-500)', marginTop: 3 }}>
+                {trip.whoSub}
               </div>
             </div>
-            {trip.driver ? (
-              <>
-                <div className={styles.kv}>
-                  <span className={styles.kvKey}>رقم اللوحة</span>
-                  <span className={styles.kvValue}><span className="lw-ltr">٤٢٨١ ر ن ب</span></span>
-                </div>
-                <div className={styles.kv}>
-                  <span className={styles.kvKey}>نوع الشاحنة</span>
-                  <span className={styles.kvValue}>ستة محاور — سطحة</span>
-                </div>
-                <div className={styles.kv}>
-                  <span className={styles.kvKey}>التواصل</span>
-                  <span className={styles.kvValue}><span className="lw-ltr">0554 118 2260</span></span>
-                </div>
-              </>
-            ) : null}
           </div>
-        </section>
+          {trip.driver ? (
+            <DetailList>
+              <DetailRow label="رقم اللوحة">
+                <span className="lw-ltr">٤٢٨١ ر ن ب</span>
+              </DetailRow>
+              <DetailRow label="نوع الشاحنة">ستة محاور — سطحة</DetailRow>
+              <DetailRow label="التواصل">
+                <span className="lw-ltr">0554 118 2260</span>
+              </DetailRow>
+            </DetailList>
+          ) : null}
+        </Section>
 
-        <section className={styles.section}>
-          <div className={styles.sectionHead}>
-            <span className={styles.sectionTitle}>البروكر / المخلّص الجمركي</span>
-          </div>
-          <div className={styles.sectionBody}>
-            {trip.scope === 'دولية' ? (
-              <>
-                <div className={styles.rowTitle}>مكتب البطحاء للتخليص الجمركي</div>
-                <div className={styles.rowMeta}>منفذ البطحاء · <span className="lw-ltr">+966 55 480 2211</span></div>
-                <div style={{ marginTop: 14 }}>
-                  <PrimaryCta variant="secondary" size="sm" icon="document">
-                    إرسال بيانات الرحلة عبر واتساب
-                  </PrimaryCta>
-                </div>
-                <div className={styles.help} style={{ marginTop: 10 }}>
+        <Section title="البروكر / المخلّص الجمركي">
+          {trip.scope === 'دولية' ? (
+            <>
+              <div style={{ fontSize: 'var(--web-text-label)', fontWeight: 700, color: 'var(--lw-navy-900)' }}>
+                مكتب البطحاء للتخليص الجمركي
+              </div>
+              <div style={{ fontSize: 'var(--web-text-micro)', fontWeight: 600, color: 'var(--lw-slate-500)', marginTop: 3 }}>
+                منفذ البطحاء · <span className="lw-ltr">+966 55 480 2211</span>
+              </div>
+              <div style={{ marginTop: 14 }}>
+                <PrimaryCta variant="secondary" size="sm" icon="document">
+                  إرسال بيانات الرحلة عبر واتساب
+                </PrimaryCta>
+              </div>
+              <div style={{ marginTop: 10 }}>
+                <Muted>
                   يفتح واتساب من جهازك برسالة جاهزة تحتوي بيانات الرحلة والبوليصة. لا تُرسل المنصة أي رسالة نيابةً عنك.
-                </div>
-              </>
-            ) : (
-              <div className={styles.muted}>هذه رحلة محلية ولا تتطلب مخلّصاً جمركياً.</div>
-            )}
-          </div>
-        </section>
+                </Muted>
+              </div>
+            </>
+          ) : (
+            <Muted>هذه رحلة محلية ولا تتطلب مخلّصاً جمركياً.</Muted>
+          )}
+        </Section>
       </div>
-    </div>
+    </Split>
   );
 }
 
 function TimelineTab() {
+  const items: TimelineItem[] = TRIP_TIMELINE.map((e) => ({
+    id: e.id,
+    label: e.label,
+    meta: `${e.timestamp}${e.location ? ` · ${e.location}` : ''}${e.actor ? ` · ${e.actor}` : ''}`,
+    note: e.note,
+    state: e.state,
+  }));
+
   return (
-    <section className={styles.section}>
-      <div className={styles.sectionHead}>
-        <span className={styles.sectionTitle}>سجل تتبّع الرحلة</span>
-        <span className={styles.sectionSub}>كل حدث يُسجَّل بوقته وموقعه داخل ملف الرحلة</span>
-      </div>
-      <div className={styles.sectionBody}>
-        <div className={styles.timeline}>
-          {TRIP_TIMELINE.map((e, i) => {
-            const last = i === TRIP_TIMELINE.length - 1;
-            return (
-              <div key={e.id} className={styles.tlStep}>
-                <div className={styles.tlRail}>
-                  <span
-                    className={[
-                      styles.tlDot,
-                      e.state === 'done' ? styles.tlDotDone : '',
-                      e.state === 'active' ? styles.tlDotActive : '',
-                    ]
-                      .filter(Boolean)
-                      .join(' ')}
-                  >
-                    {e.state === 'done' ? <Icon name="check" size={13} strokeWidth={2.8} /> : null}
-                    {e.state === 'active' ? <Icon name="clock" size={13} /> : null}
-                  </span>
-                  {!last ? (
-                    <span className={e.state === 'done' ? `${styles.tlLine} ${styles.tlLineDone}` : styles.tlLine} />
-                  ) : null}
-                </div>
-                <div className={styles.tlBody}>
-                  <div className={e.state === 'upcoming' ? `${styles.tlLabel} ${styles.tlLabelUpcoming}` : styles.tlLabel}>
-                    {e.label}
-                  </div>
-                  <div className={styles.tlMeta}>
-                    {e.timestamp}
-                    {e.location ? ` · ${e.location}` : ''}
-                    {e.actor ? ` · ${e.actor}` : ''}
-                  </div>
-                  {e.note ? <div className={styles.tlNote}>{e.note}</div> : null}
-                </div>
-              </div>
-            );
-          })}
-        </div>
-      </div>
-    </section>
+    <Section title="سجل تتبّع الرحلة" subtitle="كل حدث يُسجَّل بوقته وموقعه داخل ملف الرحلة">
+      <Timeline items={items} />
+    </Section>
   );
 }
 
@@ -299,130 +237,107 @@ function OffersTab() {
         لا تعرض المنصة سعراً مرجعياً أو تقديرياً. كل مبلغ أدناه هو عرض السائق نفسه.
       </AlertBanner>
 
-      <section className={styles.section}>
-        <div className={styles.sectionHead}>
-          <span className={styles.sectionTitle}>العروض المستلمة</span>
-          <span className={styles.sectionSub}>{TRIP_OFFERS.length} عروض</span>
-        </div>
-        <div className={styles.sectionBodyFlush}>
-          {TRIP_OFFERS.map((o) => (
-            <div key={o.id} className={styles.offer}>
-              <AvatarInitial initial={o.driverInitial} size={40} fontSize={15} />
-              <div style={{ flex: 1, minWidth: 0 }}>
-                <div className={styles.offerName}>{o.driverName}</div>
-                <div className={styles.offerMeta}>
-                  <span className="lw-ltr">{o.rating}</span> ★ · <span className="lw-ltr">{o.trips}</span> رحلة · {o.truckType}
-                </div>
-              </div>
-              <div className={styles.offerMeta} style={{ width: 150, flex: 'none' }}>
-                {o.eta}
-              </div>
-              <div className={styles.offerPrice}>
-                {o.price} <span className={styles.offerPriceUnit}>ر.س</span>
-              </div>
-              <div style={{ width: 120, flex: 'none', display: 'flex', justifyContent: 'flex-end' }}>
-                {o.status === 'Selected' ? (
-                  <StatusBadge tone="success">تم الاختيار</StatusBadge>
-                ) : (
-                  <PrimaryCta size="sm" variant="secondary">
-                    اختيار العرض
-                  </PrimaryCta>
-                )}
+      <Section title="العروض المستلمة" subtitle={`${TRIP_OFFERS.length} عروض`} flush>
+        {TRIP_OFFERS.map((o) => (
+          <div key={o.id} className={styles.offer}>
+            <AvatarInitial initial={o.driverInitial} size={40} fontSize={15} />
+            <div style={{ flex: 1, minWidth: 0 }}>
+              <div className={styles.offerName}>{o.driverName}</div>
+              <div className={styles.offerMeta}>
+                <span className="lw-ltr">{o.rating}</span> ★ · <span className="lw-ltr">{o.trips}</span> رحلة ·{' '}
+                {o.truckType}
               </div>
             </div>
-          ))}
-        </div>
-      </section>
+            <div className={styles.offerMeta} style={{ width: 150, flex: 'none' }}>
+              {o.eta}
+            </div>
+            <div className={styles.offerPrice}>
+              {o.price} <span className={styles.offerPriceUnit}>ر.س</span>
+            </div>
+            <div style={{ width: 120, flex: 'none', display: 'flex', justifyContent: 'flex-end' }}>
+              {o.status === 'Selected' ? (
+                <StatusBadge tone="success">تم الاختيار</StatusBadge>
+              ) : (
+                <PrimaryCta size="sm" variant="secondary">
+                  اختيار العرض
+                </PrimaryCta>
+              )}
+            </div>
+          </div>
+        ))}
+      </Section>
     </>
   );
 }
 
 function DocumentsTab() {
   return (
-    <section className={styles.section}>
-      <div className={styles.sectionHead}>
-        <span className={styles.sectionTitle}>مستندات الرحلة</span>
+    <Section
+      title="مستندات الرحلة"
+      flush
+      action={
         <PrimaryCta size="sm" variant="secondary" icon="upload">
           رفع مستند
         </PrimaryCta>
-      </div>
-      <div className={styles.sectionBodyFlush}>
-        {TRIP_DOCUMENTS.map((d) => {
-          const meta = DOC_TONE[d.status] ?? { tone: 'neutral' as const, label: d.status };
-          return (
-            <div key={d.id} className={`${styles.row} ${styles.rowHover}`}>
-              <span className={styles.glyph}>
-                <Icon name="document" size={18} />
-              </span>
-              <div className={styles.rowMain}>
-                <div className={styles.rowTitle}>{d.documentType}</div>
-                <div className={styles.rowMeta}>
-                  {d.uploadedBy} · {d.uploadedAt} · {d.sizeLabel}
-                </div>
-              </div>
-              <div className={styles.rowSide}>
+      }
+    >
+      {TRIP_DOCUMENTS.map((d) => {
+        const meta = DOC_TONE[d.status] ?? { tone: 'neutral' as const, label: d.status };
+        return (
+          <ListRow
+            key={d.id}
+            icon="document"
+            title={d.documentType}
+            meta={`${d.uploadedBy} · ${d.uploadedAt} · ${d.sizeLabel}`}
+            side={
+              <>
                 <StatusBadge tone={meta.tone}>{meta.label}</StatusBadge>
                 <Icon name="download" size={17} style={{ color: 'var(--lw-slate-400)' }} />
-              </div>
-            </div>
-          );
-        })}
-      </div>
-    </section>
+              </>
+            }
+          />
+        );
+      })}
+    </Section>
   );
 }
 
 function PaymentTab() {
   return (
-    <div className={styles.split}>
-      <section className={styles.section}>
-        <div className={styles.sectionHead}>
-          <span className={styles.sectionTitle}>تفاصيل الدفع</span>
-        </div>
-        <div className={styles.sectionBody}>
-          <div className={styles.kv}>
-            <span className={styles.kvKey}>عرض السائق المختار</span>
-            <span className={styles.kvValue}><span className="lw-ltr">3,347.83</span> ر.س</span>
-          </div>
-          <div className={styles.kv}>
-            <span className={styles.kvKey}>ضريبة القيمة المضافة (15%)</span>
-            <span className={styles.kvValue}><span className="lw-ltr">502.17</span> ر.س</span>
-          </div>
-          <div className={styles.kv}>
-            <span className={styles.kvKey}>الإجمالي المدفوع</span>
-            <span className={styles.kvValue}>
-              <AmountText amount="3,850" direction="debit" />
-            </span>
-          </div>
-          <div className={styles.kv}>
-            <span className={styles.kvKey}>طريقة الدفع</span>
-            <span className={styles.kvValue}>محفظة LoopWay</span>
-          </div>
-          <div className={styles.kv}>
-            <span className={styles.kvKey}>رقم العملية</span>
-            <span className={styles.kvValue}><span className="lw-ltr">TXN-2026-01911</span></span>
-          </div>
-        </div>
-      </section>
+    <Split>
+      <Section title="تفاصيل الدفع">
+        <DetailList>
+          <DetailRow label="عرض السائق المختار">
+            <span className="lw-ltr">3,347.83</span> ر.س
+          </DetailRow>
+          <DetailRow label="ضريبة القيمة المضافة (15%)">
+            <span className="lw-ltr">502.17</span> ر.س
+          </DetailRow>
+          <DetailRow label="الإجمالي المدفوع">
+            <AmountText amount="3,850" direction="debit" />
+          </DetailRow>
+          <DetailRow label="طريقة الدفع">محفظة LoopWay</DetailRow>
+          <DetailRow label="رقم العملية">
+            <span className="lw-ltr">TXN-2026-01911</span>
+          </DetailRow>
+        </DetailList>
+      </Section>
 
-      <section className={styles.section}>
-        <div className={styles.sectionHead}>
-          <span className={styles.sectionTitle}>حالة المبلغ</span>
-        </div>
-        <div className={styles.sectionBody}>
-          <AlertBanner tone="success" icon="check">
-            المبلغ محجوز بأمان ويُحرَّر للسائق فقط بعد تأكيد التسليم.
-          </AlertBanner>
-          <div className={styles.help} style={{ marginTop: 14 }}>
+      <Section title="حالة المبلغ">
+        <AlertBanner tone="success" icon="check">
+          المبلغ محجوز بأمان ويُحرَّر للسائق فقط بعد تأكيد التسليم.
+        </AlertBanner>
+        <div style={{ marginTop: 14 }}>
+          <Muted>
             في حال إلغاء الرحلة بعد تحرّك السائق، تُنشئ المنصة غرامة محتملة تُراجعها الإدارة قبل أي أثر مالي.
-          </div>
-          <div style={{ marginTop: 16 }}>
-            <PrimaryCta size="sm" variant="secondary" icon="download" href="/finance" linkAs={Link}>
-              عرض العملية في السجل المالي
-            </PrimaryCta>
-          </div>
+          </Muted>
         </div>
-      </section>
-    </div>
+        <div style={{ marginTop: 16 }}>
+          <PrimaryCta size="sm" variant="secondary" icon="download" href="/finance" linkAs={Link}>
+            عرض العملية في السجل المالي
+          </PrimaryCta>
+        </div>
+      </Section>
+    </Split>
   );
 }

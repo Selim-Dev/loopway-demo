@@ -9,6 +9,7 @@
 
 export * from './tokens';
 export * from './types';
+export * from './types.admin';
 export * from './hooks';
 
 export { Icon, RouteArrow, LoopwayMark } from './icons/Icon';
@@ -99,3 +100,54 @@ export type { WalletStat, TimelineStep } from './components/Surfaces';
 
 export { TripCalendar, buildCalendar, MONTH_NAMES_AR, WEEKDAYS_AR } from './components/TripCalendar';
 export type { TripCalendarProps, Today } from './components/TripCalendar';
+
+/* ---- Layout primitives (shared by both portals) ---- */
+export {
+  PageBody,
+  Grid,
+  Split,
+  Section,
+  InlineLink,
+  Muted,
+  ListRow,
+  ContentTabs,
+  ActionBar,
+  Tag,
+  ChipList,
+  KpiTile,
+  KpiGrid,
+} from './components/Layout';
+export type { ListRowProps, ContentTab, TagTone, KpiTileProps } from './components/Layout';
+
+/* ---- Form primitives ---- */
+export {
+  FormGrid,
+  Field,
+  TextInput,
+  TextArea,
+  FormSelect,
+  ChoiceRow,
+  ChoiceCard,
+  Toggle,
+  Checkbox,
+} from './components/Forms';
+export type { FieldProps } from './components/Forms';
+
+/* ---- Timeline (full variant; StatusTimeline in Surfaces is the compact one) ---- */
+export { Timeline } from './components/Timeline';
+export type { TimelineItem, TimelineState } from './components/Timeline';
+
+/* ---- Reporting bars (deliberately not a chart library) ---- */
+export { BarList, toBarData } from './components/BarList';
+export type { BarDatum } from './components/BarList';
+
+/* ---- Overlays ---- */
+export { Modal, ModalButton, ConfirmDialog } from './components/Modal';
+export type { ModalProps, ConfirmDialogProps } from './components/Modal';
+
+/* ---- Admin-specific surfaces ---- */
+export { DocumentViewer, PhotoGrid } from './components/DocumentViewer';
+export type { DocumentViewerProps } from './components/DocumentViewer';
+
+export { CompatibilityMatrix, COMPATIBILITY_LABEL } from './components/CompatibilityMatrix';
+export type { Compatibility, CompatibilityMatrixProps } from './components/CompatibilityMatrix';

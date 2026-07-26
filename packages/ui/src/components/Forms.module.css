@@ -1,0 +1,268 @@
+/* ==========================================================================
+   Form primitives.
+
+   PROVENANCE: FormGrid / Field / control / textarea / help / ChoiceCard are
+   lifted verbatim from apps/b2b/src/app/(portal)/derived.module.css, where
+   they were authored for the create-trip wizard and the account forms.
+
+   Toggle and Checkbox are NEW — no form control of either kind exists in the
+   design source, because neither appears on the two designed screens. Both are
+   built strictly from web-scale tokens and the brand's hover/press rules
+   (darken, never lighten; no scale on press). See
+   docs/design-system/06-components.md.
+   ========================================================================== */
+
+.formGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px 18px;
+}
+
+.formGridWide { grid-template-columns: 1fr; }
+
+/* Span both columns inside a two-column grid. */
+.fieldWide { grid-column: 1 / -1; }
+
+.field { display: flex; flex-direction: column; gap: 7px; }
+
+.fieldLabel {
+  font-size: var(--web-text-label);
+  font-weight: 600;
+  color: var(--lw-slate-600);
+}
+
+.required { color: var(--lw-amber-500); font-weight: 800; }
+
+.control {
+  height: var(--web-h-control);
+  border: 1px solid var(--lw-border);
+  border-radius: var(--web-r-btn);
+  background: #fff;
+  padding: 0 14px;
+  font-family: var(--font-sans);
+  font-size: var(--web-text-meta);
+  font-weight: 600;
+  color: var(--lw-navy-900);
+  outline: none;
+  width: 100%;
+}
+
+.control:focus {
+  border-color: var(--lw-green-500);
+  box-shadow: 0 0 0 4px var(--color-focus-ring);
+}
+
+.control:disabled {
+  background: var(--lw-bg-subtle);
+  color: var(--lw-slate-400);
+  cursor: not-allowed;
+}
+
+.textarea {
+  height: auto;
+  min-height: 92px;
+  padding: 12px 14px;
+  line-height: 1.7;
+  resize: vertical;
+}
+
+/* Numeric / reference inputs stay LTR — see 03-typography-rtl.md. */
+.controlLtr {
+  font-family: var(--font-latin);
+  direction: ltr;
+  unicode-bidi: isolate;
+  text-align: right;
+}
+
+.help {
+  font-size: var(--web-text-micro);
+  font-weight: 600;
+  color: var(--lw-slate-500);
+  line-height: 1.6;
+}
+
+.helpError { color: var(--lw-red-600); }
+
+/* Trailing unit inside a control (%, ر.س) */
+.controlWrap { position: relative; }
+
+.unit {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: var(--web-text-label);
+  font-weight: 700;
+  color: var(--lw-slate-500);
+  pointer-events: none;
+}
+
+.controlWrap .control { padding-left: 46px; }
+
+/* ---- Choice cards ---- */
+.choiceRow { display: grid; gap: 12px; }
+.choiceRow2 { grid-template-columns: 1fr 1fr; }
+.choiceRow3 { grid-template-columns: repeat(3, 1fr); }
+
+.choice {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 14px 15px;
+  border: 1.5px solid var(--lw-border);
+  border-radius: var(--web-r-inner);
+  background: #fff;
+  cursor: pointer;
+  text-align: right;
+  font-family: var(--font-sans);
+  width: 100%;
+  transition: border-color var(--duration-fast), background var(--duration-fast);
+}
+
+.choice:hover { border-color: var(--lw-slate-200); }
+
+.choiceActive {
+  border-color: var(--lw-green-500);
+  background: var(--color-success-bg);
+}
+
+.choiceGlyph {
+  width: 36px;
+  height: 36px;
+  flex: none;
+  border-radius: var(--web-r-cell);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--lw-navy-800);
+}
+
+.choiceMain { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+
+.choiceTitle {
+  font-size: var(--web-text-meta);
+  font-weight: 800;
+  color: var(--lw-navy-900);
+}
+
+.choiceBody {
+  font-size: var(--web-text-micro);
+  font-weight: 600;
+  color: var(--lw-slate-600);
+  margin-top: 4px;
+  line-height: 1.6;
+}
+
+/* ---- Toggle (NEW) ---- */
+.toggleRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.toggleText { min-width: 0; }
+
+.toggleLabel {
+  display: block;
+  font-size: var(--web-text-label);
+  font-weight: 700;
+  color: var(--lw-navy-900);
+}
+
+.toggleHelp {
+  display: block;
+  font-size: var(--web-text-micro);
+  font-weight: 600;
+  color: var(--lw-slate-500);
+  margin-top: 3px;
+  line-height: 1.6;
+}
+
+.toggle {
+  position: relative;
+  width: 44px;
+  height: 26px;
+  flex: none;
+  border-radius: var(--radius-pill);
+  border: none;
+  background: var(--lw-slate-200);
+  cursor: pointer;
+  padding: 0;
+  transition: background var(--duration-fast);
+}
+
+.toggle:hover { background: var(--lw-slate-300); }
+
+.toggleOn { background: var(--lw-green-500); }
+.toggleOn:hover { background: var(--lw-green-600); }
+
+.toggle:disabled { cursor: not-allowed; opacity: .55; }
+
+.toggleKnob {
+  position: absolute;
+  top: 3px;
+  /* RTL: "off" parks the knob on the right, "on" slides it left. */
+  right: 3px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 2px 5px -1px rgba(44, 62, 80, .35);
+  transition: transform var(--duration-fast) var(--ease-standard);
+}
+
+.toggleOn .toggleKnob { transform: translateX(-18px); }
+
+/* ---- Checkbox (NEW) ---- */
+.checkbox {
+  width: 18px;
+  height: 18px;
+  flex: none;
+  border-radius: 5px;
+  border: 1.5px solid var(--lw-border);
+  background: #fff;
+  cursor: pointer;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  transition: background var(--duration-fast), border-color var(--duration-fast);
+}
+
+.checkbox:hover { border-color: var(--lw-slate-200); }
+
+.checkboxChecked,
+.checkboxIndeterminate {
+  background: var(--lw-green-500);
+  border-color: var(--lw-green-500);
+}
+
+.checkboxChecked:hover,
+.checkboxIndeterminate:hover {
+  background: var(--lw-green-600);
+  border-color: var(--lw-green-600);
+}
+
+.checkbox:disabled { cursor: not-allowed; opacity: .5; }
+
+.dash {
+  width: 9px;
+  height: 2px;
+  border-radius: 2px;
+  background: #fff;
+}
+
+.checkboxRow {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  cursor: pointer;
+}
+
+.checkboxLabel {
+  font-size: var(--web-text-label);
+  font-weight: 600;
+  color: var(--lw-navy-900);
+}

@@ -145,7 +145,8 @@
   font-size: 14px;
 }
 
-.accountText { text-align: right; }
+/* Column flex so the two <span>s stack; text-align keeps them on the RTL edge. */
+.accountText { text-align: right; display: flex; flex-direction: column; }
 
 .accountName {
   font-size: var(--web-text-meta);

@@ -1,0 +1,294 @@
+/* ==========================================================================
+   Layout primitives shared by both portals.
+
+   PROVENANCE: these rules were authored for the B2B "derived" screens and
+   lived in apps/b2b/src/app/(portal)/derived.module.css. They are lifted here
+   VERBATIM — not re-authored — because the Admin portal needs the same
+   section-card / list-row / tab / action-bar vocabulary and duplicating it
+   would guarantee drift. See docs/design-system/07-patterns.md.
+
+   Every value resolves to a web-scale token. Nothing here is a new literal.
+   ========================================================================== */
+
+/* ---- Page body: the scrolling region under the header ---- */
+.body {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  /* Breathing room so card shadows are not clipped by the scroll container. */
+  padding-left: 4px;
+}
+
+/* Variant for screens whose body is a side-by-side row (table + panel). */
+.bodyRow {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  gap: 14px;
+  align-items: stretch;
+}
+
+.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; align-items: start; }
+.grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; align-items: start; }
+.grid4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; align-items: start; }
+.split { display: grid; grid-template-columns: 1.4fr 1fr; gap: 14px; align-items: start; }
+
+/* ---- Section card ---- */
+.section {
+  background: #fff;
+  border: 1px solid var(--lw-border-faint);
+  border-radius: var(--web-r-panel);
+  box-shadow: var(--web-shadow-header);
+  overflow: hidden;
+  flex: none;
+}
+
+.sectionHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 15px 18px;
+  border-bottom: 1px solid var(--lw-divider-2);
+}
+
+.sectionTitle {
+  font-size: var(--web-text-h4);
+  font-weight: 800;
+  color: var(--lw-navy-900);
+}
+
+.sectionSub {
+  font-size: var(--web-text-micro);
+  font-weight: 600;
+  color: var(--lw-slate-500);
+  margin-top: 3px;
+}
+
+.sectionBody { padding: 18px; }
+.sectionBodyFlush { padding: 0; }
+
+.link {
+  font-size: var(--web-text-label);
+  font-weight: 700;
+  color: var(--lw-blue-600);
+}
+
+/* ---- List rows ---- */
+.row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 13px 18px;
+  border-bottom: 1px solid var(--lw-divider-2);
+  text-decoration: none;
+  transition: background var(--duration-fast);
+}
+
+.row:last-child { border-bottom: none; }
+.rowHover:hover { background: var(--lw-bg-subtle); }
+
+/* Unread / needs-attention tint. A whisper of green, not a status colour. */
+.rowUnread { background: #F6FCF9; }
+
+.glyph {
+  width: 36px;
+  height: 36px;
+  flex: none;
+  border-radius: var(--web-r-cell);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--lw-icon-tint-bg);
+  color: var(--lw-navy-800);
+}
+
+/* `display: block` on the two lines is load-bearing, not decoration: ListRow
+   renders them as <span> so the whole row can be an <a>, and inline spans
+   would run the title and meta together on one line. */
+.rowMain { flex: 1; min-width: 0; }
+
+.rowTitle {
+  display: block;
+  font-size: var(--web-text-label);
+  font-weight: 700;
+  color: var(--lw-navy-900);
+}
+
+.rowMeta {
+  display: block;
+  font-size: var(--web-text-micro);
+  font-weight: 600;
+  color: var(--lw-slate-500);
+  margin-top: 3px;
+  line-height: 1.6;
+}
+
+.rowSide { flex: none; display: flex; align-items: center; gap: 10px; }
+
+/* ---- Content tabs (navy pill set, inside a page body) ---- */
+.tabs {
+  display: inline-flex;
+  background: #fff;
+  border: 1px solid var(--lw-border-faint);
+  border-radius: var(--web-r-control);
+  padding: 4px;
+  box-shadow: var(--web-shadow-control);
+  flex: none;
+  align-self: flex-start;
+}
+
+.tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  height: var(--web-h-tab);
+  padding: 0 14px;
+  border: none;
+  border-radius: var(--web-r-cell);
+  font-family: var(--font-sans);
+  font-size: var(--web-text-meta);
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+  background: none;
+  color: var(--lw-slate-500);
+  text-decoration: none;
+}
+
+.tab:hover { color: var(--lw-navy-800); }
+.tabActive, .tabActive:hover { background: var(--lw-navy-900); color: #fff; }
+
+.tabCount {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 19px;
+  height: 19px;
+  padding: 0 6px;
+  border-radius: var(--radius-pill);
+  font-size: var(--web-text-nano);
+  font-weight: 800;
+  font-family: var(--font-latin);
+  background: var(--lw-icon-tint-bg);
+  color: var(--lw-slate-500);
+}
+
+.tabActive .tabCount { background: var(--lw-green-500); color: #fff; }
+
+/* ---- Footer action bar ---- */
+.actionBar {
+  flex: none;
+  background: #fff;
+  border: 1px solid var(--lw-border-faint);
+  border-radius: var(--web-r-bar);
+  box-shadow: var(--web-shadow-control);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 11px 20px;
+  gap: 12px;
+}
+
+.actionBarNote {
+  font-size: var(--web-text-micro);
+  font-weight: 600;
+  color: var(--lw-slate-500);
+  line-height: 1.6;
+}
+
+.actionBarGroup { display: flex; align-items: center; gap: 8px; flex: none; }
+
+/* ---- Tag / chip list ---- */
+.chipList { display: flex; flex-wrap: wrap; gap: 8px; }
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 11px;
+  border-radius: var(--web-r-badge);
+  background: var(--lw-icon-tint-bg);
+  color: var(--lw-slate-600);
+  font-size: var(--web-text-tiny);
+  font-weight: 700;
+}
+
+.tagSuccess { background: var(--color-success-bg); color: var(--lw-green-700); }
+.tagWarning { background: var(--color-warning-bg); color: var(--lw-amber-600); }
+.tagDanger { background: var(--color-danger-bg); color: var(--lw-red-600); }
+
+/* ---- KPI tile ----
+   De-duplicates the near-identical tile that existed in both
+   apps/b2b HomeScreen.module.css and apps/admin page.module.css. */
+.kpiGrid {
+  display: grid;
+  grid-template-columns: repeat(var(--kpi-cols, 4), 1fr);
+  gap: 14px;
+  flex: none;
+}
+
+.kpi {
+  background: #fff;
+  border: 1px solid var(--lw-border-faint);
+  border-radius: var(--web-r-panel);
+  box-shadow: var(--web-shadow-control);
+  padding: 15px 17px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+  transition: border-color var(--duration-fast);
+}
+
+.kpi:hover { border-color: var(--lw-slate-200); }
+
+.kpiIcon {
+  width: 42px;
+  height: 42px;
+  flex: none;
+  border-radius: var(--web-r-chip);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.kpiText { min-width: 0; }
+
+.kpiLabel {
+  display: block;
+  font-size: var(--web-text-micro);
+  font-weight: 700;
+  color: var(--lw-slate-500);
+  white-space: nowrap;
+}
+
+.kpiValue {
+  display: block;
+  font-size: 25px;
+  font-weight: 800;
+  color: var(--lw-navy-900);
+  font-family: var(--font-latin);
+  direction: ltr;
+  unicode-bidi: isolate;
+  line-height: 1.18;
+  letter-spacing: var(--tracking-snug);
+}
+
+.kpiSuffix {
+  font-size: var(--web-text-label);
+  font-weight: 700;
+  color: var(--lw-slate-500);
+  font-family: var(--font-sans);
+}
+
+/* ---- Misc ---- */
+.muted {
+  font-size: var(--web-text-micro);
+  font-weight: 600;
+  color: var(--lw-slate-500);
+  line-height: 1.7;
+}

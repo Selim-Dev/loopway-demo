@@ -1,8 +1,8 @@
-﻿import type { Metadata } from 'next';
-import { SectionPage } from '@/components/SectionPage';
+import type { Metadata } from 'next';
+import { PayoutsScreen } from './PayoutsScreen';
 
 export const metadata: Metadata = { title: 'Payout Management — LoopWay' };
 
 export default function Page() {
-  return <SectionPage href="/payouts" />;
+  return <PayoutsScreen />;
 }

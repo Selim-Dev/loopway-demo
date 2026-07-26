@@ -5,6 +5,7 @@ import {
   CellStack,
   DataTable,
   IconButtonSm,
+  PageBody,
   RowIcon,
   StatusBadge,
   TableCard,
@@ -12,7 +13,6 @@ import {
 } from '@loopway/ui';
 import { Header } from '@/components/Header';
 import { DOCUMENT_ARCHIVE } from '@/mocks/workspace';
-import styles from '../../derived.module.css';
 import { AccountTabs } from '../AccountTabs';
 
 export const metadata: Metadata = { title: 'أرشيف المستندات — LoopWay' };
@@ -30,7 +30,7 @@ export default function DocumentsPage() {
   return (
     <>
       <Header title="أرشيف المستندات" subtitle="بوليصات وإثباتات وفواتير وتصاريح كل رحلات الشركة" />
-      <div className={styles.body}>
+      <PageBody>
         <AccountTabs />
 
         <div style={{ flex: 1, minHeight: 0, display: 'flex' }}>
@@ -82,7 +82,7 @@ export default function DocumentsPage() {
             </DataTable>
           </TableCard>
         </div>
-      </div>
+      </PageBody>
     </>
   );
 }

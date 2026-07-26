@@ -209,3 +209,92 @@ three-step transaction history in a panel.
 **Full** (the trip workspace) — 22px dot holding a check or clock glyph, 2px
 connector, and three states: `done` (green fill), `active` (green ring, white
 fill), `upcoming` (grey ring, muted label). For the trip's event log.
+
+The `Timeline` component is the full variant, and it takes a fourth state the
+trip workspace did not need: `danger`, for the step where something went wrong —
+a failed capture, a rejected document, a penalty trigger.
+
+---
+
+## Decision surface: panel footer vs. dialog
+
+Every Admin approval queue makes the same choice, and it should be made the same
+way each time.
+
+**The `SidePanel` footer holds the decision.** The reviewer reads the request in
+the panel and acts in the panel — approve, request more information, edit an
+amount. No overlay. The list stays visible behind it, which matters because the
+next item in the queue is the next thing they will do.
+
+**`ConfirmDialog` is only for the irreversible branch.** Reject, suspend,
+delete, release a payout. It is centred, it scrims, it restates what is about to
+happen and to whom, and where a reason is required it **keeps the confirm button
+disabled until the reason has content**.
+
+The split is not stylistic. A dialog on every action trains the operator to
+dismiss dialogs, which is exactly the reflex you do not want on the one action
+that moves money. Reserve the interruption for the things that cannot be undone.
+
+Reason text is mandatory on rejection because it is the only thing the driver or
+company receives. "Rejected" with no reason is a support ticket the platform
+created for itself.
+
+---
+
+## Queue counts are derived, never written down
+
+A sidebar badge that says 12 while the table shows 11 is worse than no badge.
+Counts come from the same state the tables filter, through one selector
+(`useQueueCounts`), so a decision moves the number in the same render as it
+moves the row.
+
+The corollary: seed data has to match. If the fixture file says twelve drivers
+are under review, the badge says 12 because it counted them — not because
+someone typed 12 into the nav config.
+
+---
+
+## Every sensitive action writes to the audit log
+
+`BR-015`. In the UI this is three things, all required:
+
+1. The reducer appends an `AuditEntry` in the same action that mutates — not in
+   the component, so no screen can forget.
+2. The entry carries **before and after values**, the actor, and the reason.
+   `/audit` renders them as a two-column diff; an entry with no before-value is
+   an entry nobody can review.
+3. The UI **says so**. The audit screen carries a banner stating that the log is
+   read-only, and the sidebar footer states that sensitive actions are recorded.
+   Telling operators they are logged is part of the control, not decoration.
+
+`/audit` has no actions on it. Not "no actions yet" — none, ever. An audit trail
+you can edit is not an audit trail.
+
+---
+
+## Charts
+
+There are none, and that is a decision rather than a gap.
+
+The design system defines no axes, no gridlines, no legend, no plotting palette
+and no chart type. Reaching for a chart library means inventing all five on the
+spot, in a product whose whole point is that its surfaces were derived rather
+than improvised — and it drifts the moment a second person adds a second chart.
+
+`BarList` covers what the reports actually need: ranked comparison. Label,
+value, proportional bar, brand green unless a status colour means something.
+When the brand does grow a chart language, it gets designed once and lands here.
+
+---
+
+## Stacked text inside a link
+
+`ListRow`, `KpiTile` and the `PageHeader` account chip all render a title over a
+meta line **inside a single `<a>`**, which means the two lines are `<span>`s —
+block elements are not valid inside an anchor's inline context in the markup
+these were derived from.
+
+So the wrapper must carry `display: flex; flex-direction: column`. Without it
+the spans stay inline and the two lines render as one run of text with no space
+between them — `LW-2026-002948وصلت 5 عروض`. It reads as a data bug rather than a
+CSS one, which is what makes it worth writing down.

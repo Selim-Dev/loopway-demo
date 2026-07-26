@@ -1,8 +1,8 @@
-﻿import type { Metadata } from 'next';
-import { SectionPage } from '@/components/SectionPage';
+import type { Metadata } from 'next';
+import { PaymentsScreen } from './PaymentsScreen';
 
 export const metadata: Metadata = { title: 'الدفع والـ Ledger — LoopWay' };
 
 export default function Page() {
-  return <SectionPage href="/payments" />;
+  return <PaymentsScreen />;
 }

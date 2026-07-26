@@ -1,0 +1,144 @@
+/* ==========================================================================
+   CompatibilityMatrix — NEW.
+
+   SRS M04-E08-F02 names it outright: "مصفوفة التوافق" between cargo types and
+   truck types, with Blocked Combinations and Warning Rules. It is the one
+   genuinely new *layout* the Admin portal needs — everything else in M04 is a
+   table, a form or a queue.
+
+   The three cell states reuse the product's existing tone language exactly:
+   green = متوافق, amber = تحذير, red = ممنوع. No new colours.
+   ========================================================================== */
+
+.wrap {
+  overflow: auto;
+  border: 1px solid var(--lw-border-subtle);
+  border-radius: var(--web-r-inner);
+}
+
+.table {
+  border-collapse: separate;
+  border-spacing: 0;
+  width: 100%;
+  min-width: 720px;
+}
+
+.table th,
+.table td {
+  border-bottom: 1px solid var(--lw-divider-2);
+  border-left: 1px solid var(--lw-divider-2);
+}
+
+/* RTL: the first column is the rightmost, so it keeps no left border of its own. */
+.table tr > *:last-child { border-left: none; }
+.table tbody tr:last-child > * { border-bottom: none; }
+
+.corner {
+  background: var(--lw-bg-subtle);
+  position: sticky;
+  right: 0;
+  z-index: 3;
+  min-width: 170px;
+}
+
+.colHead {
+  background: var(--lw-bg-subtle);
+  padding: 11px 10px;
+  font-size: var(--web-text-micro);
+  font-weight: 700;
+  color: var(--lw-slate-500);
+  text-align: center;
+  white-space: nowrap;
+  position: sticky;
+  top: 0;
+  z-index: 2;
+}
+
+.rowHead {
+  background: #fff;
+  padding: 11px 14px;
+  font-size: var(--web-text-label);
+  font-weight: 700;
+  color: var(--lw-navy-900);
+  text-align: right;
+  white-space: nowrap;
+  position: sticky;
+  right: 0;
+  z-index: 1;
+  min-width: 170px;
+}
+
+.cell {
+  padding: 6px;
+  text-align: center;
+  background: #fff;
+}
+
+.chip {
+  width: 100%;
+  min-width: 74px;
+  height: 32px;
+  border-radius: var(--web-r-tag);
+  border: 1px solid transparent;
+  font-family: var(--font-sans);
+  font-size: var(--web-text-tiny);
+  font-weight: 800;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  transition: filter var(--duration-fast);
+}
+
+.chip:hover { filter: brightness(.97); }
+
+.allowed {
+  background: var(--color-success-bg);
+  color: var(--lw-green-700);
+  border-color: var(--lw-green-200);
+}
+
+.warning {
+  background: var(--color-warning-bg);
+  color: var(--lw-amber-600);
+  border-color: var(--lw-amber-border);
+}
+
+.blocked {
+  background: var(--lw-red-100b);
+  color: var(--lw-red-600);
+  border-color: var(--lw-red-border-b);
+}
+
+.legend {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 12px 2px 0;
+  flex-wrap: wrap;
+}
+
+.legendItem {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: var(--web-text-micro);
+  font-weight: 600;
+  color: var(--lw-slate-600);
+}
+
+.swatch {
+  width: 12px;
+  height: 12px;
+  border-radius: 4px;
+  flex: none;
+}
+
+.hint {
+  font-size: var(--web-text-micro);
+  font-weight: 600;
+  color: var(--lw-slate-500);
+  margin-right: auto;
+  line-height: 1.6;
+}

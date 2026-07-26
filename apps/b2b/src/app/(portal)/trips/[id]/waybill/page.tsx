@@ -1,6 +1,14 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { Icon, PrimaryCta, RouteChips, StatusBadge } from '@loopway/ui';
+import {
+  ActionBar,
+  DetailList,
+  DetailRow,
+  Icon,
+  PrimaryCta,
+  RouteChips,
+  StatusBadge,
+} from '@loopway/ui';
 import { Header } from '@/components/Header';
 import { COMPANY } from '@/mocks/company';
 import { ALL_TRIPS, findTrip } from '@/mocks/trips';
@@ -33,19 +41,14 @@ export default async function WaybillPage({ params }: { params: Promise<{ id: st
     <>
       <Header title="البوليصة الحية" subtitle={`${trip.id} · تتحدّث تلقائياً مع كل حدث في الرحلة`} />
 
-      <div className={styles.actionBar}>
-        <span className={styles.actionBarNote}>
-          هذه أحدث نسخة من البوليصة، وتُعاد صياغتها تلقائياً عند أي تغيير في بيانات الرحلة أو حالتها.
-        </span>
-        <div className={styles.actionBarGroup}>
-          <PrimaryCta size="sm" variant="secondary" href={`/trips/${trip.id}`} linkAs={Link}>
-            العودة إلى الرحلة
-          </PrimaryCta>
-          <PrimaryCta size="sm" icon="download">
-            تنزيل أحدث نسخة (PDF)
-          </PrimaryCta>
-        </div>
-      </div>
+      <ActionBar note="هذه أحدث نسخة من البوليصة، وتُعاد صياغتها تلقائياً عند أي تغيير في بيانات الرحلة أو حالتها.">
+        <PrimaryCta size="sm" variant="secondary" href={`/trips/${trip.id}`} linkAs={Link}>
+          العودة إلى الرحلة
+        </PrimaryCta>
+        <PrimaryCta size="sm" icon="download">
+          تنزيل أحدث نسخة (PDF)
+        </PrimaryCta>
+      </ActionBar>
 
       <div className={`${styles.waybillWrap} lw-scroll`}>
         <article className={styles.waybill}>
@@ -72,54 +75,36 @@ export default async function WaybillPage({ params }: { params: Promise<{ id: st
           <div className={styles.waybillGrid}>
             <div>
               <div className={styles.waybillSectionTitle}>الشاحن</div>
-              <div className={styles.kv}>
-                <span className={styles.kvKey}>الشركة</span>
-                <span className={styles.kvValue}>{COMPANY.companyName}</span>
-              </div>
-              <div className={styles.kv}>
-                <span className={styles.kvKey}>السجل التجاري</span>
-                <span className={styles.kvValue}><span className="lw-ltr">{COMPANY.commercialRegistration}</span></span>
-              </div>
-              <div className={styles.kv}>
-                <span className={styles.kvKey}>الرقم الضريبي</span>
-                <span className={styles.kvValue}><span className="lw-ltr">{COMPANY.vatNumber}</span></span>
-              </div>
+              <DetailList>
+                <DetailRow label="الشركة">{COMPANY.companyName}</DetailRow>
+                <DetailRow label="السجل التجاري">
+                  <span className="lw-ltr">{COMPANY.commercialRegistration}</span>
+                </DetailRow>
+                <DetailRow label="الرقم الضريبي">
+                  <span className="lw-ltr">{COMPANY.vatNumber}</span>
+                </DetailRow>
+              </DetailList>
             </div>
 
             <div>
               <div className={styles.waybillSectionTitle}>الناقل</div>
-              <div className={styles.kv}>
-                <span className={styles.kvKey}>السائق</span>
-                <span className={styles.kvValue}>{trip.driver ? trip.who : '—'}</span>
-              </div>
-              <div className={styles.kv}>
-                <span className={styles.kvKey}>نوع الشاحنة</span>
-                <span className={styles.kvValue}>ستة محاور — سطحة</span>
-              </div>
-              <div className={styles.kv}>
-                <span className={styles.kvKey}>رقم اللوحة</span>
-                <span className={styles.kvValue}><span className="lw-ltr">٤٢٨١ ر ن ب</span></span>
-              </div>
+              <DetailList>
+                <DetailRow label="السائق">{trip.driver ? trip.who : '—'}</DetailRow>
+                <DetailRow label="نوع الشاحنة">ستة محاور — سطحة</DetailRow>
+                <DetailRow label="رقم اللوحة">
+                  <span className="lw-ltr">٤٢٨١ ر ن ب</span>
+                </DetailRow>
+              </DetailList>
             </div>
           </div>
 
           <div className={styles.waybillSectionTitle}>الحمولة</div>
-          <div className={styles.kv}>
-            <span className={styles.kvKey}>الوصف والوزن</span>
-            <span className={styles.kvValue}>{trip.cargo}</span>
-          </div>
-          <div className={styles.kv}>
-            <span className={styles.kvKey}>تاريخ الاستلام</span>
-            <span className={styles.kvValue}>{trip.pickupDate}</span>
-          </div>
-          <div className={styles.kv}>
-            <span className={styles.kvKey}>النطاق</span>
-            <span className={styles.kvValue}>{trip.scope}</span>
-          </div>
-          <div className={styles.kv}>
-            <span className={styles.kvKey}>المرحلة الحالية</span>
-            <span className={styles.kvValue}>{trip.stage}</span>
-          </div>
+          <DetailList>
+            <DetailRow label="الوصف والوزن">{trip.cargo}</DetailRow>
+            <DetailRow label="تاريخ الاستلام">{trip.pickupDate}</DetailRow>
+            <DetailRow label="النطاق">{trip.scope}</DetailRow>
+            <DetailRow label="المرحلة الحالية">{trip.stage}</DetailRow>
+          </DetailList>
 
           <footer className={styles.waybillFoot}>
             <span className={styles.waybillStamp}>

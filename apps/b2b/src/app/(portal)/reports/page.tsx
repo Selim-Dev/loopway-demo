@@ -1,7 +1,6 @@
 import type { Metadata } from 'next';
-import { Icon, PrimaryCta } from '@loopway/ui';
+import { ActionBar, BarList, Grid, ListRow, PageBody, PrimaryCta, Section, Tag } from '@loopway/ui';
 import { Header } from '@/components/Header';
-import styles from '../derived.module.css';
 
 export const metadata: Metadata = { title: 'التقارير — LoopWay' };
 
@@ -15,26 +14,26 @@ export const metadata: Metadata = { title: 'التقارير — LoopWay' };
  */
 
 const BY_STATUS = [
-  { label: 'مكتملة', value: 38, pct: 100, color: 'var(--lw-green-500)' },
-  { label: 'جارية الآن', value: 5, pct: 13, color: 'var(--lw-green-600)' },
-  { label: 'بانتظار العروض', value: 2, pct: 5, color: 'var(--lw-amber-500)' },
-  { label: 'ملغاة', value: 3, pct: 8, color: 'var(--lw-red-500)' },
-  { label: 'منتهية دون عرض', value: 1, pct: 3, color: 'var(--lw-slate-400)' },
+  { label: 'مكتملة', value: '38', percent: 100, color: 'var(--lw-green-500)' },
+  { label: 'جارية الآن', value: '5', percent: 13, color: 'var(--lw-green-600)' },
+  { label: 'بانتظار العروض', value: '2', percent: 5, color: 'var(--lw-amber-500)' },
+  { label: 'ملغاة', value: '3', percent: 8, color: 'var(--lw-red-500)' },
+  { label: 'منتهية دون عرض', value: '1', percent: 3, color: 'var(--lw-slate-400)' },
 ];
 
 const TOP_ROUTES = [
-  { label: 'الرياض ← جدة', value: 12, pct: 100 },
-  { label: 'الدمام ← دبي', value: 9, pct: 75 },
-  { label: 'الرياض ← الدمام', value: 7, pct: 58 },
-  { label: 'جدة ← المدينة', value: 5, pct: 42 },
-  { label: 'الرياض ← الكويت', value: 4, pct: 33 },
+  { label: 'الرياض ← جدة', value: '12', percent: 100, color: 'var(--lw-green-500)' },
+  { label: 'الدمام ← دبي', value: '9', percent: 75, color: 'var(--lw-green-500)' },
+  { label: 'الرياض ← الدمام', value: '7', percent: 58, color: 'var(--lw-green-500)' },
+  { label: 'جدة ← المدينة', value: '5', percent: 42, color: 'var(--lw-green-500)' },
+  { label: 'الرياض ← الكويت', value: '4', percent: 33, color: 'var(--lw-green-500)' },
 ];
 
 const MONTHLY_SPEND = [
-  { label: 'أبريل 2026', value: '18,400', pct: 52 },
-  { label: 'مايو 2026', value: '24,900', pct: 70 },
-  { label: 'يونيو 2026', value: '29,300', pct: 82 },
-  { label: 'يوليو 2026', value: '35,600', pct: 100 },
+  { label: 'أبريل 2026', value: '18,400', percent: 52, color: 'var(--lw-navy-800)' },
+  { label: 'مايو 2026', value: '24,900', percent: 70, color: 'var(--lw-navy-800)' },
+  { label: 'يونيو 2026', value: '29,300', percent: 82, color: 'var(--lw-navy-800)' },
+  { label: 'يوليو 2026', value: '35,600', percent: 100, color: 'var(--lw-navy-800)' },
 ];
 
 const DELAYED = [
@@ -47,102 +46,49 @@ export default function ReportsPage() {
   return (
     <>
       <Header title="التقارير" subtitle="ملخص تشغيلي ومالي مبسّط لرحلات شركتك" />
-      <div className={styles.body}>
-        <div className={styles.actionBar}>
-          <span className={styles.actionBarNote}>الفترة: آخر 4 أشهر · جميع الرحلات</span>
-          <div className={styles.actionBarGroup}>
-            <PrimaryCta size="sm" variant="secondary" icon="download">
-              تصدير التقرير (PDF)
-            </PrimaryCta>
-          </div>
-        </div>
+      <PageBody>
+        <ActionBar note="الفترة: آخر 4 أشهر · جميع الرحلات">
+          <PrimaryCta size="sm" variant="secondary" icon="download">
+            تصدير التقرير (PDF)
+          </PrimaryCta>
+        </ActionBar>
 
-        <div className={styles.grid2}>
-          <section className={styles.section}>
-            <div className={styles.sectionHead}>
-              <span className={styles.sectionTitle}>الرحلات حسب الحالة</span>
-              <span className={styles.sectionSub}>49 رحلة</span>
-            </div>
-            <div className={styles.sectionBody}>
-              <div className={styles.bars}>
-                {BY_STATUS.map((b) => (
-                  <div key={b.label} className={styles.barRow}>
-                    <span className={styles.barLabel}>{b.label}</span>
-                    <span className={styles.barTrack}>
-                      <span className={styles.barFill} style={{ width: `${b.pct}%`, background: b.color }} />
-                    </span>
-                    <span className={styles.barValue}>{b.value}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </section>
+        <Grid cols={2}>
+          <Section title="الرحلات حسب الحالة" subtitle="49 رحلة">
+            <BarList data={BY_STATUS} />
+          </Section>
 
-          <section className={styles.section}>
-            <div className={styles.sectionHead}>
-              <span className={styles.sectionTitle}>الإنفاق الشهري</span>
-              <span className={styles.sectionSub}>بالريال السعودي</span>
-            </div>
-            <div className={styles.sectionBody}>
-              <div className={styles.bars}>
-                {MONTHLY_SPEND.map((b) => (
-                  <div key={b.label} className={styles.barRow}>
-                    <span className={styles.barLabel}>{b.label}</span>
-                    <span className={styles.barTrack}>
-                      <span className={styles.barFill} style={{ width: `${b.pct}%`, background: 'var(--lw-navy-800)' }} />
-                    </span>
-                    <span className={styles.barValue}>{b.value}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </section>
+          <Section title="الإنفاق الشهري" subtitle="بالريال السعودي">
+            <BarList data={MONTHLY_SPEND} />
+          </Section>
 
-          <section className={styles.section}>
-            <div className={styles.sectionHead}>
-              <span className={styles.sectionTitle}>أكثر المسارات تكراراً</span>
-            </div>
-            <div className={styles.sectionBody}>
-              <div className={styles.bars}>
-                {TOP_ROUTES.map((b) => (
-                  <div key={b.label} className={styles.barRow}>
-                    <span className={styles.barLabel}>{b.label}</span>
-                    <span className={styles.barTrack}>
-                      <span className={styles.barFill} style={{ width: `${b.pct}%`, background: 'var(--lw-green-500)' }} />
-                    </span>
-                    <span className={styles.barValue}>{b.value}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </section>
+          <Section title="أكثر المسارات تكراراً">
+            <BarList data={TOP_ROUTES} />
+          </Section>
 
-          <section className={styles.section}>
-            <div className={styles.sectionHead}>
-              <span className={styles.sectionTitle}>الرحلات المتأخرة</span>
-              <span className={styles.sectionSub}>قد ينتج عنها غرامات بعد مراجعة الإدارة</span>
-            </div>
-            <div className={styles.sectionBodyFlush}>
-              {DELAYED.map((d) => (
-                <div key={d.trip} className={styles.row}>
-                  <span className={styles.glyph} style={{ background: 'var(--color-warning-bg)', color: 'var(--lw-amber-600)' }}>
-                    <Icon name="clock" size={18} />
-                  </span>
-                  <div className={styles.rowMain}>
-                    <div className={styles.rowTitle}>
-                      <span className="lw-ltr">{d.trip}</span> · {d.route}
-                    </div>
-                    <div className={styles.rowMeta}>{d.reason}</div>
-                  </div>
-                  <span className={styles.tag}>
+          <Section title="الرحلات المتأخرة" subtitle="قد ينتج عنها غرامات بعد مراجعة الإدارة" flush>
+            {DELAYED.map((d) => (
+              <ListRow
+                key={d.trip}
+                icon="clock"
+                iconBackground="var(--color-warning-bg)"
+                iconColor="var(--lw-amber-600)"
+                title={
+                  <>
+                    <span className="lw-ltr">{d.trip}</span> · {d.route}
+                  </>
+                }
+                meta={d.reason}
+                side={
+                  <Tag>
                     <span className="lw-ltr">{d.delay}</span>
-                  </span>
-                </div>
-              ))}
-            </div>
-          </section>
-        </div>
-      </div>
+                  </Tag>
+                }
+              />
+            ))}
+          </Section>
+        </Grid>
+      </PageBody>
     </>
   );
 }

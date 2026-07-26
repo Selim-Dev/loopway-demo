@@ -1,134 +1,123 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { AvatarInitial, Icon, PrimaryCta, StatusBadge } from '@loopway/ui';
+import {
+  AvatarInitial,
+  DetailList,
+  DetailRow,
+  Icon,
+  InlineLink,
+  ListRow,
+  PageBody,
+  PrimaryCta,
+  Section,
+  Split,
+  StatusBadge,
+} from '@loopway/ui';
 import { Header } from '@/components/Header';
 import { BROKERS, COMPANY, SAVED_LOCATIONS } from '@/mocks/company';
 import { COMPANY_DOCUMENTS } from '@/mocks/workspace';
-import styles from '../derived.module.css';
 import { AccountTabs } from './AccountTabs';
 
 export const metadata: Metadata = { title: 'الملف الشخصي — LoopWay' };
+
+const CHEVRON = <Icon name="chevronLeft" size={16} style={{ color: 'var(--lw-slate-300)' }} />;
 
 /** DERIVED, NOT DESIGNED — SRS M03-E01-F02 overview. */
 export default function AccountPage() {
   return (
     <>
       <Header title="الملف الشخصي وإعدادات البروكر" subtitle="بيانات الشركة والوثائق والمواقع والمخلّصين الجمركيين" />
-      <div className={styles.body}>
+      <PageBody>
         <AccountTabs />
 
-        <div className={styles.split}>
-          <section className={styles.section}>
-            <div className={styles.sectionHead}>
-              <span className={styles.sectionTitle}>حساب الشركة</span>
-              <Link href="/account/company" className={styles.link}>
+        <Split>
+          <Section
+            title="حساب الشركة"
+            action={
+              <InlineLink href="/account/company" linkAs={Link}>
                 تعديل البيانات
-              </Link>
-            </div>
-            <div className={styles.sectionBody}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 18 }}>
-                <AvatarInitial initial={COMPANY.initial} size={52} fontSize={20} />
-                <div>
-                  <div style={{ fontSize: 17, fontWeight: 800, color: 'var(--lw-navy-900)' }}>{COMPANY.companyName}</div>
-                  <div className={styles.rowMeta}>
-                    <span className="lw-ltr">{COMPANY.accountId}</span> · {COMPANY.planName}
-                  </div>
+              </InlineLink>
+            }
+          >
+            <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 18 }}>
+              <AvatarInitial initial={COMPANY.initial} size={52} fontSize={20} />
+              <div>
+                <div style={{ fontSize: 17, fontWeight: 800, color: 'var(--lw-navy-900)' }}>{COMPANY.companyName}</div>
+                <div style={{ fontSize: 'var(--web-text-micro)', fontWeight: 600, color: 'var(--lw-slate-500)', marginTop: 3 }}>
+                  <span className="lw-ltr">{COMPANY.accountId}</span> · {COMPANY.planName}
                 </div>
               </div>
-
-              <div className={styles.kv}>
-                <span className={styles.kvKey}>المفوّض بالتواصل</span>
-                <span className={styles.kvValue}>{COMPANY.authorizedContact}</span>
-              </div>
-              <div className={styles.kv}>
-                <span className={styles.kvKey}>السجل التجاري</span>
-                <span className={styles.kvValue}><span className="lw-ltr">{COMPANY.commercialRegistration}</span></span>
-              </div>
-              <div className={styles.kv}>
-                <span className={styles.kvKey}>الرقم الضريبي</span>
-                <span className={styles.kvValue}><span className="lw-ltr">{COMPANY.vatNumber}</span></span>
-              </div>
-              <div className={styles.kv}>
-                <span className={styles.kvKey}>العنوان الوطني</span>
-                <span className={styles.kvValue}>{COMPANY.nationalAddress}</span>
-              </div>
-              <div className={styles.kv}>
-                <span className={styles.kvKey}>الحد الأقصى للرحلات المتزامنة</span>
-                <span className={styles.kvValue}><span className="lw-ltr">{COMPANY.maxConcurrent}</span> رحلات</span>
-              </div>
             </div>
-          </section>
+
+            <DetailList>
+              <DetailRow label="المفوّض بالتواصل">{COMPANY.authorizedContact}</DetailRow>
+              <DetailRow label="السجل التجاري">
+                <span className="lw-ltr">{COMPANY.commercialRegistration}</span>
+              </DetailRow>
+              <DetailRow label="الرقم الضريبي">
+                <span className="lw-ltr">{COMPANY.vatNumber}</span>
+              </DetailRow>
+              <DetailRow label="العنوان الوطني">{COMPANY.nationalAddress}</DetailRow>
+              <DetailRow label="الحد الأقصى للرحلات المتزامنة">
+                <span className="lw-ltr">{COMPANY.maxConcurrent}</span> رحلات
+              </DetailRow>
+            </DetailList>
+          </Section>
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
-            <section className={styles.section}>
-              <div className={styles.sectionHead}>
-                <span className={styles.sectionTitle}>وثائق الشركة</span>
-                <Link href="/account/documents" className={styles.link}>
+            <Section
+              title="وثائق الشركة"
+              flush
+              action={
+                <InlineLink href="/account/documents" linkAs={Link}>
                   عرض الأرشيف
-                </Link>
-              </div>
-              <div className={styles.sectionBodyFlush}>
-                {COMPANY_DOCUMENTS.map((d) => (
-                  <div key={d.id} className={styles.row}>
-                    <span className={styles.glyph}>
-                      <Icon name="document" size={18} />
-                    </span>
-                    <div className={styles.rowMain}>
-                      <div className={styles.rowTitle}>{d.documentType}</div>
-                      <div className={styles.rowMeta}>
-                        {d.expiryDate ? `تنتهي في ${d.expiryDate}` : `رُفعت في ${d.uploadedAt}`}
-                      </div>
-                    </div>
-                    <StatusBadge tone="success">معتمدة</StatusBadge>
-                  </div>
-                ))}
-              </div>
-            </section>
+                </InlineLink>
+              }
+            >
+              {COMPANY_DOCUMENTS.map((d) => (
+                <ListRow
+                  key={d.id}
+                  icon="document"
+                  title={d.documentType}
+                  meta={d.expiryDate ? `تنتهي في ${d.expiryDate}` : `رُفعت في ${d.uploadedAt}`}
+                  side={<StatusBadge tone="success">معتمدة</StatusBadge>}
+                />
+              ))}
+            </Section>
 
-            <section className={styles.section}>
-              <div className={styles.sectionHead}>
-                <span className={styles.sectionTitle}>اختصارات</span>
-              </div>
-              <div className={styles.sectionBodyFlush}>
-                <Link href="/account/brokers" className={`${styles.row} ${styles.rowHover}`}>
-                  <span className={styles.glyph}>
-                    <Icon name="user" size={18} />
-                  </span>
-                  <div className={styles.rowMain}>
-                    <div className={styles.rowTitle}>البروكرز المحفوظين</div>
-                    <div className={styles.rowMeta}>{BROKERS.length} مخلّصون جمركيون</div>
-                  </div>
-                  <Icon name="chevronLeft" size={16} style={{ color: 'var(--lw-slate-300)' }} />
-                </Link>
-                <Link href="/account/locations" className={`${styles.row} ${styles.rowHover}`}>
-                  <span className={styles.glyph}>
-                    <Icon name="home" size={18} />
-                  </span>
-                  <div className={styles.rowMain}>
-                    <div className={styles.rowTitle}>المواقع المحفوظة</div>
-                    <div className={styles.rowMeta}>{SAVED_LOCATIONS.length} مستودعات وموانئ</div>
-                  </div>
-                  <Icon name="chevronLeft" size={16} style={{ color: 'var(--lw-slate-300)' }} />
-                </Link>
-                <Link href="/settings" className={`${styles.row} ${styles.rowHover}`}>
-                  <span className={styles.glyph}>
-                    <Icon name="gear" size={18} />
-                  </span>
-                  <div className={styles.rowMain}>
-                    <div className={styles.rowTitle}>الإعدادات والباقة</div>
-                    <div className={styles.rowMeta}>{COMPANY.planName}</div>
-                  </div>
-                  <Icon name="chevronLeft" size={16} style={{ color: 'var(--lw-slate-300)' }} />
-                </Link>
-              </div>
-            </section>
+            <Section title="اختصارات" flush>
+              <ListRow
+                href="/account/brokers"
+                linkAs={Link}
+                icon="user"
+                title="البروكرز المحفوظين"
+                meta={`${BROKERS.length} مخلّصون جمركيون`}
+                side={CHEVRON}
+              />
+              <ListRow
+                href="/account/locations"
+                linkAs={Link}
+                icon="home"
+                title="المواقع المحفوظة"
+                meta={`${SAVED_LOCATIONS.length} مستودعات وموانئ`}
+                side={CHEVRON}
+              />
+              <ListRow
+                href="/settings"
+                linkAs={Link}
+                icon="gear"
+                title="الإعدادات والباقة"
+                meta={COMPANY.planName}
+                side={CHEVRON}
+              />
+            </Section>
 
             <PrimaryCta size="sm" variant="secondary" href="/login" linkAs={Link}>
               تسجيل الخروج
             </PrimaryCta>
           </div>
-        </div>
-      </div>
+        </Split>
+      </PageBody>
     </>
   );
 }

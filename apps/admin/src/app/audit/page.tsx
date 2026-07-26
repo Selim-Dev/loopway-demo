@@ -1,8 +1,8 @@
-﻿import type { Metadata } from 'next';
-import { SectionPage } from '@/components/SectionPage';
+import type { Metadata } from 'next';
+import { AuditScreen } from './AuditScreen';
 
 export const metadata: Metadata = { title: 'Audit Log — LoopWay' };
 
 export default function Page() {
-  return <SectionPage href="/audit" />;
+  return <AuditScreen />;
 }

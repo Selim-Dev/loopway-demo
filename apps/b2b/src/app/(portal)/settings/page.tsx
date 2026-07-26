@@ -1,10 +1,21 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { AlertBanner, Icon, PrimaryCta, ProgressBar, StatusBadge } from '@loopway/ui';
+import {
+  AlertBanner,
+  DetailList,
+  DetailRow,
+  ListRow,
+  Muted,
+  PageBody,
+  PrimaryCta,
+  ProgressBar,
+  Section,
+  Split,
+  StatusBadge,
+} from '@loopway/ui';
 import { Header } from '@/components/Header';
 import { COMPANY } from '@/mocks/company';
 import { LIVE_TRIPS, OFFER_TRIPS } from '@/mocks/trips';
-import styles from '../derived.module.css';
 
 export const metadata: Metadata = { title: 'الإعدادات — LoopWay' };
 
@@ -23,88 +34,70 @@ export default function SettingsPage() {
   return (
     <>
       <Header title="الإعدادات" subtitle="الباقة والتنبيهات وإعدادات الحساب" />
-      <div className={styles.body}>
-        <div className={styles.split}>
-          <section className={styles.section}>
-            <div className={styles.sectionHead}>
-              <div>
-                <div className={styles.sectionTitle}>{COMPANY.planName}</div>
-                <div className={styles.sectionSub}>إدارة عدة رحلات متزامنة حسب حد باقتك</div>
-              </div>
-              <StatusBadge tone="success">نشطة</StatusBadge>
-            </div>
-            <div className={styles.sectionBody}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 8 }}>
-                <span className={styles.kvKey}>الرحلات المتزامنة المستخدمة</span>
-                <span className={styles.kvValue}>
-                  <span className="lw-ltr">
-                    {used} / {COMPANY.maxConcurrent}
-                  </span>
+      <PageBody>
+        <Split>
+          <Section
+            title={COMPANY.planName}
+            subtitle="إدارة عدة رحلات متزامنة حسب حد باقتك"
+            action={<StatusBadge tone="success">نشطة</StatusBadge>}
+          >
+            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 8 }}>
+              <span style={{ fontSize: 'var(--web-text-label)', fontWeight: 600, color: 'var(--lw-slate-500)' }}>
+                الرحلات المتزامنة المستخدمة
+              </span>
+              <span style={{ fontSize: 'var(--web-text-meta)', fontWeight: 700, color: 'var(--lw-navy-900)' }}>
+                <span className="lw-ltr">
+                  {used} / {COMPANY.maxConcurrent}
                 </span>
-              </div>
-              <ProgressBar percent={pct} label="استهلاك حد الباقة" />
-
-              {used >= COMPANY.maxConcurrent ? (
-                <div style={{ marginTop: 16 }}>
-                  <AlertBanner tone="warning">
-                    لقد وصلت إلى الحد الأقصى للرحلات الحالية المسموح به في باقتك
-                  </AlertBanner>
-                </div>
-              ) : null}
-
-              <div className={styles.kv} style={{ marginTop: 16 }}>
-                <span className={styles.kvKey}>تاريخ التجديد</span>
-                <span className={styles.kvValue}>1 أغسطس 2026</span>
-              </div>
-              <div className={styles.kv}>
-                <span className={styles.kvKey}>طريقة الدفع</span>
-                <span className={styles.kvValue}>محفظة LoopWay</span>
-              </div>
-
-              <div style={{ marginTop: 16, display: 'flex', gap: 8 }}>
-                <PrimaryCta size="sm">ترقية الباقة</PrimaryCta>
-                <PrimaryCta size="sm" variant="secondary" href="/finance" linkAs={Link}>
-                  سجل المدفوعات
-                </PrimaryCta>
-              </div>
+              </span>
             </div>
-          </section>
+            <ProgressBar percent={pct} label="استهلاك حد الباقة" />
+
+            {used >= COMPANY.maxConcurrent ? (
+              <div style={{ marginTop: 16 }}>
+                <AlertBanner tone="warning">
+                  لقد وصلت إلى الحد الأقصى للرحلات الحالية المسموح به في باقتك
+                </AlertBanner>
+              </div>
+            ) : null}
+
+            <div style={{ marginTop: 16 }}>
+              <DetailList>
+                <DetailRow label="تاريخ التجديد">1 أغسطس 2026</DetailRow>
+                <DetailRow label="طريقة الدفع">محفظة LoopWay</DetailRow>
+              </DetailList>
+            </div>
+
+            <div style={{ marginTop: 16, display: 'flex', gap: 8 }}>
+              <PrimaryCta size="sm">ترقية الباقة</PrimaryCta>
+              <PrimaryCta size="sm" variant="secondary" href="/finance" linkAs={Link}>
+                سجل المدفوعات
+              </PrimaryCta>
+            </div>
+          </Section>
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
-            <section className={styles.section}>
-              <div className={styles.sectionHead}>
-                <span className={styles.sectionTitle}>التنبيهات</span>
-              </div>
-              <div className={styles.sectionBodyFlush}>
-                {NOTIFICATION_PREFS.map((p) => (
-                  <div key={p.label} className={styles.row}>
-                    <span className={styles.glyph}>
-                      <Icon name="bell" size={18} />
-                    </span>
-                    <div className={styles.rowMain}>
-                      <div className={styles.rowTitle}>{p.label}</div>
-                      <div className={styles.rowMeta}>{p.body}</div>
-                    </div>
-                    <StatusBadge tone="success">مفعّلة</StatusBadge>
-                  </div>
-                ))}
-              </div>
-            </section>
+            <Section title="التنبيهات" flush>
+              {NOTIFICATION_PREFS.map((p) => (
+                <ListRow
+                  key={p.label}
+                  icon="bell"
+                  title={p.label}
+                  meta={p.body}
+                  side={<StatusBadge tone="success">مفعّلة</StatusBadge>}
+                />
+              ))}
+            </Section>
 
-            <section className={styles.section}>
-              <div className={styles.sectionHead}>
-                <span className={styles.sectionTitle}>المستخدمون</span>
-              </div>
-              <div className={styles.sectionBody}>
-                <div className={styles.muted}>
-                  يعمل حساب الشركة برقم جوال واحد للمفوّض في هذه النسخة. الصلاحيات المتعددة داخل الشركة خارج نطاق الإصدار
-                  الحالي وستُضاف لاحقاً.
-                </div>
-              </div>
-            </section>
+            <Section title="المستخدمون">
+              <Muted>
+                يعمل حساب الشركة برقم جوال واحد للمفوّض في هذه النسخة. الصلاحيات المتعددة داخل الشركة خارج نطاق الإصدار
+                الحالي وستُضاف لاحقاً.
+              </Muted>
+            </Section>
           </div>
-        </div>
-      </div>
+        </Split>
+      </PageBody>
     </>
   );
 }
