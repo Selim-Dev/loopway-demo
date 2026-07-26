@@ -90,7 +90,7 @@ and the patterns that section should reuse.
 | Group | Route | Section | SRS |
 |---|---|---|---|
 | — | `/` | الصفحة الرئيسية التشغيلية | `M04-E01` |
-| — | `/shipments` | إدارة الشحنات | `M04-E02` |
+| — | `/shipments` | إدارة الرحلات | `M04-E02` |
 | الاعتماد والمراجعة | `/drivers` | اعتماد السائقين | `M04-E03` |
 | | `/trucks` | اعتماد الشاحنات | `M04-E04` |
 | | `/documents` | مراجعة الوثائق والتصاريح | `M04-E06` |

@@ -243,14 +243,18 @@ created for itself.
 
 ## Queue counts are derived, never written down
 
-A sidebar badge that says 12 while the table shows 11 is worse than no badge.
-Counts come from the same state the tables filter, through one selector
-(`useQueueCounts`), so a decision moves the number in the same render as it
-moves the row.
+A count that says 12 while the table shows 11 is worse than no count. They come
+from the same state the tables filter, through one selector (`useQueueCounts`),
+so a decision moves the number in the same render as it moves the row.
 
 The corollary: seed data has to match. If the fixture file says twelve drivers
-are under review, the badge says 12 because it counted them — not because
-someone typed 12 into the nav config.
+are under review, the tile says 12 because it counted them — not because
+someone typed 12 into a config.
+
+**Where they belong:** the dashboard KPI tiles and each queue's filter-bar
+status tabs — next to the work, where the operator is already looking. The
+Admin sidebar deliberately carries none: nav is for getting somewhere, and a
+column of badges competing for attention is not a priority signal, it is noise.
 
 ---
 

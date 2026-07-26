@@ -31,7 +31,7 @@ export const ADMIN_SECTIONS: AdminSection[] = [
   {
     srs: 'M04-E02',
     href: '/shipments',
-    label: 'إدارة الشحنات',
+    label: 'إدارة الرحلات',
     purpose: 'قائمة كل الشحنات مع فلاتر وتفاصيل تشغيلية كاملة لكل شحنة.',
     patterns: ['FilterBar', 'DataTable', 'SidePanel', 'Five view states'],
   },
@@ -141,20 +141,27 @@ export const ADMIN_SECTIONS: AdminSection[] = [
   },
 ];
 
+/**
+ * No `count` on any item — the sidebar carries destinations only. Queue depth
+ * still shows where a decision is actually taken: the home dashboard's KPI
+ * tiles and each queue's own filter-bar tabs.
+ */
 export const ADMIN_GROUPS: SidebarGroup[] = [
   {
     items: [
       { label: 'الصفحة الرئيسية', icon: 'home', href: '/' },
-      { label: 'إدارة الشحنات', icon: 'truck', href: '/shipments' },
+      { label: 'إدارة الرحلات', icon: 'truck', href: '/shipments' },
     ],
   },
   {
     label: 'الاعتماد والمراجعة',
     items: [
-      { label: 'اعتماد السائقين', icon: 'user', href: '/drivers', count: 12 },
-      { label: 'اعتماد الشاحنات', icon: 'truck', href: '/trucks', count: 7 },
-      { label: 'الوثائق والتصاريح', icon: 'document', href: '/documents', count: 23 },
-      { label: 'مراجعة الغرامات', icon: 'warning', href: '/penalties', count: 4 },
+      { label: 'اعتماد السائقين', icon: 'user', href: '/drivers' },
+      // Hidden from the sidebar on request. The route, the screen and the
+      // approval queue all still work — only the nav entry is out.
+      // { label: 'اعتماد الشاحنات', icon: 'truck', href: '/trucks' },
+      { label: 'الوثائق والتصاريح', icon: 'document', href: '/documents' },
+      { label: 'مراجعة الغرامات', icon: 'warning', href: '/penalties' },
     ],
   },
   {
@@ -162,7 +169,7 @@ export const ADMIN_GROUPS: SidebarGroup[] = [
     items: [
       { label: 'العملاء والشركات', icon: 'user', href: '/customers' },
       { label: 'الدفع والـ Ledger', icon: 'card', href: '/payments' },
-      { label: 'Payout Management', icon: 'arrowOut', href: '/payouts', count: 9 },
+      { label: 'Payout Management', icon: 'arrowOut', href: '/payouts' },
     ],
   },
   {
@@ -177,7 +184,7 @@ export const ADMIN_GROUPS: SidebarGroup[] = [
   {
     label: 'التشغيل',
     items: [
-      { label: 'الدعم والاستثناءات', icon: 'support', href: '/support', count: 6 },
+      { label: 'الدعم والاستثناءات', icon: 'support', href: '/support' },
       { label: 'التقارير', icon: 'list', href: '/reports' },
       { label: 'Audit Log', icon: 'clock', href: '/audit' },
     ],

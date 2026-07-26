@@ -22,8 +22,8 @@ Then find your section in the table below.
 **All sixteen sections are built.** `apps/admin` is a complete UI, not a
 scaffold:
 
-- `SidebarShell` + `NavSidebar` — the navy labelled sidebar, all 16 sections
-  registered and grouped, with **derived** queue counts.
+- `SidebarShell` + `NavSidebar` — the navy labelled sidebar. Destinations only:
+  it carries **no queue badges**. Counts live where the decision is taken.
 - `PageHeader` — same 66px chrome as B2B, with the admin identity.
 - `src/mocks/` — fixtures for every table, sized so pagination is real and
   cross-referenced with the B2B fixtures: the same `LW-2026-…` and `TXN-2026-…`
@@ -31,7 +31,8 @@ scaffold:
   product.
 - `src/store/AdminStore.tsx` — React context + reducer holding a mutable copy of
   the fixtures. Decisions actually take effect for the session: approving a
-  driver removes the row, drops the sidebar badge and appends an audit entry.
+  driver removes the row, drops the dashboard KPI tile and the queue's tab
+  count, and appends an audit entry.
   State resets on reload. Still no backend, no fetch, no env vars.
 - Every screen wires all five view states through the `حالة العرض` control in
   its `PaginationBar`.
@@ -58,9 +59,14 @@ cannot save you from.
 fixtures live in July 2026; a real clock would file every decision two months
 before the records it acts on and the audit log would read backwards.
 
-**Queue counts are derived** through `useQueueCounts()`, never written into
-`ADMIN_GROUPS`. See "Queue counts are derived" in
-[07-patterns.md](07-patterns.md).
+**Queue counts are derived** through `useQueueCounts()` — never typed in. They
+surface on the dashboard KPI tiles and each queue's filter-bar tabs, not on the
+sidebar. See "Queue counts are derived" in [07-patterns.md](07-patterns.md).
+
+**`اعتماد الشاحنات` is commented out of `ADMIN_GROUPS`,** not deleted. The
+`/trucks` route, its screen and its approval queue all still work — only the nav
+entry is hidden. Uncomment the one line in
+`apps/admin/src/config/sections.ts` to bring it back.
 
 ---
 
@@ -82,7 +88,7 @@ sidebar already speaks.
 | Section | Reuse | New work | Built at |
 |---|---|---|---|
 | `M04-E01` الرئيسية التشغيلية | KPI tiles, decision-queue rows, `AlertBanner` | figures derived live from the store | `apps/admin/src/app/AdminHome.tsx` |
-| `M04-E02` إدارة الشحنات | `FilterBar` · `DataTable` · `SidePanel` · **all five view states** | admin-only filters (customer, driver, admin status); the workspace mirrors `/trips/[id]` with intervention actions | `apps/admin/src/app/shipments/ShipmentsScreen.tsx` |
+| `M04-E02` إدارة الرحلات | `FilterBar` · `DataTable` · `SidePanel` · **all five view states** | admin-only filters (customer, driver, admin status); the workspace mirrors `/trips/[id]` with intervention actions | `apps/admin/src/app/shipments/ShipmentsScreen.tsx` |
 | `M04-E03` اعتماد السائقين | approval-queue pattern (below) · `StatusBadge` · document rows | side-by-side document viewer; reject-with-reason dialog | `apps/admin/src/app/drivers/DriversScreen.tsx` |
 | `M04-E04` اعتماد الشاحنات | identical to E03 | truck-photo grid; expiry tracking for استمارة / تأمين | `apps/admin/src/app/trucks/TrucksScreen.tsx` |
 | `M04-E05` العملاء والشركات | `TabGroup` (أفراد / شركات) · `DataTable` · `SidePanel` | per-account tabs: وثائق / شحنات / مدفوعات | `apps/admin/src/app/customers/CustomersScreen.tsx` |
@@ -116,7 +122,8 @@ SidePanel   full record, documents, decision footer
 Rules:
 - **Rejecting always requires a reason.** No silent rejects.
 - The decision footer is a `SidePanel` footer, not a floating bar.
-- Queue depth belongs on the sidebar item as a `count`.
+- Queue depth belongs on the filter-bar status tabs and the dashboard KPI tile.
+  Not on the sidebar — that carries destinations only.
 - Every decision writes to the Audit Log (`BR-015`) — say so in the UI.
 - All five view states, same as B2B.
 
@@ -187,6 +194,6 @@ add such a button because it seems convenient.
 - [ ] New components exported from `packages/ui` and documented in
       [06-components.md](06-components.md)
 - [ ] Screen renders correctly at 1480×1020 with no horizontal body scroll
-- [ ] Any decision the screen takes moves the sidebar count **and** appends an
-      audit entry — check `/audit` after using it
+- [ ] Any decision the screen takes moves its tab count and the dashboard tile,
+      **and** appends an audit entry — check `/audit` after using it
 - [ ] `npm run build` and `npm run typecheck` clean

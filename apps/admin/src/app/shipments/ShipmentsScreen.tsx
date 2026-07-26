@@ -43,7 +43,7 @@ import { ADMIN_SHIPMENTS } from '@/mocks/operations';
 import { useAdminStore } from '@/store/AdminStore';
 
 /**
- * إدارة الشحنات — SRS M04-E02.
+ * إدارة الرحلات — SRS M04-E02.
  *
  * Admin sees what the B2B portal deliberately does not: who the customer is,
  * which driver took it, the payment state, and whether a penalty or case is
@@ -117,7 +117,7 @@ export function ShipmentsScreen() {
 
   return (
     <>
-      <AdminHeader title="إدارة الشحنات" subtitle="كل الشحنات على مستوى المنصة مع فلاتر وتفاصيل تشغيلية كاملة" />
+      <AdminHeader title="إدارة الرحلات" subtitle="كل الشحنات على مستوى المنصة مع فلاتر وتفاصيل تشغيلية كاملة" />
 
       <FilterBar>
         <ContentTabs
