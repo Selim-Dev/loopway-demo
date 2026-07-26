@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 import styles from './NavSidebar.module.css';
-import { Icon, LoopwayMark, type IconName } from '../icons/Icon';
+import { Icon, type IconName } from '../icons/Icon';
 
 export interface SidebarItem {
   label: string;
@@ -24,6 +24,8 @@ export interface NavSidebarProps {
   /** Line under the LoopWay wordmark, e.g. "لوحة الإدارة". */
   subtitle: string;
   footer?: { title: string; body: string };
+  /** Brand mark served from the app's `public/`. */
+  logoSrc?: string;
 }
 
 function isActive(pathname: string, href: string) {
@@ -35,15 +37,22 @@ function isActive(pathname: string, href: string) {
  * Labelled navy sidebar. Use it when a surface has too many destinations for
  * the 78px icon rail — see NavSidebar.module.css for provenance.
  */
-export function NavSidebar({ groups, pathname, subtitle, footer, linkAs }: NavSidebarProps & { linkAs?: React.ElementType }) {
+export function NavSidebar({
+  groups,
+  pathname,
+  subtitle,
+  footer,
+  logoSrc = '/loopway-logo.png',
+  linkAs,
+}: NavSidebarProps & { linkAs?: React.ElementType }) {
   const Link = (linkAs ?? 'a') as React.ElementType;
 
   return (
     <aside className={styles.sidebar}>
       <div className={styles.brand}>
-        <span className={styles.brandTile}>
-          <LoopwayMark width={26} color="#fff" />
-        </span>
+        {/* The mark carries its own navy and green, so it sits on the navy
+            directly rather than inside the green tile the vector needed. */}
+        <img src={logoSrc} alt="" className={styles.brandLogo} />
         <div>
           <div className={styles.brandName}>LoopWay</div>
           <div className={styles.brandSub}>{subtitle}</div>

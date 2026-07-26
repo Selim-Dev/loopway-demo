@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 import styles from './IconRail.module.css';
-import { Icon, LoopwayMark, type IconName } from '../icons/Icon';
+import { Icon, type IconName } from '../icons/Icon';
 
 export interface RailItem {
   /** Tooltip + accessible name. Arabic, as designed. */
@@ -20,6 +20,8 @@ export interface IconRailProps {
   /** Single Arabic letter for the account tile. */
   avatarInitial: string;
   settingsHref?: string;
+  /** Brand mark served from the app's `public/`. */
+  logoSrc?: string;
   /** Injected so the package stays router-agnostic (Next `Link`, `<a>`, …). */
   linkAs?: React.ElementType;
 }
@@ -41,6 +43,7 @@ export function IconRail({
   pathname,
   avatarInitial,
   settingsHref = '/settings',
+  logoSrc = '/loopway-logo.png',
   linkAs,
 }: IconRailProps) {
   const Link = (linkAs ?? 'a') as React.ElementType;
@@ -49,7 +52,7 @@ export function IconRail({
   return (
     <aside className={styles.rail}>
       <div className={styles.brand}>
-        <LoopwayMark width={52} />
+        <img src={logoSrc} alt="LoopWay" className={styles.brandLogo} />
       </div>
 
       <nav className={styles.nav}>

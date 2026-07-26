@@ -58,16 +58,19 @@
   flex: none;
 }
 
-.brandTile {
-  width: 38px;
-  height: 38px;
+/* The brand PNG is a wide mark (~1.85:1). Height-constrain it and let the
+   width follow, so swapping the asset never reflows the wordmark beside it.
+   Half the mark is navy, which disappears against the navy sidebar — hence the
+   light plate. It reuses the chip radius the old green brand tile had. */
+.brandLogo {
+  height: 30px;
+  width: auto;
   flex: none;
+  display: block;
+  padding: 4px 6px;
   border-radius: var(--web-r-chip);
-  background: var(--lw-green-500);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #fff;
+  background: #fff;
+  box-sizing: content-box;
 }
 
 .brandName {

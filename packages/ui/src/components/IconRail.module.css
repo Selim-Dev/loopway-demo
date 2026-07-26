@@ -21,6 +21,14 @@
   justify-content: center;
 }
 
+/* Width-constrained here, not height: the 78px rail is the narrow dimension,
+   so the mark's width is what has to fit. */
+.brandLogo {
+  width: 52px;
+  height: auto;
+  display: block;
+}
+
 .nav {
   display: flex;
   flex-direction: column;
