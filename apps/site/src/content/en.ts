@@ -10,7 +10,7 @@ export const en: Dictionary = {
   meta: {
     title: 'LoopWay — land freight for Saudi Arabia and the Gulf',
     description:
-      'A land-freight marketplace connecting shippers and companies with vetted drivers. Fixed price or open tender, and funds held until delivery is confirmed.',
+      'A land-freight marketplace connecting shippers and companies with vetted drivers. Post a shipment, receive bids from drivers, and funds stay held until delivery is confirmed.',
   },
 
   nav: {
@@ -29,12 +29,13 @@ export const en: Dictionary = {
   hero: {
     eyebrow: 'Land freight · domestic and cross-border',
     titleLines: ['Your shipment moves', 'in a straight line', 'from request to delivery'],
-    lead: 'You post the shipment, a vetted driver bids, and the amount is held in your wallet. It is released only once delivery is confirmed. One connected route, and one live link every party can follow.',
+    lead: 'You post the shipment, vetted drivers compete for it, and you pick the offer that suits you. The amount is held in your wallet and released only once delivery is confirmed.',
     ctaPrimary: 'Open the company portal',
     ctaSecondary: 'See how it works',
     liveCaption: 'This is not a screenshot. The components above are the product itself, and the timer is running now.',
     productLanguageNote: 'The panels stay in Arabic because the product is Arabic-first — this is the real interface, not a translation of it.',
     tripLabel: 'Live shipment',
+    walletLabel: 'Funds held until delivery',
   },
 
   proof: {
@@ -52,10 +53,10 @@ export const en: Dictionary = {
     lead: 'Every stage has a known state, a recorded time and a file holding its documents. There is no gap where someone has to ask where the shipment is.',
     stages: [
       { short: 'Sign up', title: 'Register and sign in', body: 'Mobile number and verification, then complete the account.' },
-      { short: 'Post', title: 'Create the shipment', body: 'Locations, cargo, truck type, documents and pricing mode.' },
+      { short: 'Post', title: 'Create the shipment', body: 'Locations, cargo, truck type and the documents required.' },
       { short: 'Publish', title: 'Publish the request', body: 'It reaches drivers matched on location, truck and permits.' },
-      { short: 'Offers', title: 'Offers or acceptance', body: 'On a fixed price the driver accepts or declines. On a tender they bid once.' },
-      { short: 'Select', title: 'Choose the driver', body: 'Your choice holds the driver and starts the payment window.' },
+      { short: 'Offers', title: 'Driver offers', body: 'Every qualified driver submits one bid for your shipment.' },
+      { short: 'Select', title: 'Choose an offer', body: 'You compare the bids and pick one; that holds the driver and starts the payment window.' },
       { short: 'Pay', title: 'Payment', body: 'From the wallet or directly. The amount is held, not transferred.' },
       { short: 'Prepare', title: 'Prepare for pickup', body: 'Driver details, required permits, and a broker where one is needed.' },
       { short: 'Execute', title: 'Execution and tracking', body: 'The driver records loading, road, border and unloading as they happen.' },
@@ -72,9 +73,9 @@ export const en: Dictionary = {
       {
         rule: 'BR-001',
         eyebrow: 'Pricing',
-        title: 'We do not suggest a price',
-        body: 'The platform shows no reference or estimated price before drivers bid. You set a fixed price, or open a tender and the price comes from the driver. Fees, commission and VAT are itemised at payment.',
-        points: ['A fixed price you set', 'Or an open tender, one bid per driver', 'Full fee breakdown before you pay'],
+        title: 'The price comes from drivers, not from us',
+        body: 'The platform shows no reference, estimate or suggestion. You post the shipment, qualified drivers compete for it with their own bids, and you compare those bids as they arrived. Fees, commission and VAT are itemised at payment.',
+        points: ['One bid per driver', 'Compare offers with no platform-weighted ranking', 'Full fee breakdown before you pay'],
       },
       {
         rule: 'BR-011',
@@ -118,7 +119,7 @@ export const en: Dictionary = {
     title: 'Rules written into the product, not into a terms page',
     lead: 'These are not marketing promises. Each is a constraint built into the system and observable on any screen.',
     cards: [
-      { code: 'BR-001', title: 'No reference price', body: 'The system shows no estimate before offers. The price comes from you or from the driver.' },
+      { code: 'BR-001', title: 'No reference price', body: 'The system shows no estimate and no suggestion. The price comes from driver bids alone.' },
       { code: 'BR-011', title: 'Delivery closes the trip', body: 'No shipment closes without proof of delivery. There is no button that bypasses it.' },
       { code: 'BR-012', title: 'Penalties are reviewed first', body: 'A penalty stays potential until an admin approves it. Nothing is charged automatically.' },
       { code: 'BR-015', title: 'Every action is logged', body: 'Each sensitive decision is written to the audit log with actor, time, and the value before and after.' },

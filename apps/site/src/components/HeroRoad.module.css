@@ -21,28 +21,31 @@
 .shoulder,
 .asphalt,
 .lane,
-.travelled {
+.travelled,
+.travelledGlow {
   fill: none;
   stroke-linecap: round;
   vector-effect: non-scaling-stroke;
 }
 
+/* The shoulder is the only part lighter than the field — it is what catches the
+   light and gives the asphalt a visible edge. */
 .shoulder {
   stroke: var(--mk-road-edge);
-  stroke-width: 34;
-  opacity: 0.4;
+  stroke-width: 33;
+  opacity: 0.55;
 }
 
 .asphalt {
   stroke: var(--mk-road);
-  stroke-width: 26;
+  stroke-width: 27;
 }
 
 .lane {
   stroke: var(--mk-road-line);
   stroke-width: 2;
   stroke-dasharray: 16 18;
-  opacity: 0.45;
+  opacity: 0.5;
 }
 
 /* The dash array is set inline from the measured path length; this keyframe
@@ -52,6 +55,16 @@
 .travelled {
   stroke: var(--lw-green-500);
   stroke-width: 5;
+  stroke-dashoffset: var(--mk-dash-to);
+  animation: mk-road-draw 2.2s cubic-bezier(0.32, 0.72, 0.3, 1) 0.3s both;
+}
+
+/* The same dash, blurred and underneath. Lit road, not a line drawn on grey. */
+.travelledGlow {
+  stroke: var(--lw-green-500);
+  stroke-width: 13;
+  opacity: 0.3;
+  filter: blur(7px);
   stroke-dashoffset: var(--mk-dash-to);
   animation: mk-road-draw 2.2s cubic-bezier(0.32, 0.72, 0.3, 1) 0.3s both;
 }
@@ -68,21 +81,23 @@
 
 .nodeHalo {
   fill: var(--lw-green-500);
-  opacity: 0.12;
+  opacity: 0.14;
 }
 
+/* Still ahead: a hollow ring on dark asphalt. */
 .nodeDot {
-  fill: var(--mk-field);
-  stroke: var(--lw-slate-500);
+  fill: var(--mk-road);
+  stroke: rgba(255, 255, 255, 0.34);
   stroke-width: 2;
   vector-effect: non-scaling-stroke;
 }
 
+/* Already passed: solid WHITE, not green. A green dot sitting on the green
+   travelled stroke disappears into it and its dark outline reads as a notch cut
+   out of the road. White is the milestone; green is the road. */
 .nodeDotDone {
-  fill: var(--lw-green-500);
-  stroke: var(--mk-field);
-  stroke-width: 2.5;
-  vector-effect: non-scaling-stroke;
+  fill: #fff;
+  stroke: none;
 }
 
 /* ---- The truck ---- */
@@ -130,7 +145,8 @@
 @media (prefers-reduced-motion: reduce) {
   /* Final state: road drawn, waypoints placed. The truck is parked mid-route by
      the component itself, since SMIL cannot read this query. */
-  .travelled {
+  .travelled,
+  .travelledGlow {
     stroke-dashoffset: var(--mk-dash-to);
     animation: none;
   }

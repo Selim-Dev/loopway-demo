@@ -36,21 +36,27 @@
   --mk-stack: clamp(1rem, 1.6vw, 1.5rem);
 
   /* ---- The navy field ----
-     A hero is a surface, not a chrome bar, so it gets one very slight tonal
-     lift off flat #2C3E50. This is the marketing layer's single tonal
-     extension and it stays within the navy ramp — no new hue. */
-  --mk-field: #22303E;
-  --mk-field-2: #2C3E50;
-  --mk-field-line: rgba(255, 255, 255, 0.09);
-  --mk-field-line-2: rgba(255, 255, 255, 0.055);
+     A hero is a surface, not a chrome bar, so it gets its own deep end of the navy
+     ramp. Brand navy #2C3E50 used as a full-bleed ground reads grey rather than
+     deep: at that lightness there is not enough separation left for white type,
+     a green accent AND a road to each sit clearly. Going darker and keeping the
+     blue saturation gives every one of them room. Same hue, no new colour. */
+  --mk-field: #131E2A;
+  --mk-field-2: #1A2836;
+  --mk-field-line: rgba(255, 255, 255, 0.1);
+  --mk-field-line-2: rgba(255, 255, 255, 0.06);
   --mk-on-field: #FFFFFF;
-  --mk-on-field-soft: rgba(255, 255, 255, 0.72);
-  --mk-on-field-quiet: rgba(255, 255, 255, 0.5);
+  --mk-on-field-soft: rgba(255, 255, 255, 0.78);
+  --mk-on-field-quiet: rgba(255, 255, 255, 0.56);
 
-  /* ---- The road, drawn from the logo's own construction ---- */
-  --mk-road: #3B4E60;
-  --mk-road-edge: #4A5F73;
-  --mk-road-line: rgba(255, 255, 255, 0.55);
+  /* ---- The road, drawn from the logo's own construction ----
+     Asphalt is DARKER than the ground it crosses. Drawing it lighter — which is
+     what a "grey ribbon on navy" amounts to — is why the first pass read as
+     washed out. The shoulder catches the light instead, which is what gives the
+     road its edge. */
+  --mk-road: #0C151E;
+  --mk-road-edge: #26384A;
+  --mk-road-line: rgba(255, 255, 255, 0.6);
   --mk-road-live: var(--lw-green-500);
 
   /* ---- Marketing shadows: same navy-tinted, large-negative-spread recipe as

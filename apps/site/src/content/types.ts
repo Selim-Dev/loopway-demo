@@ -79,6 +79,9 @@ export interface Dictionary {
     /** Caption shown only on /en, explaining why the panels stay Arabic. */
     productLanguageNote: string | null;
     tripLabel: string;
+    /** Caption above the wallet card. Site chrome, so it translates — the label
+     *  inside the card itself is product content and stays Arabic. */
+    walletLabel: string;
   };
   proof: {
     items: { value: string; label: string }[];

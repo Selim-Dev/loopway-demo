@@ -56,6 +56,10 @@ export function Hero({ t, rtl }: { t: Dictionary; rtl: boolean }) {
         </div>
 
         <div className={styles.walletCol}>
+          <div className={styles.walletLabel}>
+            <span className={styles.shieldPip} aria-hidden="true" />
+            {t.hero.walletLabel}
+          </div>
           <LiveWallet />
         </div>
       </div>

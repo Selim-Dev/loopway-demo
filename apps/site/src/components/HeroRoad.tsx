@@ -102,19 +102,24 @@ export function HeroRoad({ stages, rtl }: { stages: string[]; rtl: boolean }) {
              curve; `--mk-dash-from` is where that run starts hidden, and the
              keyframe walks it to `--mk-dash-to`. Both ends are explicit, so the
              segment grows from the reading start in either direction. */}
-        {len > 0 ? (
-          <path
-            d={PATH}
-            className={styles.travelled}
-            style={
-              {
+        {len > 0
+          ? (() => {
+              // Two passes over the same dash: a blurred one for the glow, the
+              // solid one on top. The glow is what makes the travelled stretch
+              // read as lit road rather than as a green line drawn on grey.
+              const dash = {
                 strokeDasharray: `${len * PROGRESS} ${len}`,
                 '--mk-dash-from': rtl ? `${-len}` : `${len * PROGRESS}`,
                 '--mk-dash-to': rtl ? `${-len * (1 - PROGRESS)}` : '0',
-              } as React.CSSProperties
-            }
-          />
-        ) : null}
+              } as React.CSSProperties;
+              return (
+                <>
+                  <path d={PATH} className={styles.travelledGlow} style={dash} />
+                  <path d={PATH} className={styles.travelled} style={dash} />
+                </>
+              );
+            })()
+          : null}
 
         {nodes.map((n, i) => (
           <g key={i} className={styles.node} style={{ animationDelay: `${850 + i * 90}ms` }}>
