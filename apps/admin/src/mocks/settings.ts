@@ -10,11 +10,6 @@ export const PRICING: PricingSettings = {
   paymentFeePercent: '2.1',
   minimumTripValue: '300',
   maximumTripValue: '80,000',
-  countryOverrides: [
-    { countryId: 'AE', countryName: 'الإمارات', commissionPercent: '14', vatPercent: '5' },
-    { countryId: 'KW', countryName: 'الكويت', commissionPercent: '13', vatPercent: '0' },
-    { countryId: 'BH', countryName: 'البحرين', commissionPercent: '13', vatPercent: '10' },
-  ],
 };
 
 /* ---- Notification templates (E15) ---- */

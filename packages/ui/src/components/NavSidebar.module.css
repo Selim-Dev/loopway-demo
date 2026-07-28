@@ -25,7 +25,7 @@
 .sidebar {
   width: 252px;
   flex: none;
-  background: var(--lw-navy-900);
+  background: var(--lw-navy-950);
   color: #fff;
   display: flex;
   flex-direction: column;

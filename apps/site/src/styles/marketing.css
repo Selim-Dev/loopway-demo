@@ -36,12 +36,11 @@
   --mk-stack: clamp(1rem, 1.6vw, 1.5rem);
 
   /* ---- The navy field ----
-     A hero is a surface, not a chrome bar, so it gets its own deep end of the navy
-     ramp. Brand navy #2C3E50 used as a full-bleed ground reads grey rather than
-     deep: at that lightness there is not enough separation left for white type,
-     a green accent AND a road to each sit clearly. Going darker and keeping the
-     blue saturation gives every one of them room. Same hue, no new colour. */
-  --mk-field: #131E2A;
+     A hero is a surface, not a chrome bar, so it gets the deep end of the navy
+     ramp. `--lw-navy-950` now lives in the token layer, where the Admin sidebar
+     reads it too — the same reasoning applies to any navy used as a full-bleed
+     ground, and two copies of the hex is how they drift apart. */
+  --mk-field: var(--lw-navy-950);
   --mk-field-2: #1A2836;
   --mk-field-line: rgba(255, 255, 255, 0.1);
   --mk-field-line-2: rgba(255, 255, 255, 0.06);

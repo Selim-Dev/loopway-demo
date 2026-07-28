@@ -4,9 +4,7 @@ import * as React from 'react';
 import {
   ActionBar,
   AlertBanner,
-  CellPrimary,
   ConfirmDialog,
-  DataTable,
   DetailList,
   DetailRow,
   EmptyState,
@@ -20,7 +18,6 @@ import {
   Section,
   SelectField,
   Split,
-  TableCard,
   TextInput,
   ViewStateLabel,
   type PricingSettings,
@@ -45,7 +42,9 @@ export function PricingScreen() {
   const [draft, setDraft] = React.useState<PricingSettings>(state.pricing);
   const [confirming, setConfirming] = React.useState(false);
   const [view, setView] = React.useState<AdminViewState>('default');
-  const mode = resolveMode(view, state.pricing.countryOverrides.length);
+  // One settings form, always present — the count exists only so the حالة العرض
+  // control can still drive the other four states.
+  const mode = resolveMode(view, 1);
 
   const set = <K extends keyof PricingSettings>(key: K, value: PricingSettings[K]) =>
     setDraft((d) => ({ ...d, [key]: value }));
@@ -189,39 +188,6 @@ export function PricingScreen() {
           </Section>
         </Split>
 
-        <Section title="استثناءات حسب الدولة" subtitle="تتجاوز النسب العامة أعلاه" flush>
-          <TableCard>
-            <DataTable
-              head={
-                <>
-                  <th>الدولة</th>
-                  <th>نسبة العمولة</th>
-                  <th>ضريبة القيمة المضافة</th>
-                  <th />
-                </>
-              }
-            >
-              {draft.countryOverrides.map((o) => (
-                <tr key={o.countryId}>
-                  <td>
-                    <CellPrimary>{o.countryName}</CellPrimary>
-                  </td>
-                  <td>
-                    <CellPrimary ltr>{o.commissionPercent}%</CellPrimary>
-                  </td>
-                  <td>
-                    <CellPrimary ltr>{o.vatPercent}%</CellPrimary>
-                  </td>
-                  <td style={{ width: 100 }}>
-                    <PrimaryCta size="sm" variant="secondary">
-                      تعديل
-                    </PrimaryCta>
-                  </td>
-                </tr>
-              ))}
-            </DataTable>
-          </TableCard>
-        </Section>
         </>
         ) : null}
       </PageBody>

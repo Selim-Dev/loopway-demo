@@ -16,6 +16,13 @@
   --lw-green-750: #1E9E5A;  /* success text, alt (waybill "live" tag) */
 
   /* ---- Navy / slate (ink, chrome, dark surfaces) ---- */
+  /* The deep end of the ramp, for navy used as a FULL-BLEED GROUND rather than
+     as chrome — the Admin sidebar and the marketing hero. #2C3E50 is correct on
+     a chip, a tab or an avatar, but at the size of a whole panel there is not
+     enough headroom left below it for white type, a green accent and a surface
+     to each read clearly, and it starts to look grey. Same hue, same blue
+     saturation, no new colour. */
+  --lw-navy-950: #131E2A;
   --lw-navy-900: #2C3E50;   /* primary text, headings, phone-frame chrome */
   --lw-navy-800: #34495E;   /* secondary buttons text, icon strokes */
   --lw-navy-700: #51606E;   /* body secondary text */

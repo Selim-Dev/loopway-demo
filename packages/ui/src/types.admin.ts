@@ -310,13 +310,6 @@ export interface PricingSettings {
   paymentFeePercent: string;
   minimumTripValue: string;
   maximumTripValue: string;
-  /** Per-country overrides of the above. */
-  countryOverrides: {
-    countryId: string;
-    countryName: string;
-    commissionPercent: string;
-    vatPercent: string;
-  }[];
 }
 
 /* ==========================================================================
