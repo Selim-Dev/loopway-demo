@@ -1,0 +1,314 @@
+/* The hero. Layer order and the full-width trip band are explained in Hero.tsx. */
+
+.hero {
+  position: relative;
+  background: var(--mk-field);
+  color: var(--mk-on-field);
+  /* Clears the nav, which overlays rather than stacks — see SiteNav.module.css. */
+  padding-block: clamp(7rem, 10vw, 9rem) 0;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+/* One very soft light source at the top of the leading edge. This is the
+   marketing layer's single tonal extension of the product's flat-background
+   rule, and it stays inside the navy ramp — no second hue, no mesh, no blobs. */
+.hero::before {
+  content: '';
+  position: absolute;
+  inset-block-start: -32%;
+  inset-inline-end: -8%;
+  width: 62%;
+  height: 88%;
+  background: radial-gradient(closest-side, rgba(255, 255, 255, 0.06), transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.shell {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: clamp(2rem, 5vw, 4rem);
+  align-items: center;
+}
+
+/* ---- Copy ---- */
+/* In rem, not ch: `ch` resolves against .copy own 1rem font-size, which
+   clamps the 4rem headline to a quarter of the width it needs and shatters the
+   three-line structure into six. */
+.copy {
+  max-width: 34rem;
+  /* Grid items default to min-width: auto, i.e. a min-content floor. Without
+     this the longest unbreakable run in the headline sets the column width and
+     the whole hero overflows a phone. */
+  min-width: 0;
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: var(--mk-micro);
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  color: var(--lw-green-300);
+  padding: 7px 14px;
+  border: 1px solid var(--mk-field-line);
+  border-radius: var(--mk-radius-pill);
+  background: rgba(255, 255, 255, 0.035);
+}
+
+/* Arabic display type needs more leading than Latin at the same size — the
+   dots and descenders collide below about 1.2. */
+.title {
+  margin: 1.4rem 0 0;
+  font-size: clamp(2.35rem, 4.4vw, 4rem);
+  font-weight: 600;
+  line-height: 1.24;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+
+.line {
+  display: block;
+}
+
+.lineAccent {
+  display: block;
+  color: var(--lw-green-300);
+}
+
+/* The third line is a continuation, not a third shout: same family, two steps
+   down, light weight. It carries the sentence without competing for the eye. */
+.lineTail {
+  display: block;
+  margin-top: 0.35rem;
+  font-size: clamp(1.15rem, 1.7vw, 1.5rem);
+  font-weight: 300;
+  line-height: 1.5;
+  letter-spacing: 0;
+  color: var(--mk-on-field-soft);
+}
+
+.lead {
+  margin: 1.6rem 0 0;
+  font-size: var(--mk-lead);
+  font-weight: 300;
+  line-height: 1.85;
+  color: var(--mk-on-field-soft);
+  max-width: 44ch;
+  text-wrap: pretty;
+}
+
+/* ---- Actions ---- */
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 2.1rem;
+}
+
+.ctaPrimary,
+.ctaSecondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  height: 52px;
+  padding-inline: 26px;
+  border-radius: var(--mk-radius-pill);
+  font-size: 1rem;
+  font-weight: 600;
+  /* Product rule: buttons darken on hover. Never lighten, never scale. */
+  transition: background 0.16s ease, border-color 0.16s ease;
+}
+
+.ctaPrimary {
+  background: var(--lw-green-500);
+  color: #fff;
+  box-shadow: 0 14px 30px -18px rgba(46, 204, 113, 0.9);
+}
+.ctaPrimary:hover {
+  background: var(--lw-green-600);
+  color: #fff;
+}
+
+.ctaSecondary {
+  border: 1px solid var(--mk-field-line);
+  color: var(--mk-on-field);
+  background: rgba(255, 255, 255, 0.03);
+}
+.ctaSecondary:hover {
+  background: rgba(255, 255, 255, 0.075);
+  border-color: rgba(255, 255, 255, 0.18);
+  color: var(--mk-on-field);
+}
+
+/* ---- Wallet column ----
+   The product's cards assume a light canvas, so the canvas is placed back
+   underneath rather than restyling the component. */
+.walletCol {
+  width: 372px;
+  padding: 12px;
+  border-radius: var(--mk-radius);
+  background: var(--lw-bg-canvas);
+  box-shadow: var(--mk-shadow-on-field);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+/* ---- The road's own strip ---- */
+.roadBand {
+  position: relative;
+  z-index: 1;
+  height: clamp(150px, 19vw, 240px);
+  margin-top: clamp(2.5rem, 5vw, 4rem);
+}
+
+/* ---- The live band ---- */
+.band {
+  position: relative;
+  z-index: 2;
+  margin-top: clamp(1rem, 2vw, 1.75rem);
+}
+
+.bandHead {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: var(--mk-micro);
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--mk-on-field-quiet);
+  margin-bottom: 0.85rem;
+}
+
+.livePip {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--lw-green-500);
+  box-shadow: 0 0 0 4px rgba(46, 204, 113, 0.16);
+}
+
+.tripSlot {
+  border-radius: var(--mk-radius);
+  background: var(--lw-bg-canvas);
+  padding: 14px;
+  box-shadow: var(--mk-shadow-on-field);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.liveCaption {
+  margin: 1.1rem 0 0;
+  font-size: var(--mk-small);
+  font-weight: 300;
+  line-height: 1.7;
+  color: var(--mk-on-field-quiet);
+  max-width: 62ch;
+}
+
+.langNote {
+  margin: 0.4rem 0 0;
+  font-size: var(--mk-micro);
+  font-weight: 400;
+  line-height: 1.7;
+  color: rgba(255, 255, 255, 0.36);
+  max-width: 62ch;
+}
+
+/* ---- Stage rail ---- */
+.rail {
+  position: relative;
+  z-index: 2;
+  margin-top: clamp(4rem, 9vw, 7rem);
+  border-top: 1px solid var(--mk-field-line);
+  background: rgba(0, 0, 0, 0.18);
+}
+
+.railInner {
+  display: flex;
+  gap: clamp(1rem, 2.4vw, 2.25rem);
+  overflow-x: auto;
+  scrollbar-width: none;
+  padding-block: 18px;
+}
+.railInner::-webkit-scrollbar {
+  display: none;
+}
+
+.railItem {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 8px;
+  flex: none;
+  font-size: var(--mk-small);
+  font-weight: 400;
+  color: var(--mk-on-field-quiet);
+  white-space: nowrap;
+}
+
+.railDone {
+  color: var(--mk-on-field-soft);
+  font-weight: 500;
+}
+
+.railIndex {
+  font-family: var(--mk-font-latin);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--lw-green-300);
+  opacity: 0.8;
+  direction: ltr;
+  unicode-bidi: isolate;
+}
+
+.railItem:not(.railDone) .railIndex {
+  color: var(--mk-on-field-quiet);
+  opacity: 0.5;
+}
+
+/* ==========================================================================
+   Responsive
+
+   The portals scroll horizontally below 1440px by design. This page stacks.
+   ========================================================================== */
+@media (max-width: 1080px) {
+  .shell {
+    /* minmax(0, 1fr), not 1fr: plain 1fr keeps the min-content floor. */
+    grid-template-columns: minmax(0, 1fr);
+    gap: 2.5rem;
+  }
+  .copy {
+    max-width: 32rem;
+  }
+  .walletCol {
+    width: min(100%, 372px);
+  }
+}
+
+@media (max-width: 720px) {
+  .hero {
+    padding-block-start: 6.5rem;
+  }
+  .copy {
+    max-width: none;
+  }
+  .actions {
+    gap: 10px;
+  }
+  .ctaPrimary,
+  .ctaSecondary {
+    height: 48px;
+    padding-inline: 20px;
+    font-size: 0.9375rem;
+    flex: 1 1 auto;
+    justify-content: center;
+  }
+  .tripSlot,
+  .walletCol {
+    padding: 10px;
+  }
+}

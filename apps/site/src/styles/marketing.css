@@ -1,0 +1,196 @@
+/* ==========================================================================
+   LoopWay marketing site — the --mk-* layer.
+
+   This file is the ONLY place the marketing surface extends the product design
+   system, and every extension is deliberate. Read
+   docs/design-system/12-marketing-site.md before adding to it.
+
+   What is extended:
+     1. A display type scale. The product's largest text is 20px; a hero needs
+        six times that, and clamp() means it is one value per role rather than
+        a breakpoint pile.
+     2. A motion set beyond the product's functional four.
+     3. The navy field used as a SURFACE, not just chrome.
+
+   What is NOT extended: the palette, the shadow philosophy, the border rule,
+   the voice. Those bind here exactly as they bind in the portals.
+   ========================================================================== */
+
+:root {
+  /* ---- Type scale. Fluid, so there is one value per role, not one per breakpoint ---- */
+  --mk-display: clamp(2.6rem, 6.4vw, 6rem);
+  --mk-h1: clamp(2rem, 4.2vw, 3.4rem);
+  --mk-h2: clamp(1.65rem, 3vw, 2.5rem);
+  --mk-h3: clamp(1.15rem, 1.7vw, 1.5rem);
+  --mk-lead: clamp(1.02rem, 1.45vw, 1.3rem);
+  --mk-body: clamp(0.95rem, 1.1vw, 1.05rem);
+  --mk-small: 0.875rem;
+  --mk-micro: 0.75rem;
+
+  --mk-eyebrow-tracking: 0.16em;
+
+  /* ---- Rhythm ---- */
+  --mk-gutter: clamp(1.25rem, 4vw, 3.5rem);
+  --mk-max: 1240px;
+  --mk-section-y: clamp(4.5rem, 9vw, 8.5rem);
+  --mk-stack: clamp(1rem, 1.6vw, 1.5rem);
+
+  /* ---- The navy field ----
+     A hero is a surface, not a chrome bar, so it gets one very slight tonal
+     lift off flat #2C3E50. This is the marketing layer's single tonal
+     extension and it stays within the navy ramp — no new hue. */
+  --mk-field: #22303E;
+  --mk-field-2: #2C3E50;
+  --mk-field-line: rgba(255, 255, 255, 0.09);
+  --mk-field-line-2: rgba(255, 255, 255, 0.055);
+  --mk-on-field: #FFFFFF;
+  --mk-on-field-soft: rgba(255, 255, 255, 0.72);
+  --mk-on-field-quiet: rgba(255, 255, 255, 0.5);
+
+  /* ---- The road, drawn from the logo's own construction ---- */
+  --mk-road: #3B4E60;
+  --mk-road-edge: #4A5F73;
+  --mk-road-line: rgba(255, 255, 255, 0.55);
+  --mk-road-live: var(--lw-green-500);
+
+  /* ---- Marketing shadows: same navy-tinted, large-negative-spread recipe as
+     the product, one step deeper because the cards are bigger ---- */
+  --mk-shadow: 0 24px 60px -42px rgba(44, 62, 80, 0.55), 0 4px 14px -10px rgba(44, 62, 80, 0.28);
+  --mk-shadow-lift: 0 40px 90px -55px rgba(44, 62, 80, 0.62), 0 6px 18px -12px rgba(44, 62, 80, 0.3);
+  --mk-shadow-on-field: 0 40px 80px -50px rgba(0, 0, 0, 0.75);
+
+  --mk-radius: 20px;
+  --mk-radius-lg: 26px;
+  --mk-radius-pill: 999px;
+}
+
+/* ==========================================================================
+   Fonts
+
+   Site chrome speaks Plex. `.productScope` hands the product's own stack back
+   to the embedded @loopway/ui surfaces so they render as the product, not as
+   page furniture.
+   ========================================================================== */
+:root {
+  --mk-font: var(--lw-font-plex-ar), var(--lw-font-plex), system-ui, sans-serif;
+  --mk-font-latin: var(--lw-font-plex), system-ui, sans-serif;
+
+  /* The product stack, restored inside .productScope. */
+  --mk-font-product: var(--lw-font-tajawal), var(--lw-font-montserrat), sans-serif;
+  --mk-font-product-latin: var(--lw-font-montserrat), sans-serif;
+}
+
+body {
+  font-family: var(--mk-font);
+  background: var(--lw-surface);
+  color: var(--lw-navy-900);
+  /* The portals set min-width: 1440px and scroll horizontally by design.
+     A marketing page must never do that — its first viewer is on a phone. */
+  min-width: 0;
+  overflow-x: hidden;
+}
+
+.productScope {
+  --font-sans: var(--mk-font-product);
+  --font-arabic: var(--lw-font-tajawal), sans-serif;
+  --font-latin: var(--mk-font-product-latin);
+  font-family: var(--font-sans);
+}
+
+/* ==========================================================================
+   Motion
+
+   Budget, in full:
+     road draw      2.4s, once
+     truck travel   loops   ← the one decorative infinite animation
+     node reveal    staggered, once
+     section reveal once per element
+   Nothing else. No parallax, no hover-lift, no scroll-jacking, no counters.
+   ========================================================================== */
+@keyframes mk-draw {
+  to { stroke-dashoffset: 0; }
+}
+
+@keyframes mk-travel {
+  from { offset-distance: 0%; }
+  to { offset-distance: 100%; }
+}
+
+@keyframes mk-node-in {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes mk-rise {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Section reveal. `data-reveal` is set by the IntersectionObserver in
+   useReveal(); the element is visible with no JS, which is the point — this
+   enhances, it does not gate content. */
+[data-reveal] {
+  animation: mk-rise 0.55s cubic-bezier(0.22, 0.61, 0.36, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+  /* Collapse to the final state rather than the initial one: the road is
+     drawn, the truck is parked at the end of it, nothing moves. */
+  [data-reveal] { animation: none; opacity: 1; transform: none; }
+}
+
+/* ==========================================================================
+   Shared primitives
+   ========================================================================== */
+.mkShell {
+  width: 100%;
+  max-width: var(--mk-max);
+  margin-inline: auto;
+  padding-inline: var(--mk-gutter);
+}
+
+.mkEyebrow {
+  font-size: var(--mk-micro);
+  font-weight: 600;
+  letter-spacing: var(--mk-eyebrow-tracking);
+  text-transform: uppercase;
+  color: var(--lw-green-700);
+}
+
+.mkSectionTitle {
+  font-size: var(--mk-h2);
+  font-weight: 600;
+  line-height: 1.22;
+  letter-spacing: -0.015em;
+  color: var(--lw-navy-900);
+  margin: 0.6rem 0 0;
+  text-wrap: balance;
+}
+
+.mkLead {
+  font-size: var(--mk-lead);
+  font-weight: 400;
+  line-height: 1.75;
+  color: var(--lw-navy-700);
+  margin: 0.85rem 0 0;
+  max-width: 62ch;
+  text-wrap: pretty;
+}
+
+/* Keep IDs, amounts, timers and codes LTR inside RTL copy — the binding rule
+   from 03-typography-rtl.md. The site sets its own Latin face; the product
+   frames override it back to Montserrat via .productScope. */
+.mkLtr {
+  direction: ltr;
+  unicode-bidi: isolate;
+  font-family: var(--mk-font-latin);
+  font-feature-settings: 'tnum' 1;
+}

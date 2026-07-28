@@ -1,0 +1,155 @@
+/* The hero road. Construction, direction handling and the motion decision are
+   documented in HeroRoad.tsx. */
+
+.wrap {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+/* ---- The four strokes ----
+   `preserveAspectRatio: none` stretches the viewBox, which would smear stroke
+   widths; `non-scaling-stroke` keeps every width honest at any aspect. */
+.shoulder,
+.asphalt,
+.lane,
+.travelled {
+  fill: none;
+  stroke-linecap: round;
+  vector-effect: non-scaling-stroke;
+}
+
+.shoulder {
+  stroke: var(--mk-road-edge);
+  stroke-width: 34;
+  opacity: 0.4;
+}
+
+.asphalt {
+  stroke: var(--mk-road);
+  stroke-width: 26;
+}
+
+.lane {
+  stroke: var(--mk-road-line);
+  stroke-width: 2;
+  stroke-dasharray: 16 18;
+  opacity: 0.45;
+}
+
+/* The dash array is set inline from the measured path length; this keyframe
+   only walks the offset between the two explicit ends the component supplies.
+   Both `from` and `to` are stated — an implicit `from` would resolve against
+   the underlying value and silently do nothing if that value already matched. */
+.travelled {
+  stroke: var(--lw-green-500);
+  stroke-width: 5;
+  stroke-dashoffset: var(--mk-dash-to);
+  animation: mk-road-draw 2.2s cubic-bezier(0.32, 0.72, 0.3, 1) 0.3s both;
+}
+
+@keyframes mk-road-draw {
+  from { stroke-dashoffset: var(--mk-dash-from); }
+  to { stroke-dashoffset: var(--mk-dash-to); }
+}
+
+/* ---- Waypoints ---- */
+.node {
+  animation: mk-node-in 0.5s ease-out both;
+}
+
+.nodeHalo {
+  fill: var(--lw-green-500);
+  opacity: 0.12;
+}
+
+.nodeDot {
+  fill: var(--mk-field);
+  stroke: var(--lw-slate-500);
+  stroke-width: 2;
+  vector-effect: non-scaling-stroke;
+}
+
+.nodeDotDone {
+  fill: var(--lw-green-500);
+  stroke: var(--mk-field);
+  stroke-width: 2.5;
+  vector-effect: non-scaling-stroke;
+}
+
+/* ---- The truck ---- */
+/* The group itself carries no visual style; the class exists so the marker is
+   selectable — the motion lives in the <animateMotion> child. */
+.truck {
+  pointer-events: none;
+}
+
+.truckDisc {
+  fill: var(--lw-green-500);
+}
+
+.truckGlyph {
+  fill: none;
+  stroke: #fff;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+}
+
+/* ---- Labels ---- */
+.labels {
+  position: absolute;
+  inset: 0;
+}
+
+.label {
+  position: absolute;
+  transform: translate(-50%, -215%);
+  white-space: nowrap;
+  font-size: clamp(0.6875rem, 0.9vw, 0.8125rem);
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  color: var(--mk-on-field-quiet);
+  animation: mk-node-in 0.5s ease-out both;
+}
+
+.labelDone {
+  color: var(--mk-on-field-soft);
+  font-weight: 600;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* Final state: road drawn, waypoints placed. The truck is parked mid-route by
+     the component itself, since SMIL cannot read this query. */
+  .travelled {
+    stroke-dashoffset: var(--mk-dash-to);
+    animation: none;
+  }
+  .node {
+    animation: none;
+    opacity: 1;
+  }
+  .label {
+    animation: none;
+    opacity: 1;
+    transform: translate(-50%, -215%);
+  }
+}
+
+@media (max-width: 900px) {
+  /* Below this the labels collide with each other. The road stays — it is the
+     mark — but becomes purely graphic, and the stage names move to the numbered
+     rail beneath the hero, where they have room. */
+  .labels {
+    display: none;
+  }
+}

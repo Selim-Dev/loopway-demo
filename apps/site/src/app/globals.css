@@ -1,0 +1,37 @@
+/* App-level overrides. The token layers come from @loopway/ui/styles.css, then
+   the marketing layer on top — see src/styles/marketing.css. */
+
+:root {
+  /* Remap the product's font tokens onto the self-hosted next/font families,
+     exactly as both portals do. Without this the @loopway/ui components
+     embedded on the page fall back to a system sans. */
+  --font-arabic: var(--lw-font-tajawal), sans-serif;
+  --font-latin: var(--lw-font-montserrat), sans-serif;
+  --font-sans: var(--lw-font-tajawal), var(--lw-font-montserrat), sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+  /* Every in-page anchor has to clear the sticky nav. */
+  scroll-padding-top: 92px;
+}
+
+/* The site sets link colour per component; the product's global blue link rule
+   would otherwise bleed into the nav and footer. */
+a {
+  color: inherit;
+}
+a:hover {
+  color: inherit;
+}
+
+::selection {
+  background: var(--lw-green-200);
+  color: var(--lw-navy-900);
+}
+
+:focus-visible {
+  outline: 2px solid var(--lw-green-500);
+  outline-offset: 3px;
+  border-radius: 4px;
+}

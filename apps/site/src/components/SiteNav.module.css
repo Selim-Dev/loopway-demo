@@ -1,0 +1,260 @@
+/* Clipped, not pushed off-screen. An inset-inline-start of -9999px resolves
+   to the RIGHT edge in RTL and drags the document 10,000px wide. */
+.skip {
+  position: absolute;
+  top: 0;
+  inset-inline-start: 0;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  z-index: 100;
+  padding: 12px 18px;
+  background: var(--lw-navy-900);
+  color: #fff;
+  font-weight: 600;
+  border-radius: 0 0 12px 12px;
+}
+.skip:focus {
+  width: auto;
+  height: auto;
+  overflow: visible;
+  clip-path: none;
+  color: #fff;
+}
+
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  transition: background 0.24s ease, border-color 0.24s ease, backdrop-filter 0.24s ease;
+  border-bottom: 1px solid transparent;
+  /* The nav OVERLAYS the hero rather than stacking above it: it must sit on the
+     navy field, where its white links are legible. Cancelling its own height
+     from the flow is what pulls the hero up underneath it — the hero's
+     padding-block-start then reserves the room back. */
+  margin-bottom: -76px;
+}
+
+/* Transparent over the navy hero; a surface once the light page is behind it.
+   The only scroll-driven behaviour on the site, and it is a legibility fix. */
+.solid {
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: saturate(180%) blur(14px);
+  border-bottom-color: var(--lw-border-faint);
+}
+
+.inner {
+  display: flex;
+  align-items: center;
+  gap: clamp(1rem, 3vw, 2.5rem);
+  height: 76px;
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  flex: none;
+}
+
+.mark {
+  height: 24px;
+  width: auto;
+  display: block;
+}
+
+.wordmark {
+  font-family: var(--mk-font-latin);
+  font-size: 1.125rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: #fff;
+  direction: ltr;
+}
+
+.solid .wordmark {
+  color: var(--lw-navy-900);
+}
+
+.links {
+  display: flex;
+  align-items: center;
+  gap: clamp(0.75rem, 2vw, 1.75rem);
+  margin-inline-end: auto;
+}
+
+.link {
+  font-size: 0.9375rem;
+  font-weight: 400;
+  color: var(--mk-on-field-soft);
+  padding: 8px 2px;
+  transition: color 0.16s ease;
+}
+.link:hover {
+  color: #fff;
+}
+.solid .link {
+  color: var(--lw-navy-700);
+}
+.solid .link:hover {
+  color: var(--lw-navy-900);
+}
+
+.right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: none;
+}
+
+.lang {
+  display: inline-flex;
+  align-items: center;
+  height: 40px;
+  padding-inline: 14px;
+  border-radius: var(--mk-radius-pill);
+  border: 1px solid var(--mk-field-line);
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--mk-on-field-soft);
+  transition: background 0.16s ease, border-color 0.16s ease, color 0.16s ease;
+}
+.lang:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+}
+.solid .lang {
+  border-color: var(--lw-border);
+  color: var(--lw-navy-800);
+}
+.solid .lang:hover {
+  background: var(--lw-bg-subtle);
+  color: var(--lw-navy-900);
+}
+
+.cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  height: 40px;
+  padding-inline: 18px;
+  border-radius: var(--mk-radius-pill);
+  background: var(--lw-green-500);
+  color: #fff;
+  font-size: 0.875rem;
+  font-weight: 600;
+  transition: background 0.16s ease;
+}
+.cta:hover {
+  background: var(--lw-green-600);
+  color: #fff;
+}
+
+.burger {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--mk-radius-pill);
+  border: 1px solid var(--mk-field-line);
+  background: transparent;
+  color: var(--mk-on-field);
+  cursor: pointer;
+}
+.solid .burger {
+  border-color: var(--lw-border);
+  color: var(--lw-navy-800);
+}
+
+/* ---- Mobile sheet ---- */
+.sheet {
+  position: fixed;
+  inset: 76px 0 0;
+  z-index: 49;
+  background: var(--lw-surface);
+  padding: 1.25rem var(--mk-gutter) 2rem;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  animation: mk-rise 0.24s ease-out both;
+}
+
+.sheetLinks {
+  display: flex;
+  flex-direction: column;
+}
+
+.sheetLink {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 2px;
+  border-bottom: 1px solid var(--lw-divider-2);
+  font-size: 1.125rem;
+  font-weight: 500;
+  color: var(--lw-navy-900);
+}
+
+/* The chevron points the way the language reads. */
+:global([dir='ltr']) .sheetLink svg {
+  transform: scaleX(-1);
+}
+
+.sheetFoot {
+  margin-top: auto;
+  padding-top: 1.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.sheetLang,
+.sheetCta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 50px;
+  border-radius: var(--mk-radius-pill);
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.sheetLang {
+  border: 1px solid var(--lw-border);
+  color: var(--lw-navy-800);
+}
+
+.sheetCta {
+  background: var(--lw-green-500);
+  color: #fff;
+}
+.sheetCta:hover {
+  background: var(--lw-green-600);
+  color: #fff;
+}
+
+@media (max-width: 900px) {
+  .links,
+  .lang {
+    display: none;
+  }
+  .burger {
+    display: inline-flex;
+  }
+  .links {
+    margin-inline-end: 0;
+  }
+  .inner {
+    justify-content: space-between;
+  }
+}
+
+@media (max-width: 480px) {
+  .cta {
+    display: none;
+  }
+}

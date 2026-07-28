@@ -1,0 +1,269 @@
+/* Chrome around the real @loopway/ui components.
+
+   Everything here is composition — padding, stacking, dividers — using the
+   product's own tokens. No component is restyled: if a border or a radius
+   looks different from the portal, that is a bug, not a marketing variant. */
+
+/* ---- Offers (BR-001) ---- */
+.offers {
+  padding: 4px 0 0;
+}
+
+.offersHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--lw-divider-2);
+}
+
+.offersTitle {
+  font-size: var(--web-text-label);
+  font-weight: 700;
+  color: var(--lw-navy-900);
+}
+
+.offer {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 13px 18px;
+  border-bottom: 1px solid var(--lw-divider-2);
+}
+
+.offerMain {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.offerName {
+  font-size: var(--web-text-label);
+  font-weight: 700;
+  color: var(--lw-navy-900);
+}
+
+.offerMeta {
+  font-size: var(--web-text-micro);
+  font-weight: 600;
+  color: var(--lw-slate-500);
+  margin-top: 3px;
+}
+
+.offerAmount {
+  flex: none;
+}
+
+.offersFoot {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 18px;
+  background: var(--lw-bg-subtle);
+  font-size: var(--web-text-micro);
+  font-weight: 600;
+  color: var(--lw-slate-600);
+  line-height: 1.6;
+}
+
+/* ---- Live waybill (BR-013) ---- */
+.waybill {
+  padding: 0;
+}
+
+.waybillHead {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 15px 18px;
+  border-bottom: 1px solid var(--lw-divider-2);
+}
+
+.waybillHead > span:first-child {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.waybillTitle {
+  font-size: var(--web-text-label);
+  font-weight: 700;
+  color: var(--lw-navy-900);
+}
+
+.share {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin: 14px 18px;
+  padding: 10px 12px;
+  border: 1px dashed var(--lw-border);
+  border-radius: var(--web-r-btn);
+  background: var(--lw-bg-subtle);
+  color: var(--lw-slate-600);
+}
+
+.shareUrl {
+  flex: 1;
+  min-width: 0;
+  font-size: var(--web-text-meta);
+  font-weight: 600;
+  color: var(--lw-navy-800);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.shareCopy {
+  flex: none;
+  font-size: var(--web-text-micro);
+  font-weight: 700;
+  color: var(--lw-green-700);
+}
+
+.events {
+  list-style: none;
+  margin: 0;
+  padding: 0 18px 4px;
+}
+
+.events li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 0;
+  position: relative;
+}
+
+/* The connector: drawn between dots, not under the last one. */
+.events li:not(:last-child)::before {
+  content: '';
+  position: absolute;
+  top: 24px;
+  inset-inline-start: 4px;
+  width: 2px;
+  height: 14px;
+  background: var(--lw-divider);
+}
+
+.eventDot {
+  flex: none;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--lw-slate-200);
+}
+
+.eventLabel {
+  flex: 1;
+  min-width: 0;
+  font-size: var(--web-text-meta);
+  font-weight: 600;
+  color: var(--lw-slate-600);
+}
+
+.eventTime {
+  flex: none;
+  font-size: var(--web-text-micro);
+  font-weight: 600;
+  color: var(--lw-slate-400);
+}
+
+.done .eventDot { background: var(--lw-green-500); }
+.done .eventLabel { color: var(--lw-navy-800); }
+
+.active .eventDot {
+  background: var(--lw-green-500);
+  box-shadow: 0 0 0 4px var(--lw-green-100);
+}
+.active .eventLabel {
+  color: var(--lw-navy-900);
+  font-weight: 700;
+}
+.active .eventTime { color: var(--lw-green-700); font-weight: 700; }
+
+.upcoming .eventDot { background: transparent; border: 2px solid var(--lw-slate-200); }
+
+.waybillFoot {
+  padding: 12px 18px;
+  border-top: 1px solid var(--lw-divider-2);
+  background: var(--lw-bg-subtle);
+  font-size: var(--web-text-micro);
+  font-weight: 600;
+  color: var(--lw-slate-500);
+}
+
+/* ---- Cross-border ---- */
+.border {
+  padding: 16px 18px 6px;
+}
+
+.borderHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.borderStage {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 11px 12px;
+  border-radius: var(--web-r-btn);
+  background: var(--color-warning-bg);
+  margin-bottom: 12px;
+}
+
+.borderStage > span:last-child {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.borderStageDot {
+  flex: none;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--lw-amber-500);
+}
+
+.borderStageLabel {
+  font-size: var(--web-text-meta);
+  font-weight: 700;
+  color: var(--lw-amber-600);
+}
+
+.borderStageMeta {
+  font-size: var(--web-text-micro);
+  font-weight: 600;
+  color: var(--lw-amber-600);
+  opacity: 0.85;
+}
+
+.permits {
+  list-style: none;
+  margin: 14px 0 0;
+  padding: 0;
+}
+
+.permits li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 11px 0;
+  border-top: 1px solid var(--lw-divider-2);
+  color: var(--lw-slate-500);
+}
+
+.permitName {
+  flex: 1;
+  min-width: 0;
+  font-size: var(--web-text-meta);
+  font-weight: 600;
+  color: var(--lw-navy-800);
+}

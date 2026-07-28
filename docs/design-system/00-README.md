@@ -58,6 +58,7 @@ header comment saying so and naming its SRS section. Derived screens are
 | [09-ia-and-routes.md](09-ia-and-routes.md) | Adding a route or a nav entry |
 | [10-admin-portal-guide.md](10-admin-portal-guide.md) | Building any `M04` screen |
 | [11-design-source-map.md](11-design-source-map.md) | Auditing fidelity, or wondering why something differs from the design |
+| [12-marketing-site.md](12-marketing-site.md) | **Before touching `apps/site`.** The only surface allowed to extend the identity rules |
 
 ---
 

@@ -1,0 +1,594 @@
+/* All sections below the hero. Composition only — the embedded product
+   surfaces are never restyled. */
+
+.section {
+  padding-block: var(--mk-section-y);
+  background: var(--lw-surface);
+}
+
+.sectionTint {
+  background: var(--lw-bg-app-2);
+  border-block: 1px solid var(--lw-border-faint);
+}
+
+.sectionDark {
+  background: var(--mk-field-2);
+}
+
+.head {
+  max-width: 62ch;
+  margin-bottom: clamp(2.5rem, 5vw, 4rem);
+}
+
+.eyebrowOnField {
+  font-size: var(--mk-micro);
+  font-weight: 600;
+  letter-spacing: var(--mk-eyebrow-tracking);
+  text-transform: uppercase;
+  color: var(--lw-green-300);
+}
+
+.titleOnField {
+  font-size: var(--mk-h2);
+  font-weight: 600;
+  line-height: 1.22;
+  letter-spacing: -0.015em;
+  color: #fff;
+  margin: 0.6rem 0 0;
+  text-wrap: balance;
+}
+
+.leadOnField {
+  font-size: var(--mk-lead);
+  font-weight: 300;
+  line-height: 1.8;
+  color: var(--mk-on-field-soft);
+  margin: 0.85rem 0 0;
+  max-width: 60ch;
+}
+
+/* ==========================================================================
+   Proof strip
+   ========================================================================== */
+.proof {
+  background: var(--lw-surface);
+  border-bottom: 1px solid var(--lw-border-faint);
+}
+
+.proofInner {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: clamp(1.25rem, 3vw, 3rem);
+  padding-block: clamp(2.25rem, 4vw, 3.25rem);
+}
+
+.proofItem {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding-inline-start: clamp(0.75rem, 1.5vw, 1.25rem);
+  border-inline-start: 2px solid var(--lw-green-200);
+}
+
+.proofValue {
+  font-size: clamp(1.05rem, 1.6vw, 1.375rem);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--lw-navy-900);
+}
+
+.proofLabel {
+  font-size: var(--mk-small);
+  font-weight: 400;
+  line-height: 1.65;
+  color: var(--lw-slate-600);
+}
+
+/* ==========================================================================
+   How it works
+   ========================================================================== */
+.stages {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 1px;
+  background: var(--lw-border-faint);
+  border: 1px solid var(--lw-border-faint);
+  border-radius: var(--mk-radius);
+  overflow: hidden;
+}
+
+.stage {
+  background: var(--lw-surface);
+  padding: clamp(1.1rem, 1.8vw, 1.6rem);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.stageNum {
+  font-family: var(--mk-font-latin);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: var(--lw-green-700);
+  direction: ltr;
+  unicode-bidi: isolate;
+}
+
+.stageTitle {
+  margin: 0;
+  font-size: var(--mk-h3);
+  font-weight: 600;
+  line-height: 1.35;
+  letter-spacing: -0.01em;
+  color: var(--lw-navy-900);
+}
+
+.stageBody {
+  margin: 0;
+  font-size: var(--mk-small);
+  font-weight: 400;
+  line-height: 1.7;
+  color: var(--lw-slate-600);
+}
+
+/* ==========================================================================
+   Feature rows
+   ========================================================================== */
+.rows {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(3.5rem, 7vw, 6.5rem);
+}
+
+.row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 0.92fr);
+  gap: clamp(2rem, 5vw, 4.5rem);
+  align-items: center;
+}
+
+.rowFlip > .rowCopy {
+  order: 2;
+}
+
+.rowCopy {
+  max-width: 52ch;
+  min-width: 0;
+}
+
+.ruleCode {
+  display: inline-block;
+  font-family: var(--mk-font-latin);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: var(--lw-slate-500);
+  padding: 4px 9px;
+  border: 1px solid var(--lw-border-subtle);
+  border-radius: 6px;
+  background: var(--lw-surface);
+  direction: ltr;
+  unicode-bidi: isolate;
+}
+
+.rowEyebrow {
+  display: block;
+  margin-top: 1rem;
+  font-size: var(--mk-micro);
+  font-weight: 600;
+  letter-spacing: var(--mk-eyebrow-tracking);
+  text-transform: uppercase;
+  color: var(--lw-green-700);
+}
+
+.rowTitle {
+  margin: 0.5rem 0 0;
+  font-size: var(--mk-h2);
+  font-weight: 600;
+  line-height: 1.24;
+  letter-spacing: -0.018em;
+  color: var(--lw-navy-900);
+  text-wrap: balance;
+}
+
+.rowBody {
+  margin: 1rem 0 0;
+  font-size: var(--mk-body);
+  font-weight: 400;
+  line-height: 1.85;
+  color: var(--lw-navy-700);
+  text-wrap: pretty;
+}
+
+.points {
+  list-style: none;
+  margin: 1.5rem 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+}
+
+.points li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: var(--mk-small);
+  font-weight: 500;
+  color: var(--lw-navy-800);
+}
+
+.points svg {
+  flex: none;
+  color: var(--lw-green-600);
+}
+
+/* min-width: 0 — the ProductFrame inside lays out at its true component width
+   before the transform fits it, so without this the grid track inherits that
+   width as its floor. */
+.rowSurface {
+  display: flex;
+  justify-content: center;
+  min-width: 0;
+}
+
+/* ==========================================================================
+   Platforms
+   ========================================================================== */
+.platforms {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: clamp(0.875rem, 1.6vw, 1.25rem);
+}
+
+.platform {
+  display: flex;
+  flex-direction: column;
+  padding: clamp(1.25rem, 2vw, 1.75rem);
+  border: 1px solid var(--lw-border-subtle);
+  border-radius: var(--mk-radius);
+  background: var(--lw-surface);
+  box-shadow: var(--mk-shadow);
+  color: var(--lw-navy-900);
+  min-height: 240px;
+  transition: border-color 0.18s ease, box-shadow 0.18s ease;
+}
+
+/* Product rule: no hover-lift, no scale. Depth changes, position does not. */
+a.platform:hover {
+  border-color: var(--lw-slate-200);
+  box-shadow: var(--mk-shadow-lift);
+  color: var(--lw-navy-900);
+}
+
+.platformPrimary {
+  border-color: var(--lw-green-200);
+}
+
+.platformSoon {
+  background: var(--lw-bg-subtle);
+  box-shadow: none;
+}
+
+.platformTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  color: var(--lw-slate-400);
+}
+
+.platformBadge {
+  display: inline-flex;
+  align-items: center;
+  font-size: var(--mk-micro);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  padding: 5px 11px;
+  border-radius: var(--mk-radius-pill);
+  background: var(--color-success-bg);
+  color: var(--lw-green-700);
+}
+
+.platformBadgeSoon {
+  background: var(--lw-chip-bg);
+  color: var(--lw-slate-600);
+}
+
+.platformName {
+  margin: 1.25rem 0 0;
+  font-size: var(--mk-h3);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--lw-navy-900);
+}
+
+.platformRole {
+  margin: 0.55rem 0 0;
+  font-size: var(--mk-small);
+  font-weight: 400;
+  line-height: 1.7;
+  color: var(--lw-slate-600);
+}
+
+.platformOpen {
+  margin-top: auto;
+  padding-top: 1.25rem;
+  font-size: var(--mk-small);
+  font-weight: 600;
+  color: var(--lw-green-700);
+}
+
+/* ==========================================================================
+   Rules
+   ========================================================================== */
+.rules {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: clamp(0.875rem, 1.6vw, 1.25rem);
+}
+
+.rule {
+  padding: clamp(1.25rem, 2vw, 1.75rem);
+  border: 1px solid var(--mk-field-line);
+  border-radius: var(--mk-radius);
+  background: rgba(255, 255, 255, 0.035);
+}
+
+.ruleTag {
+  display: inline-block;
+  font-family: var(--mk-font-latin);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: var(--lw-green-300);
+  padding: 4px 9px;
+  border: 1px solid rgba(46, 204, 113, 0.28);
+  border-radius: 6px;
+  direction: ltr;
+  unicode-bidi: isolate;
+}
+
+.ruleTitle {
+  margin: 1.1rem 0 0;
+  font-size: 1.0625rem;
+  font-weight: 600;
+  line-height: 1.4;
+  color: #fff;
+}
+
+.ruleBody {
+  margin: 0.55rem 0 0;
+  font-size: var(--mk-small);
+  font-weight: 300;
+  line-height: 1.75;
+  color: var(--mk-on-field-soft);
+}
+
+/* ==========================================================================
+   Closing CTA
+   ========================================================================== */
+.ctaBand {
+  background: var(--lw-surface);
+  padding-block: clamp(3.5rem, 7vw, 6rem);
+}
+
+.ctaInner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: clamp(1.5rem, 4vw, 3rem);
+  flex-wrap: wrap;
+  padding: clamp(2rem, 4vw, 3.25rem);
+  border: 1px solid var(--lw-border-subtle);
+  border-radius: var(--mk-radius-lg);
+  background: var(--lw-bg-app-2);
+  box-shadow: var(--mk-shadow);
+}
+
+.ctaTitle {
+  margin: 0;
+  font-size: var(--mk-h2);
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: -0.018em;
+  color: var(--lw-navy-900);
+  text-wrap: balance;
+}
+
+.ctaBody {
+  margin: 0.7rem 0 0;
+  font-size: var(--mk-body);
+  font-weight: 400;
+  line-height: 1.75;
+  color: var(--lw-slate-600);
+}
+
+.ctaActions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.ctaPrimary,
+.ctaSecondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 50px;
+  padding-inline: 24px;
+  border-radius: var(--mk-radius-pill);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  transition: background 0.16s ease, border-color 0.16s ease;
+}
+
+.ctaPrimary {
+  background: var(--lw-green-500);
+  color: #fff;
+}
+.ctaPrimary:hover {
+  background: var(--lw-green-600);
+  color: #fff;
+}
+
+.ctaSecondary {
+  border: 1px solid var(--lw-border);
+  color: var(--lw-navy-800);
+  background: var(--lw-surface);
+}
+.ctaSecondary:hover {
+  border-color: var(--lw-slate-200);
+  color: var(--lw-navy-900);
+}
+
+/* ==========================================================================
+   Footer
+   ========================================================================== */
+.footer {
+  background: var(--mk-field);
+  color: var(--mk-on-field-soft);
+  padding-block: clamp(3rem, 6vw, 4.5rem) 1.75rem;
+}
+
+.footerInner {
+  display: grid;
+  grid-template-columns: minmax(0, 1.6fr) repeat(2, minmax(0, 1fr));
+  gap: clamp(2rem, 5vw, 4rem);
+  padding-bottom: clamp(2rem, 4vw, 3rem);
+}
+
+.footerBrand {
+  max-width: 34ch;
+}
+
+.footerMark {
+  height: 28px;
+  width: auto;
+  display: block;
+}
+
+.footerTagline {
+  margin: 1rem 0 0;
+  font-size: var(--mk-small);
+  font-weight: 300;
+  line-height: 1.8;
+  color: var(--mk-on-field-quiet);
+}
+
+.footerCol {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.footerColTitle {
+  margin: 0 0 4px;
+  font-size: var(--mk-micro);
+  font-weight: 600;
+  letter-spacing: var(--mk-eyebrow-tracking);
+  text-transform: uppercase;
+  color: var(--mk-on-field-quiet);
+}
+
+.footerLink {
+  font-size: var(--mk-small);
+  font-weight: 400;
+  color: var(--mk-on-field-soft);
+  transition: color 0.16s ease;
+}
+.footerLink:hover {
+  color: #fff;
+}
+
+.footerBottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--mk-field-line-2);
+}
+
+.footerLegal {
+  font-family: var(--mk-font-latin);
+  font-size: var(--mk-micro);
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  color: var(--mk-on-field-quiet);
+  direction: ltr;
+}
+
+.footerNote {
+  font-size: var(--mk-micro);
+  font-weight: 300;
+  color: rgba(255, 255, 255, 0.36);
+}
+
+/* ==========================================================================
+   Responsive
+   ========================================================================== */
+@media (max-width: 1080px) {
+  .stages {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .platforms,
+  .rules {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .row {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 2.5rem;
+  }
+  /* Copy always leads on a stacked layout — flipping it would put a decorative
+     surface above the sentence that explains it. */
+  .rowFlip > .rowCopy {
+    order: 0;
+  }
+  .rowSurface {
+    justify-content: flex-start;
+  }
+  .proofInner {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 720px) {
+  .stages {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .platforms,
+  .rules {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .footerInner {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 2.25rem;
+  }
+  .ctaInner {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .ctaActions a {
+    flex: 1 1 auto;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .stages {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .proofInner {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1.25rem;
+  }
+  .platform {
+    min-height: 0;
+  }
+}

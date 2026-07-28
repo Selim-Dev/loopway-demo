@@ -1,12 +1,13 @@
 # Deploying the demo to Vercel
 
-Both apps are **100% statically prerendered** — every route came out of
+All three apps are **100% statically prerendered** — every route came out of
 `next build` as `○ (Static)`. There is no backend, no database, no API route
 and no environment variable. That makes this about the cheapest, fastest thing
 Vercel can host.
 
-You deploy **two projects from one repo**: `apps/b2b` and `apps/admin`. Two
-URLs, two independent deploys, one codebase.
+You deploy **three projects from one repo**: `apps/site` (the public marketing
+page), `apps/b2b` and `apps/admin`. Three URLs, three independent deploys, one
+codebase.
 
 ---
 
@@ -69,7 +70,22 @@ Add New → Project → **import the same repo again**, and this time:
 
 Deploy → `https://loopway-admin.vercel.app`
 
-Vercel will now rebuild both on every push to `main`. If you want each project
+**4. Create the marketing-site project**
+
+Add New → Project → **import the same repo a third time**:
+
+| Setting | Value |
+|---|---|
+| Project Name | `loopway-demo-site` |
+| **Root Directory** | **`apps/site`** |
+
+Deploy → `https://loopway-demo-site.vercel.app`
+
+The site links out to the other two portals. Those URLs live in one file,
+`apps/site/src/content/links.ts` — if a portal ever moves, that is the only
+place to change.
+
+Vercel will now rebuild all three on every push to `main`. If you want each project
 to rebuild only when its own files change, set **Settings → Git → Ignored Build
 Step** to:
 

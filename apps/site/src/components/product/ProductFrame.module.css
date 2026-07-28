@@ -1,0 +1,28 @@
+/* The scaled real-product wrapper. See ProductFrame.tsx for why scaling is the
+   right answer rather than re-authoring narrow component variants. */
+
+.outer {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  /* Direction-aware anchor consumed by the inline transform-origin. */
+  --mk-frame-origin: right;
+}
+
+:global([dir='ltr']) .outer {
+  --mk-frame-origin: left;
+}
+
+.inner {
+  /* The component lays out at its true width; the transform does the fitting.
+     `will-change` is omitted deliberately — these are set once on resize, not
+     animated, and promoting them would cost memory for nothing. */
+  transform-origin: top right;
+}
+
+/* The product's own components assume a light canvas. On the navy hero field
+   they need the canvas back underneath them, or their hairline borders read
+   against the wrong ground. */
+.onField {
+  border-radius: var(--mk-radius);
+}
