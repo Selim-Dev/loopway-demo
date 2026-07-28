@@ -93,7 +93,7 @@ export function AuditScreen() {
 
   return (
     <>
-      <AdminHeader title="Audit Log" subtitle="سجل كل إجراء حساس: من فعله، ومتى، وما القيمة قبل وبعد" />
+      <AdminHeader title="سجل القرارات والاعتمادات" subtitle="سجل كل إجراء حساس: من فعله، ومتى، وما القيمة قبل وبعد" />
 
       <FilterBar>
         <SearchField value={search} onChange={setSearch} placeholder="ابحث بالمستخدم أو الكيان…" aria-label="ابحث في السجل" />

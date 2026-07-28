@@ -280,6 +280,11 @@ Clicking a cell cycles `allowed → warning → blocked`. Missing entries read a
 `allowed`. `COMPATIBILITY_LABEL` exports the approved Arabic for the three
 states — do not coin your own.
 
+> **No consumer today.** The Admin catalog screen it was built for went when the
+> portal narrowed to ten sections. It stays exported because the SRS still
+> carries `E08` and the component is designed, built and documented — less dead
+> code than code waiting for its screen to come back.
+
 ---
 
 ## Charts

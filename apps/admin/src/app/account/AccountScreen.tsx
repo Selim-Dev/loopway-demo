@@ -38,11 +38,11 @@ import { ACTOR, useAdminStore, useQueueCounts } from '@/store/AdminStore';
  */
 
 const PERMISSIONS: { label: string; scope: string; allowed: boolean; icon: IconName }[] = [
-  { label: 'اعتماد السائقين والشاحنات', scope: 'M04-E03 · M04-E04', allowed: true, icon: 'user' },
-  { label: 'مراجعة الوثائق والتصاريح', scope: 'M04-E06', allowed: true, icon: 'document' },
+  { label: 'اعتماد طلبات تسجيل السائقين', scope: 'M04-E03 — السائق وشاحنته ووثائقهما', allowed: true, icon: 'user' },
   { label: 'مراجعة الغرامات وتعديل مبالغها', scope: 'M04-E12', allowed: true, icon: 'warning' },
-  { label: 'إدارة بلاغات الدعم والاستثناءات', scope: 'M04-E13', allowed: true, icon: 'support' },
-  { label: 'تحويل مستحقات السائقين', scope: 'M04-E11 — يتطلب صلاحية المسؤول المالي', allowed: false, icon: 'arrowOut' },
+  { label: 'الاطّلاع على العمليات المالية', scope: 'M04-E10', allowed: true, icon: 'card' },
+  { label: 'إدارة الإشعارات والقوالب', scope: 'M04-E15', allowed: true, icon: 'bell' },
+  { label: 'صرف مستحقات شركات النقل', scope: 'M04-E11 — يتطلب صلاحية المسؤول المالي', allowed: false, icon: 'arrowOut' },
   { label: 'تعديل إعدادات التسعير والرسوم', scope: 'M04-E09 — يتطلب صلاحية مدير المنصة', allowed: false, icon: 'card' },
 ];
 
@@ -54,7 +54,7 @@ export function AccountScreen() {
   const [prefs, setPrefs] = React.useState({ decisions: true, expiries: true, digest: false });
 
   const mine = state.audit.filter((a) => a.actorId === ACTOR.id).slice(0, 6);
-  const backlog = counts.drivers + counts.trucks + counts.documents + counts.penalties + counts.support;
+  const backlog = counts.drivers + counts.penalties;
 
   return (
     <>
@@ -65,7 +65,7 @@ export function AccountScreen() {
           الصلاحيات تُمنح من الإدارة العليا ولا يمكن تعديلها من هذه الصفحة. كل إجراء تتخذه يُسجَّل في
           {' '}
           <InlineLink href="/audit" linkAs={Link}>
-            Audit Log
+            سجل القرارات والاعتمادات
           </InlineLink>{' '}
           باسمك ووقته.
         </AlertBanner>
@@ -146,7 +146,7 @@ export function AccountScreen() {
 
         <Section
           title="آخر إجراءاتك"
-          subtitle="مسجّلة باسمك في Audit Log"
+          subtitle="مسجّلة باسمك في سجل القرارات والاعتمادات"
           flush
           action={
             <InlineLink href="/audit" linkAs={Link}>

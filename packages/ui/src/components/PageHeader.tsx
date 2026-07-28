@@ -20,6 +20,8 @@ export interface PageHeaderProps {
   notificationsHref?: string;
   notificationCount?: number;
   supportHref?: string;
+  /** Hide the support glyph where the surface has no support section to reach. */
+  showSupport?: boolean;
   accountName: string;
   accountId: string;
   accountInitial: string;
@@ -38,6 +40,7 @@ export function PageHeader({
   notificationsHref = '/notifications',
   notificationCount = 0,
   supportHref = '/support',
+  showSupport = true,
   accountName,
   accountId,
   accountInitial,
@@ -80,9 +83,11 @@ export function PageHeader({
           ) : null}
         </Link>
 
-        <Link href={supportHref} className={styles.iconBtn} title="الدعم" aria-label="الدعم">
-          <Icon name="support" size={21} />
-        </Link>
+        {showSupport ? (
+          <Link href={supportHref} className={styles.iconBtn} title="الدعم" aria-label="الدعم">
+            <Icon name="support" size={21} />
+          </Link>
+        ) : null}
 
         <div className={styles.divider} aria-hidden="true" />
 

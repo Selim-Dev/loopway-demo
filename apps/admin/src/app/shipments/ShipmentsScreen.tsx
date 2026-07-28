@@ -107,8 +107,6 @@ export function ShipmentsScreen() {
   const open = openId ? ADMIN_SHIPMENTS.find((s) => s.id === openId) ?? null : null;
 
   const openPenalties = open ? state.penalties.filter((p) => p.shipmentId === open.id) : [];
-  const openCases = open ? state.cases.filter((c) => c.shipmentId === open.id) : [];
-  const openDocs = open ? state.documents.filter((d) => d.shipmentId === open.id) : [];
   const openAudit: TimelineItem[] = open
     ? state.audit
         .filter((a) => a.entityId === open.id || a.entityLabel.includes(open.id))
@@ -266,19 +264,6 @@ export function ShipmentsScreen() {
                 </DetailList>
               </div>
 
-              {openDocs.length ? (
-                <div style={{ marginTop: 20 }}>
-                  <SectionLabel>الوثائق والتصاريح</SectionLabel>
-                  <ChipList>
-                    {openDocs.map((d) => (
-                      <Tag key={d.id} tone={d.rule === 'blocking' ? 'danger' : d.rule === 'warning' ? 'warning' : 'neutral'} icon="document">
-                        {d.documentType}
-                      </Tag>
-                    ))}
-                  </ChipList>
-                </div>
-              ) : null}
-
               {openPenalties.length ? (
                 <div style={{ marginTop: 20 }}>
                   <SectionLabel>الغرامات</SectionLabel>
@@ -292,18 +277,6 @@ export function ShipmentsScreen() {
                 </div>
               ) : null}
 
-              {openCases.length ? (
-                <div style={{ marginTop: 20 }}>
-                  <SectionLabel>بلاغات الدعم</SectionLabel>
-                  <DetailList>
-                    {openCases.map((c) => (
-                      <DetailRow key={c.id} label={c.type}>
-                        {c.status}
-                      </DetailRow>
-                    ))}
-                  </DetailList>
-                </div>
-              ) : null}
 
               {openAudit.length ? (
                 <div style={{ marginTop: 20 }}>

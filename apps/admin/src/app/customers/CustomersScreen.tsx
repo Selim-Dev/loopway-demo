@@ -34,7 +34,7 @@ import {
 import { AdminHeader } from '@/components/AdminHeader';
 import { resolveMode, viewOptions, type AdminViewState } from '@/components/viewState';
 import { COMPANY_CUSTOMERS, INDIVIDUAL_CUSTOMERS, ADMIN_SHIPMENTS } from '@/mocks/operations';
-import { ADMIN_PAYMENTS } from '@/mocks/finance';
+import { FINANCIAL_OPERATIONS } from '@/mocks/finance';
 
 /** إدارة العملاء والشركات — SRS M04-E05. */
 
@@ -85,7 +85,9 @@ export function CustomersScreen() {
   const accountStatus = company?.status ?? individual?.status;
 
   const shipments = ADMIN_SHIPMENTS.filter((s) => s.customerName === name);
-  const payments = ADMIN_PAYMENTS.filter((p) => p.payerName === name);
+  // Customer-facing money only: what this account paid, not the platform's
+  // own commission or fee lines against the same trip.
+  const payments = FINANCIAL_OPERATIONS.filter((p) => p.partyName === name && (p.type === 'دفعة عميل' || p.type === 'استرداد'));
 
   return (
     <>
@@ -336,7 +338,7 @@ export function CustomersScreen() {
                   <DetailList>
                     {payments.map((p) => (
                       <DetailRow key={p.id} label={p.id}>
-                        <span className="lw-ltr">{p.amount}</span> ر.س · {p.date}
+                        <span className="lw-ltr">{p.amount}</span> ر.س · {p.createdAt}
                       </DetailRow>
                     ))}
                   </DetailList>

@@ -3,10 +3,23 @@ import type { SidebarGroup } from '@loopway/ui';
 /**
  * The Admin portal's information architecture.
  *
- * One entry per functional section in SRS §8 → M04 (E01–E16), grouped so the
- * sixteen destinations stay scannable. The `srs` field is deliberate: it keeps
- * every screen traceable back to the requirement it implements, which is how
- * docs/design-system/10-admin-portal-guide.md is meant to be used.
+ * NOT one entry per SRS §8 M04 section. The SRS describes sixteen; running the
+ * portal showed the operating model is narrower, and several of those sections
+ * described work that either belongs inside another screen or is not done here
+ * at all:
+ *
+ *   E04 اعتماد الشاحنات   → merged into the driver request. A driver registers
+ *                            WITH a truck; approving them apart invents a state
+ *                            ("approved driver, pending truck") that no screen
+ *                            can act on.
+ *   E06 الوثائق والتصاريح  → documents live inside the request they belong to.
+ *   E07 الدول والموانئ      → out of the operating model.
+ *   E08 أنواع الشحنات       → out of the operating model.
+ *   E13 الدعم              → out of the operating model.
+ *   E14 التقارير           → out of the operating model.
+ *
+ * The `srs` field stays on what remains, so every screen is still traceable
+ * back to the requirement it implements.
  */
 
 export interface AdminSection {
@@ -17,7 +30,6 @@ export interface AdminSection {
   purpose: string;
   /** The @loopway/ui patterns this section is expected to reuse. */
   patterns: string[];
-  count?: number;
 }
 
 export const ADMIN_SECTIONS: AdminSection[] = [
@@ -25,82 +37,22 @@ export const ADMIN_SECTIONS: AdminSection[] = [
     srs: 'M04-E01',
     href: '/',
     label: 'الصفحة الرئيسية التشغيلية',
-    purpose: 'مؤشرات التشغيل والإجراءات المطلوبة على مستوى المنصة كلها.',
-    patterns: ['KPI tiles', 'Action Required list', 'AlertBanner'],
+    purpose: 'مؤشرات التشغيل وآخر التحديثات على مستوى المنصة. تقرير، لا قرار.',
+    patterns: ['KPI tiles', 'ListRow', 'Section'],
   },
   {
     srs: 'M04-E02',
     href: '/shipments',
     label: 'إدارة الرحلات',
-    purpose: 'قائمة كل الشحنات مع فلاتر وتفاصيل تشغيلية كاملة لكل شحنة.',
+    purpose: 'قائمة كل الرحلات مع فلاتر وتفاصيل تشغيلية كاملة لكل رحلة.',
     patterns: ['FilterBar', 'DataTable', 'SidePanel', 'Five view states'],
   },
   {
     srs: 'M04-E03',
     href: '/drivers',
     label: 'اعتماد السائقين',
-    purpose: 'مراجعة طلبات تسجيل السائقين ووثائقهم واعتمادها أو رفضها.',
-    patterns: ['Approval queue', 'DataTable', 'SidePanel', 'StatusBadge'],
-    count: 12,
-  },
-  {
-    srs: 'M04-E04',
-    href: '/trucks',
-    label: 'اعتماد الشاحنات',
-    purpose: 'مراجعة بيانات الشاحنة والاستمارة والتأمين والصور واعتمادها.',
-    patterns: ['Approval queue', 'DataTable', 'SidePanel'],
-    count: 7,
-  },
-  {
-    srs: 'M04-E05',
-    href: '/customers',
-    label: 'إدارة العملاء والشركات',
-    purpose: 'حسابات الأفراد والشركات ووثائقها وشحناتها ومدفوعاتها.',
-    patterns: ['TabGroup', 'DataTable', 'SidePanel'],
-  },
-  {
-    srs: 'M04-E06',
-    href: '/documents',
-    label: 'مراجعة الوثائق والتصاريح',
-    purpose: 'طابور مراجعة الوثائق والتصاريح لكل الكيانات.',
-    patterns: ['Approval queue', 'DataTable', 'StatusBadge'],
-    count: 23,
-  },
-  {
-    srs: 'M04-E07',
-    href: '/settings/geography',
-    label: 'الدول والمدن والموانئ',
-    purpose: 'الدول المدعومة ومدنها وموانئها وهل يتطلب الميناء تصريحاً.',
-    patterns: ['Settings CRUD', 'DataTable'],
-  },
-  {
-    srs: 'M04-E08',
-    href: '/settings/catalog',
-    label: 'أنواع الشحنات والشاحنات',
-    purpose: 'أنواع الحمولات وأنواع الشاحنات ومصفوفة التوافق بينهما.',
-    patterns: ['Settings CRUD', 'Compatibility matrix'],
-  },
-  {
-    srs: 'M04-E09',
-    href: '/settings/pricing',
-    label: 'التسعير والرسوم والضرائب',
-    purpose: 'رسوم المنصة والعمولة وضريبة القيمة المضافة ورسوم الدفع.',
-    patterns: ['Settings form', 'AlertBanner'],
-  },
-  {
-    srs: 'M04-E10',
-    href: '/payments',
-    label: 'الدفع والـ Ledger',
-    purpose: 'معاملات الدفع وقيود الـ Ledger لكل الأطراف.',
-    patterns: ['DataTable', 'AmountText', 'SidePanel'],
-  },
-  {
-    srs: 'M04-E11',
-    href: '/payouts',
-    label: 'Payout Management',
-    purpose: 'مستحقات السائقين من التسوية حتى التحويل الفعلي.',
-    patterns: ['DataTable', 'AmountText', 'StatusBadge'],
-    count: 9,
+    purpose: 'طلب تسجيل واحد يضم السائق وشاحنته ووثائقهما، يُقبل أو يُرفض كوحدة واحدة.',
+    patterns: ['Approval queue', 'DocumentViewer', 'PhotoGrid', 'ConfirmDialog'],
   },
   {
     srs: 'M04-E12',
@@ -108,43 +60,55 @@ export const ADMIN_SECTIONS: AdminSection[] = [
     label: 'مراجعة الغرامات',
     purpose: 'الغرامات المحتملة قبل أي أثر مالي — اعتماد أو رفض أو تعديل.',
     patterns: ['Approval queue', 'SidePanel', 'AlertBanner'],
-    count: 4,
   },
   {
-    srs: 'M04-E13',
-    href: '/support',
-    label: 'الدعم والاستثناءات',
-    purpose: 'بلاغات الدعم والنزاعات والتحقق البديل من التسليم.',
-    patterns: ['DataTable', 'SidePanel', 'StatusBadge'],
-    count: 6,
+    srs: 'M04-E05',
+    href: '/customers',
+    label: 'العملاء والشركات',
+    purpose: 'حسابات الأفراد والشركات ووثائقها وشحناتها ومدفوعاتها.',
+    patterns: ['ContentTabs', 'DataTable', 'SidePanel'],
   },
   {
-    srs: 'M04-E14',
-    href: '/reports',
-    label: 'التقارير',
-    purpose: 'تقارير تشغيلية ومالية على مستوى المنصة.',
-    patterns: ['Bar rows', 'Card grid'],
+    srs: 'M04-E10',
+    href: '/finance',
+    label: 'العمليات المالية',
+    purpose: 'كل الحركات المالية على المنصة: المدفوعات والاستردادات والعمولة والرسوم والغرامات المعتمدة.',
+    patterns: ['DataTable', 'AmountText', 'SidePanel'],
+  },
+  {
+    srs: 'M04-E11',
+    href: '/carrier-dues',
+    label: 'إدارة مستحقات الشركات',
+    purpose: 'مستحقات شركات النقل مفصّلة حسب الرحلات، من المراجعة حتى الصرف.',
+    patterns: ['DataTable', 'AmountText', 'ConfirmDialog'],
+  },
+  {
+    srs: 'M04-E09',
+    href: '/settings/pricing',
+    label: 'التسعير والرسوم',
+    purpose: 'رسوم المنصة والعمولة وضريبة القيمة المضافة ورسوم الدفع.',
+    patterns: ['Settings form', 'AlertBanner', 'ConfirmDialog'],
   },
   {
     srs: 'M04-E15',
-    href: '/templates',
-    label: 'الإشعارات والقوالب',
-    purpose: 'قوالب إشعارات النظام لكل حدث.',
-    patterns: ['Settings CRUD', 'DataTable'],
+    href: '/notifications',
+    label: 'إدارة الإشعارات',
+    purpose: 'إرسال الإشعارات، وإدارة القوالب، والاطلاع على سجل الإرسال.',
+    patterns: ['ContentTabs', 'Settings CRUD', 'DataTable'],
   },
   {
     srs: 'M04-E16',
     href: '/audit',
-    label: 'Audit Log',
+    label: 'سجل القرارات والاعتمادات',
     purpose: 'سجل كل إجراء حساس: من فعله، ومتى، وما القيمة قبل وبعد.',
-    patterns: ['DataTable', 'Timeline', 'FilterBar'],
+    patterns: ['DataTable', 'FilterBar', 'SidePanel'],
   },
 ];
 
 /**
  * No `count` on any item — the sidebar carries destinations only. Queue depth
- * still shows where a decision is actually taken: the home dashboard's KPI
- * tiles and each queue's own filter-bar tabs.
+ * shows where the decision is taken: the home dashboard's KPI tiles and each
+ * queue's own filter-bar tabs.
  */
 export const ADMIN_GROUPS: SidebarGroup[] = [
   {
@@ -157,10 +121,6 @@ export const ADMIN_GROUPS: SidebarGroup[] = [
     label: 'الاعتماد والمراجعة',
     items: [
       { label: 'اعتماد السائقين', icon: 'user', href: '/drivers' },
-      // Hidden from the sidebar on request. The route, the screen and the
-      // approval queue all still work — only the nav entry is out.
-      // { label: 'اعتماد الشاحنات', icon: 'truck', href: '/trucks' },
-      { label: 'الوثائق والتصاريح', icon: 'document', href: '/documents' },
       { label: 'مراجعة الغرامات', icon: 'warning', href: '/penalties' },
     ],
   },
@@ -168,26 +128,20 @@ export const ADMIN_GROUPS: SidebarGroup[] = [
     label: 'الحسابات والمال',
     items: [
       { label: 'العملاء والشركات', icon: 'user', href: '/customers' },
-      { label: 'الدفع والـ Ledger', icon: 'card', href: '/payments' },
-      { label: 'Payout Management', icon: 'arrowOut', href: '/payouts' },
+      { label: 'العمليات المالية', icon: 'card', href: '/finance' },
+      { label: 'إدارة مستحقات الشركات', icon: 'arrowOut', href: '/carrier-dues' },
     ],
   },
   {
     label: 'الإعدادات',
     items: [
-      { label: 'الدول والموانئ', icon: 'home', href: '/settings/geography' },
-      { label: 'الشحنات والشاحنات', icon: 'list', href: '/settings/catalog' },
       { label: 'التسعير والرسوم', icon: 'card', href: '/settings/pricing' },
-      { label: 'الإشعارات والقوالب', icon: 'bell', href: '/templates' },
+      { label: 'إدارة الإشعارات', icon: 'bell', href: '/notifications' },
     ],
   },
   {
     label: 'التشغيل',
-    items: [
-      { label: 'الدعم والاستثناءات', icon: 'support', href: '/support' },
-      { label: 'التقارير', icon: 'list', href: '/reports' },
-      { label: 'Audit Log', icon: 'clock', href: '/audit' },
-    ],
+    items: [{ label: 'سجل القرارات والاعتمادات', icon: 'clock', href: '/audit' }],
   },
 ];
 

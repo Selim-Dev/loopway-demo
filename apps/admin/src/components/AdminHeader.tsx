@@ -13,7 +13,8 @@ import { ACTOR, useQueueCounts } from '@/store/AdminStore';
  * (`/notifications`, `/support`, `/account`). Admin has to name its own or the
  * chip and the bell 404 — which is exactly what they did on the deployment.
  * The bell points at `/`, since the backlog it counts is the decision queue
- * that screen lists.
+ * that screen lists, and the support glyph is hidden — the portal no longer has
+ * a support section for it to reach.
  */
 export function AdminHeader({
   title,
@@ -25,7 +26,7 @@ export function AdminHeader({
   tabs?: PageTab[];
 }) {
   const c = useQueueCounts();
-  const backlog = c.drivers + c.trucks + c.documents + c.penalties + c.support;
+  const backlog = c.drivers + c.penalties;
 
   return (
     <PageHeader
@@ -34,7 +35,7 @@ export function AdminHeader({
       tabs={tabs}
       notificationsHref="/"
       notificationCount={backlog}
-      supportHref="/support"
+      showSupport={false}
       accountHref="/account"
       accountName={ACTOR.name}
       accountId={ACTOR.id}

@@ -29,7 +29,7 @@ function Chrome({ children }: { children: React.ReactNode }) {
           subtitle="لوحة الإدارة"
           footer={{
             title: 'وضع القراءة والاعتماد',
-            body: 'كل إجراء حساس يُسجَّل في Audit Log مع المستخدم والوقت والقيمة قبل وبعد.',
+            body: 'كل إجراء حساس يُسجَّل في سجل القرارات مع المستخدم والوقت والقيمة قبل وبعد.',
           }}
           linkAs={Link}
         />

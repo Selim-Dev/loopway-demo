@@ -8,10 +8,10 @@
    file — the 252px width, the navy fill, the 11px item radius, the
    rgba(46,204,113,.16) active tint and the 3px green edge marker.
 
-   The Admin portal has sixteen sections (SRS M04-E01…E16); an icon rail cannot
-   carry sixteen unlabelled destinations, so the labelled variant is the right
-   shell there. Group headings are the one addition, and they reuse the same
-   translucent-white ramp the rest of the sidebar already uses.
+   The Admin portal carries ten grouped destinations with labels long enough to
+   need two lines; an icon rail cannot express any of that, so the labelled
+   variant is the right shell there. Group headings are the one addition, and
+   they reuse the same translucent-white ramp the rest of the sidebar uses.
    ========================================================================== */
 
 .shell {
@@ -106,6 +106,7 @@
 .item {
   position: relative;
   display: flex;
+  /* Two-line labels stay centred against the glyph rather than hanging off it. */
   align-items: center;
   gap: 12px;
   padding: 11px 12px;
@@ -140,12 +141,13 @@
   background: var(--lw-green-500);
 }
 
+/* Wrap rather than truncate. A destination clipped to "سجل القرارات والاعتماد…"
+   makes the reader guess at the one thing a nav label exists to tell them. */
 .itemLabel {
   flex: 1;
   min-width: 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  line-height: 1.35;
+  overflow-wrap: break-word;
 }
 
 .count {

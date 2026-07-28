@@ -83,30 +83,43 @@ Route groups: `(portal)` wraps everything in `AppShell`; `(auth)` renders bare
 
 ## Admin routes (`apps/admin`, port 3001)
 
-Sixteen sections, one per `M04-E*`, grouped in the sidebar. `/` is built for
-real; the other fifteen render `SectionPage`, which states the SRS reference
-and the patterns that section should reuse.
+**Ten destinations, not sixteen.** The SRS describes sixteen `M04-E*`
+sections; running the portal showed the operating model is narrower. Six of
+them either belong inside another screen or are not work this portal does — see
+`apps/admin/src/config/sections.ts`, which lists each removal and why.
 
 | Group | Route | Section | SRS |
 |---|---|---|---|
 | — | `/` | الصفحة الرئيسية التشغيلية | `M04-E01` |
 | — | `/shipments` | إدارة الرحلات | `M04-E02` |
 | الاعتماد والمراجعة | `/drivers` | اعتماد السائقين | `M04-E03` |
-| | `/trucks` | اعتماد الشاحنات | `M04-E04` |
-| | `/documents` | مراجعة الوثائق والتصاريح | `M04-E06` |
 | | `/penalties` | مراجعة الغرامات | `M04-E12` |
-| الحسابات والمال | `/customers` | إدارة العملاء والشركات | `M04-E05` |
-| | `/payments` | الدفع والـ Ledger | `M04-E10` |
-| | `/payouts` | Payout Management | `M04-E11` |
-| الإعدادات | `/settings/geography` | الدول والمدن والموانئ | `M04-E07` |
-| | `/settings/catalog` | أنواع الشحنات والشاحنات | `M04-E08` |
-| | `/settings/pricing` | التسعير والرسوم والضرائب | `M04-E09` |
-| | `/templates` | الإشعارات والقوالب | `M04-E15` |
-| التشغيل | `/support` | الدعم والاستثناءات | `M04-E13` |
-| | `/reports` | التقارير | `M04-E14` |
-| | `/audit` | Audit Log | `M04-E16` |
+| الحسابات والمال | `/customers` | العملاء والشركات | `M04-E05` |
+| | `/finance` | العمليات المالية | `M04-E10` |
+| | `/carrier-dues` | إدارة مستحقات الشركات | `M04-E11` |
+| الإعدادات | `/settings/pricing` | التسعير والرسوم | `M04-E09` |
+| | `/notifications` | إدارة الإشعارات | `M04-E15` |
+| التشغيل | `/audit` | سجل القرارات والاعتمادات | `M04-E16` |
 
-Sixteen destinations is why Admin uses `NavSidebar` rather than `IconRail`.
+Plus `/account` — the operator's own profile, which is not an SRS section. It
+exists because `PageHeader` puts an account chip on every screen and that chip
+has to land somewhere.
+
+**Removed, with the reason:**
+
+| Was | Why it went |
+|---|---|
+| `/trucks` `E04` | merged into the driver request — a driver registers *with* a truck, and "approved driver, pending truck" is a state no screen can act on |
+| `/documents` `E06` | documents live inside the request they belong to |
+| `/settings/geography` `E07`, `/settings/catalog` `E08` | out of the operating model |
+| `/support` `E13`, `/reports` `E14` | out of the operating model |
+
+Routes were renamed with their labels: `/payments` → `/finance`, `/payouts` →
+`/carrier-dues`, `/templates` → `/notifications`. A page titled
+إدارة مستحقات الشركات served from `/payouts` is a trap for the next reader.
+
+Ten grouped destinations with labels long enough to wrap is why Admin uses
+`NavSidebar` rather than `IconRail`.
 See [10-admin-portal-guide.md](10-admin-portal-guide.md).
 
 ---

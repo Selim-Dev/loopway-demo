@@ -19,60 +19,62 @@ Then find your section in the table below.
 
 ## What is already built
 
-**All sixteen sections are built.** `apps/admin` is a complete UI, not a
-scaffold:
+**Ten sections, not sixteen.** `apps/admin` is a complete UI:
 
 - `SidebarShell` + `NavSidebar` — the navy labelled sidebar. Destinations only:
-  it carries **no queue badges**. Counts live where the decision is taken.
-- `PageHeader` — same 66px chrome as B2B, with the admin identity.
-- `src/mocks/` — fixtures for every table, sized so pagination is real and
-  cross-referenced with the B2B fixtures: the same `LW-2026-…` and `TXN-2026-…`
-  records appear on both sides, which is what makes the two portals read as one
-  product.
-- `src/store/AdminStore.tsx` — React context + reducer holding a mutable copy of
-  the fixtures. Decisions actually take effect for the session: approving a
-  driver removes the row, drops the dashboard KPI tile and the queue's tab
-  count, and appends an audit entry.
-  State resets on reload. Still no backend, no fetch, no env vars.
-- Every screen wires all five view states through the `حالة العرض` control in
-  its `PaginationBar`.
+  it carries **no queue badges**.
+- `PageHeader` via `AdminHeader` — same 66px chrome as B2B, with the admin
+  identity. The support glyph is hidden; there is no support section to reach.
+- `src/mocks/` — fixtures for every table, cross-referenced with the B2B
+  fixtures: the same `LW-2026-…` and `TXN-2026-…` records appear on both sides,
+  which is what makes the two portals read as one product.
+- `src/store/AdminStore.tsx` — React context + reducer over a mutable copy of
+  the fixtures. Decisions take effect for the session and reset on reload.
+  Still no backend, no fetch, no env vars.
+- Every list screen wires all five view states through the `حالة العرض` control.
 
-`SectionPage` — the placeholder these screens replaced — has been deleted. If
-you are adding a seventeenth section, build it from the patterns below.
+Plus `/account` — the operator's own profile, not an SRS section. Its
+permissions block is read-only: roles are assigned in the back office, and a
+screen that lets an operator widen their own permissions is the one screen an
+audit log cannot save you from.
 
-Plus one route that is **not** an SRS section: `/account`
-(`apps/admin/src/app/account/AccountScreen.tsx`). `PageHeader` puts an account
-chip on every screen, and that chip has to land somewhere. Its permissions
-block is read-only — roles are assigned in the back office, and a screen that
-lets an operator widen their own permissions is the one screen an audit log
-cannot save you from.
+### Why the SRS's sixteen became ten
 
-> **`PageHeader` defaults its three chrome links to B2B routes** —
-> `/notifications`, `/support`, `/account`. Admin must pass its own
-> `notificationsHref` / `supportHref` / `accountHref`, or the bell and the
-> account chip 404. `AdminHeader` now does. Pass `linkAs={Link}` too, otherwise
-> the chrome navigates with full page reloads.
+The SRS was written before the portal existed. Running it showed six sections
+that either belong inside another screen or describe work this portal does not
+do. Each removal is recorded in `apps/admin/src/config/sections.ts`:
 
-### Two things that are pinned on purpose
+| Was | Why it went |
+|---|---|
+| `E04` اعتماد الشاحنات | **merged into the driver request.** A driver registers *with* a truck. Approving them apart invents "approved driver, pending truck" — a state no screen can act on |
+| `E06` الوثائق والتصاريح | documents live inside the request they belong to |
+| `E07` الدول والموانئ · `E08` أنواع الشحنات | out of the operating model |
+| `E13` الدعم · `E14` التقارير | out of the operating model |
+
+**What went with `E13`:** the alternative-POD verification block, which was the
+only place the portal demonstrated `BR-011` — that a trip cannot close without
+proof of delivery, and what an operator does when the standard proof is
+unavailable. Worth knowing if support is ever restored.
+
+### Three things that are pinned on purpose
 
 **`SESSION_DATE`** in `AdminStore.tsx` is a fixed string, not `new Date()`. The
 fixtures live in July 2026; a real clock would file every decision two months
-before the records it acts on and the audit log would read backwards.
+before the records it acts on.
 
 **Queue counts are derived** through `useQueueCounts()` — never typed in. They
 surface on the dashboard KPI tiles and each queue's filter-bar tabs, not on the
 sidebar. See "Queue counts are derived" in [07-patterns.md](07-patterns.md).
 
-**`اعتماد الشاحنات` is commented out of `ADMIN_GROUPS`,** not deleted. The
-`/trucks` route, its screen and its approval queue all still work — only the nav
-entry is hidden. Uncomment the one line in
-`apps/admin/src/config/sections.ts` to bring it back.
+**`totalDue` on a carrier is summed from its trip lines**, never written down. A
+breakdown that does not add up is worse than no breakdown.
 
 ---
 
 ## Why Admin uses the sidebar, not the rail
 
-Sixteen destinations cannot live on a 78px icon rail. `NavSidebar` is **not an
+Ten grouped destinations, several with labels long enough to wrap onto two
+lines, cannot live on a 78px icon rail. `NavSidebar` is **not an
 invention for Admin** — it is the shell the Claude Design project shipped in
 its *first* company-dashboard iteration, before the B2B portal moved to the
 rail. Same 252px width, same navy, same 11px item radius, same
@@ -85,30 +87,24 @@ sidebar already speaks.
 
 ## Section-by-section
 
-| Section | Reuse | New work | Built at |
-|---|---|---|---|
-| `M04-E01` الرئيسية التشغيلية | KPI tiles, decision-queue rows, `AlertBanner` | figures derived live from the store | `apps/admin/src/app/AdminHome.tsx` |
-| `M04-E02` إدارة الرحلات | `FilterBar` · `DataTable` · `SidePanel` · **all five view states** | admin-only filters (customer, driver, admin status); the workspace mirrors `/trips/[id]` with intervention actions | `apps/admin/src/app/shipments/ShipmentsScreen.tsx` |
-| `M04-E03` اعتماد السائقين | approval-queue pattern (below) · `StatusBadge` · document rows | side-by-side document viewer; reject-with-reason dialog | `apps/admin/src/app/drivers/DriversScreen.tsx` |
-| `M04-E04` اعتماد الشاحنات | identical to E03 | truck-photo grid; expiry tracking for استمارة / تأمين | `apps/admin/src/app/trucks/TrucksScreen.tsx` |
-| `M04-E05` العملاء والشركات | `TabGroup` (أفراد / شركات) · `DataTable` · `SidePanel` | per-account tabs: وثائق / شحنات / مدفوعات | `apps/admin/src/app/customers/CustomersScreen.tsx` |
-| `M04-E06` الوثائق والتصاريح | approval-queue pattern · `DataTable` | one queue across all entity types; Blocking vs Warning distinction | `apps/admin/src/app/documents/DocumentsScreen.tsx` |
-| `M04-E07` الدول والموانئ | settings-CRUD pattern (below) | nested country → city → port editor; "does this port require a permit" | `apps/admin/src/app/settings/geography/GeographyScreen.tsx` |
-| `M04-E08` أنواع الشحنات والشاحنات | settings-CRUD pattern | **compatibility matrix** — a real new component | `apps/admin/src/app/settings/catalog/CatalogScreen.tsx` |
-| `M04-E09` التسعير والرسوم | derived form pattern · `AlertBanner` | a live example calculation; changes here move money, so confirm before save | `apps/admin/src/app/settings/pricing/PricingScreen.tsx` |
-| `M04-E10` الدفع والـ Ledger | `DataTable` · `AmountText` · `SidePanel` · `StatusTimeline` | ledger entries are double-entry — show both sides | `apps/admin/src/app/payments/PaymentsScreen.tsx` |
-| `M04-E11` Payout Management | `DataTable` · `AmountText` · `StatusBadge` | batch selection + a confirm step | `apps/admin/src/app/payouts/PayoutsScreen.tsx` |
-| `M04-E12` مراجعة الغرامات | approval-queue pattern · `SidePanel` | approve / reject / **adjust amount**. See the rule below | `apps/admin/src/app/penalties/PenaltiesScreen.tsx` |
-| `M04-E13` الدعم والاستثناءات | `DataTable` · `SidePanel` · `StatusBadge` | case thread; alternative-POD verification | `apps/admin/src/app/support/SupportScreen.tsx` |
-| `M04-E14` التقارير | the bar-row pattern from `/reports` | wider date range + export | `apps/admin/src/app/reports/ReportsScreen.tsx` |
-| `M04-E15` الإشعارات والقوالب | settings-CRUD pattern | template editor with variable tokens | `apps/admin/src/app/templates/TemplatesScreen.tsx` |
-| `M04-E16` Audit Log | `DataTable` · `FilterBar` · full `StatusTimeline` | before/after value diff | `apps/admin/src/app/audit/AuditScreen.tsx` |
+| Section | Route | What is specific to it |
+|---|---|---|
+| `E01` الرئيسية التشغيلية | `/` | Three KPI tiles and the five newest operational updates. **Reports, never decides** — no approve/reject control exists on this page |
+| `E02` إدارة الرحلات | `/shipments` | Admin-only filters; the panel mirrors `/trips/[id]` plus parties, pricing and the per-trip audit trail |
+| `E03` اعتماد السائقين | `/drivers` | **One request = driver + truck + both document sets**, one decision, one audit entry. Registration/insurance expiry tints amber inside 30 days, red past due |
+| `E12` مراجعة الغرامات | `/penalties` | approve / reject / **adjust amount**. `BR-012`: a penalty is محتملة until approved |
+| `E05` العملاء والشركات | `/customers` | `ContentTabs` أفراد / شركات; per-account inner tabs |
+| `E10` العمليات المالية | `/finance` | One flat log, not a payments/ledger split. Two row sources are **live store state** — an approved penalty and a paid carrier appear here without a reload |
+| `E11` إدارة مستحقات الشركات | `/carrier-dues` | Per-trip breakdown: قيمة الرحلة − عمولة ورسوم − الغرامات المعتمدة = الصافي. Only **approved** penalties may appear on a line |
+| `E09` التسعير والرسوم | `/settings/pricing` | Live worked example; saving moves money, so it confirms |
+| `E15` إدارة الإشعارات | `/notifications` | Three tabs: إرسال · القوالب · سجل الإرسال. A send appends to the log |
+| `E16` سجل القرارات والاعتمادات | `/audit` | Before/after value diff. Read-only — no actions, ever |
 
 ---
 
 ## Two patterns you will build repeatedly
 
-### Approval queue (E03, E04, E06, E12)
+### Approval queue (E03, E12)
 
 Every one of these is the same shape:
 
@@ -124,10 +120,14 @@ Rules:
 - The decision footer is a `SidePanel` footer, not a floating bar.
 - Queue depth belongs on the filter-bar status tabs and the dashboard KPI tile.
   Not on the sidebar — that carries destinations only.
+- **One decision per real-world event.** `/drivers` decides a driver, a truck
+  and two document sets together and writes ONE audit entry. Each document still
+  carries its own verdict inside the panel: a submission can be sound apart from
+  one bad paper, and the reviewer has to be able to say exactly that.
 - Every decision writes to the Audit Log (`BR-015`) — say so in the UI.
 - All five view states, same as B2B.
 
-### Settings CRUD (E07, E08, E09, E15)
+### Settings CRUD (E09, E15)
 
 ```
 PageHeader   title + one-line purpose
@@ -196,4 +196,8 @@ add such a button because it seems convenient.
 - [ ] Screen renders correctly at 1480×1020 with no horizontal body scroll
 - [ ] Any decision the screen takes moves its tab count and the dashboard tile,
       **and** appends an audit entry — check `/audit` after using it
+- [ ] Any figure that is a sum is computed from its parts, not typed in
+- [ ] Verify by CLICKING through the sidebar, never `page.goto` — a reload
+      remounts the store and resets the session, so a reload between "approve"
+      and "check the other screen" tests nothing
 - [ ] `npm run build` and `npm run typecheck` clean

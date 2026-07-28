@@ -20,6 +20,7 @@ import {
   LoadingState,
   NoResultsState,
   PageBody,
+  PhotoGrid,
   PaginationBar,
   PanelCta,
   PrimaryCta,
@@ -103,7 +104,8 @@ export function DriversScreen() {
     return state.drivers.filter((d) => {
       if (!TAB_STATUS[tab].includes(d.status)) return false;
       if (nationality !== 'all' && d.nationality !== nationality) return false;
-      if (q && !`${d.id} ${d.name} ${d.mobile} ${d.identityNumber}`.toLowerCase().includes(q)) return false;
+      if (q && !`${d.id} ${d.name} ${d.mobile} ${d.identityNumber} ${d.carrierName} ${d.truck.plateNumber}`.toLowerCase().includes(q))
+        return false;
       return true;
     });
   }, [state.drivers, tab, nationality, search]);
@@ -125,7 +127,10 @@ export function DriversScreen() {
 
   return (
     <>
-      <AdminHeader title="اعتماد السائقين" subtitle="مراجعة طلبات تسجيل السائقين ووثائقهم واعتمادها أو رفضها" />
+      <AdminHeader
+        title="اعتماد السائقين"
+        subtitle="طلب التسجيل الواحد يضم السائق وشاحنته ووثائقهما، ويُقبل أو يُرفض كوحدة واحدة"
+      />
 
       <FilterBar>
         <TabGroup
@@ -144,7 +149,7 @@ export function DriversScreen() {
         <SearchField
           value={search}
           onChange={setSearch}
-          placeholder="ابحث بالاسم أو الجوال أو رقم الهوية…"
+          placeholder="ابحث بالاسم أو الجوال أو اللوحة أو الشركة…"
           aria-label="ابحث عن سائق"
         />
         <SelectField value={nationality} onChange={setNationality} options={NATIONALITIES} aria-label="تصفية حسب الجنسية" />
@@ -162,9 +167,9 @@ export function DriversScreen() {
               head={
                 <>
                   <th>السائق</th>
+                  <th>شركة النقل</th>
+                  <th>الشاحنة</th>
                   <th>الجوال</th>
-                  <th>الجنسية</th>
-                  <th>أنواع الشحنات المقبولة</th>
                   <th>الوثائق</th>
                   <th>تاريخ التقديم</th>
                   <th>الحالة</th>
@@ -186,13 +191,16 @@ export function DriversScreen() {
                       </CellStack>
                     </td>
                     <td>
+                      <CellPrimary>{d.carrierName}</CellPrimary>
+                      <CellSecondary ltr>{d.carrierId}</CellSecondary>
+                    </td>
+                    <td>
+                      <CellPrimary ltr>{d.truck.plateNumber}</CellPrimary>
+                      <CellSecondary>{d.truck.truckType}</CellSecondary>
+                    </td>
+                    <td>
                       <CellPrimary ltr>{d.mobile}</CellPrimary>
-                    </td>
-                    <td>
-                      <CellPrimary>{d.nationality}</CellPrimary>
-                    </td>
-                    <td>
-                      <CellSecondary>{d.acceptedCargoTypes.join('، ')}</CellSecondary>
+                      <CellSecondary>{d.nationality}</CellSecondary>
                     </td>
                     <td>
                       <CellPrimary ltr>
@@ -232,13 +240,13 @@ export function DriversScreen() {
 
           {selected ? (
             <SidePanel
-              title="مراجعة السائق"
+              title="مراجعة طلب التسجيل"
               onClose={() => setSelectedId(null)}
               footer={
                 selected.status === 'Under Review' || selected.status === 'Needs More Info' ? (
                   <>
                     <PanelCta icon="check" onClick={() => decide(selected.id, 'Approved')}>
-                      اعتماد السائق
+                      اعتماد الطلب
                     </PanelCta>
                     <PanelCta variant="ghost" onClick={() => setDecision({ kind: 'info', driver: selected })}>
                       طلب معلومات إضافية
@@ -286,7 +294,7 @@ export function DriversScreen() {
         onClose={() => setDecision(null)}
         onConfirm={(reason) => decision && decide(decision.driver.id, 'Rejected', reason)}
         tone="danger"
-        title="رفض طلب السائق"
+        title="رفض طلب التسجيل"
         body={`سيُبلَّغ ${decision?.driver.name ?? ''} بالرفض وبالسبب الذي تكتبه. لن يتمكن من استقبال أي طلبات.`}
         confirmLabel="تأكيد الرفض"
         reasonRequired
@@ -357,13 +365,39 @@ function DriverDetail({
         <DetailRow label="الجوال">
           <span className="lw-ltr">{driver.mobile}</span>
         </DetailRow>
+        <DetailRow label="شركة النقل">
+          {driver.carrierName} · <span className="lw-ltr">{driver.carrierId}</span>
+        </DetailRow>
         <DetailRow label="تاريخ التقديم">{driver.submittedAt}</DetailRow>
-        {driver.truckPlate ? (
-          <DetailRow label="الشاحنة المرفقة">
-            <span className="lw-ltr">{driver.truckPlate}</span>
-          </DetailRow>
-        ) : null}
       </DetailList>
+
+      {/* The truck arrived with the request and is decided with it — there is no
+          separate truck queue to send it to. */}
+      <div style={{ marginTop: 20 }}>
+        <SectionLabel>بيانات الشاحنة</SectionLabel>
+        <DetailList>
+          <DetailRow label="رقم اللوحة">
+            <span className="lw-ltr">{driver.truck.plateNumber}</span>
+          </DetailRow>
+          <DetailRow label="النوع">{driver.truck.truckType}</DetailRow>
+          <DetailRow label="الموديل">
+            {driver.truck.modelName} · <span className="lw-ltr">{driver.truck.modelYear}</span>
+          </DetailRow>
+          <DetailRow label="الاستمارة">
+            <ExpiryValue date={driver.truck.registrationExpiry} />
+          </DetailRow>
+          <DetailRow label="التأمين">
+            <ExpiryValue date={driver.truck.insuranceExpiry} />
+          </DetailRow>
+          <DetailRow label="رقم الوثيقة">
+            <span className="lw-ltr">{driver.truck.insurancePolicy}</span>
+          </DetailRow>
+        </DetailList>
+
+        <div style={{ marginTop: 12 }}>
+          <PhotoGrid captions={driver.truck.photos} />
+        </div>
+      </div>
 
       <div style={{ marginTop: 20 }}>
         <SectionLabel>أنواع الشحنات المقبولة</SectionLabel>
@@ -374,22 +408,31 @@ function DriverDetail({
         </ChipList>
       </div>
 
-      <div style={{ marginTop: 20 }}>
-        <SectionLabel>الوثائق</SectionLabel>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-          {driver.documents.map((doc) => (
-            <DocumentViewer
-              key={doc.id}
-              name={doc.fileName}
-              meta={`${doc.type} · ${doc.sizeLabel}${doc.expiryDate ? ` · تنتهي ${doc.expiryDate}` : ''}`}
-              decision={doc.decision}
-              onDownload={() => {}}
-              onApprove={() => onDoc(doc.id, 'approved')}
-              onReject={() => onDoc(doc.id, 'rejected')}
-            />
-          ))}
-        </div>
-      </div>
+      {/* One decision covers the request, but each paper still gets its own
+          verdict: a submission can be sound apart from one bad document, and
+          the reviewer has to be able to say exactly that. */}
+      {(['driver', 'truck'] as const).map((scope) => {
+        const docs = driver.documents.filter((d) => d.scope === scope);
+        if (docs.length === 0) return null;
+        return (
+          <div key={scope} style={{ marginTop: 20 }}>
+            <SectionLabel>{scope === 'driver' ? 'وثائق السائق' : 'وثائق الشاحنة'}</SectionLabel>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+              {docs.map((doc) => (
+                <DocumentViewer
+                  key={doc.id}
+                  name={doc.fileName}
+                  meta={`${doc.type} · ${doc.sizeLabel}${doc.expiryDate ? ` · تنتهي ${doc.expiryDate}` : ''}`}
+                  decision={doc.decision}
+                  onDownload={() => {}}
+                  onApprove={() => onDoc(doc.id, 'approved')}
+                  onReject={() => onDoc(doc.id, 'rejected')}
+                />
+              ))}
+            </div>
+          </div>
+        );
+      })}
 
       <div style={{ marginTop: 20 }}>
         <SectionLabel>اتفاقية التزام السائق</SectionLabel>
@@ -402,4 +445,43 @@ function DriverDetail({
       </div>
     </>
   );
+}
+
+/**
+ * Registration and insurance expiry, tinted.
+ *
+ * Carried over from the deleted /trucks screen — it was the one piece of that
+ * queue worth keeping. Inside 30 days is amber, past due is red: a truck whose
+ * insurance lapses next week is a different decision from one that lapsed last
+ * month, and a flat date hides that.
+ */
+function ExpiryValue({ date }: { date: string }) {
+  const days = daysUntil(date);
+  const tone =
+    days === null ? undefined : days < 0 ? 'var(--lw-red-600)' : days <= 30 ? 'var(--lw-amber-600)' : undefined;
+  const note = days === null ? null : days < 0 ? 'منتهية' : days <= 30 ? `تنتهي خلال ${days} يوماً` : null;
+
+  return (
+    <span style={{ color: tone, fontWeight: note ? 700 : undefined }}>
+      {date}
+      {note ? <span style={{ fontSize: 'var(--web-text-micro)' }}> · {note}</span> : null}
+    </span>
+  );
+}
+
+/** Arabic month names, against the pinned session date — see AdminStore. */
+const MONTHS = [
+  'يناير', 'فبراير', 'مارس', 'أبريل', 'مايو', 'يونيو',
+  'يوليو', 'أغسطس', 'سبتمبر', 'أكتوبر', 'نوفمبر', 'ديسمبر',
+];
+const TODAY = { day: 24, month: 6, year: 2026 };
+
+function daysUntil(date: string): number | null {
+  const m = date.match(/^(\d{1,2})\s+(\S+)\s+(\d{4})$/);
+  if (!m) return null;
+  const month = MONTHS.indexOf(m[2]);
+  if (month < 0) return null;
+  const target = Date.UTC(Number(m[3]), month, Number(m[1]));
+  const today = Date.UTC(TODAY.year, TODAY.month, TODAY.day);
+  return Math.round((target - today) / 86_400_000);
 }

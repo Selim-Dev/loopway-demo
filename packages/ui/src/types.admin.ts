@@ -25,13 +25,43 @@ export type DriverStatus =
 
 export interface DriverDocument {
   id: string;
-  /** الهوية / جواز السفر / رخصة القيادة / صورة السائق */
+  /** الهوية / رخصة القيادة / الاستمارة / وثيقة التأمين */
   type: string;
   fileName: string;
   sizeLabel: string;
   uploadedAt: string;
   expiryDate?: string;
   decision?: 'approved' | 'rejected' | null;
+  /**
+   * Which half of the request the document belongs to. Driver and truck papers
+   * arrive together and are decided together, but a reviewer still needs to see
+   * them grouped — a licence and a registration are read for different reasons.
+   */
+  scope: 'driver' | 'truck';
+}
+
+/**
+ * The truck submitted with a registration request.
+ *
+ * Deliberately NOT a separately-approvable entity. A driver registers with a
+ * truck and its papers; approving the two apart invents a state — approved
+ * driver, pending truck — that means nothing operationally and that no screen
+ * could act on.
+ */
+export interface RequestTruck {
+  /** e.g. `TRK-2026-0188`. */
+  id: string;
+  plateNumber: string;
+  truckType: string;
+  modelName: string;
+  modelYear: string;
+  /** الاستمارة */
+  registrationExpiry: string;
+  /** وثيقة التأمين */
+  insuranceExpiry: string;
+  insurancePolicy: string;
+  /** Captions for the 4-plate photo grid — see DocumentViewer/PhotoGrid. */
+  photos: string[];
 }
 
 export interface Driver {
@@ -53,43 +83,66 @@ export interface Driver {
   agreementAcceptedAt: string;
   /** Set when rejected or sent back — surfaced to the driver and the audit log. */
   decisionReason?: string;
-  /** Plate of the truck submitted alongside, when there is one. */
-  truckPlate?: string;
+  /** The transport company the driver works for. Dues settle to it, not to him. */
+  carrierId: string;
+  carrierName: string;
+  /** Submitted as part of the same request; decided with it. */
+  truck: RequestTruck;
 }
 
 /* ==========================================================================
-   M04-E04 — Trucks
+   M04-E11 — Carriers (شركات النقل) and what the platform owes them
    ========================================================================== */
 
-/** SRS §7 → الشاحنة. */
-export type TruckStatus =
-  | 'Pending Review'
-  | 'Approved'
-  | 'Rejected'
-  | 'Needs Update'
-  | 'Insurance Expired'
-  | 'Registration Expired'
-  | 'Suspended';
-
-export interface Truck {
-  /** e.g. `TRK-2026-0188`. */
+export interface CarrierCompany {
+  /** e.g. `CAR-2026-014`. */
   id: string;
-  plateNumber: string;
-  truckType: string;
-  modelName: string;
-  modelYear: string;
+  name: string;
+  initial: string;
+  commercialRegistration: string;
+  city: string;
+  contactName: string;
+  mobile: string;
+  /** Masked IBAN, e.g. "SA** •••• 4471". */
+  bankAccount: string;
+  driverCount: number;
+  joinedAt: string;
+}
+
+/** One completed, not-yet-settled trip inside a carrier's dues. */
+export interface CarrierTripDue {
+  shipmentId: string;
+  route: string;
   driverName: string;
-  driverId: string;
-  /** الاستمارة */
-  registrationExpiry: string;
-  /** وثيقة التأمين */
-  insuranceExpiry: string;
-  insurancePolicy: string;
-  /** Captions for the 4-plate photo grid. */
-  photos: string[];
-  status: TruckStatus;
-  submittedAt: string;
-  decisionReason?: string;
+  completedAt: string;
+  /** What the customer paid for the trip. */
+  tripValue: string;
+  /** Platform commission + fees, deducted. */
+  platformFee: string;
+  /**
+   * Approved penalties only. BR-012: a penalty has no financial effect until an
+   * admin approves it, so a `Pending Review` penalty must never reach this line.
+   */
+  penalties: string;
+  /** tripValue − platformFee − penalties. */
+  net: string;
+}
+
+export type CarrierDueStatus = 'قيد المراجعة' | 'جاهز للصرف' | 'تم الصرف';
+
+export interface CarrierDues {
+  carrierId: string;
+  carrierName: string;
+  initial: string;
+  /** عدد الرحلات المكتملة غير المسوّاة */
+  unsettledTrips: number;
+  /** Sum of `trips[].net`. Derived, never typed in — see the carrier-dues screen. */
+  totalDue: string;
+  status: CarrierDueStatus;
+  updatedAt: string;
+  bankAccount: string;
+  paidAt?: string;
+  trips: CarrierTripDue[];
 }
 
 /* ==========================================================================
@@ -127,36 +180,6 @@ export interface CompanyCustomer {
   totalSpend: string;
   planName: string;
   openCases: number;
-}
-
-/* ==========================================================================
-   M04-E06 — Document review queue
-   ========================================================================== */
-
-export type DocumentEntityType = 'driver' | 'truck' | 'company' | 'customer' | 'shipment';
-
-/**
- * SRS §13.3: a permit is either Blocking (stops the trip) or Warning
- * (surfaced but not blocking). The distinction drives the badge in the queue.
- */
-export type PermitRule = 'blocking' | 'warning' | 'none';
-
-export interface ReviewDocument {
-  id: string;
-  documentType: string;
-  /** وثيقة / تصريح / إثبات / مستند مولد — SRS §13.3 categories. */
-  category: 'وثيقة' | 'تصريح' | 'إثبات' | 'مستند مولد';
-  entityType: DocumentEntityType;
-  entityName: string;
-  entityId: string;
-  shipmentId?: string;
-  uploadedBy: string;
-  uploadedAt: string;
-  expiryDate?: string;
-  sizeLabel: string;
-  rule: PermitRule;
-  status: 'Under Review' | 'Approved' | 'Rejected' | 'Expired' | 'Uploaded';
-  decisionReason?: string;
 }
 
 /* ==========================================================================
@@ -203,89 +226,42 @@ export interface Penalty {
 }
 
 /* ==========================================================================
-   M04-E10 — Payments & Ledger
+   M04-E10 — العمليات المالية
+
+   One flat operations log rather than the payments + double-entry ledger split
+   the SRS describes. The ledger view answered a question nobody in this portal
+   was asking: an operator wants to see money moving, by type, against a trip or
+   a company. Both sides of every entry are still implied by `type` +
+   `direction` — a capture credits the platform, a payout debits it.
    ========================================================================== */
 
-export type LedgerEntryType =
-  | 'Wallet Top-up'
-  | 'Authorization'
-  | 'Capture'
-  | 'Fee'
-  | 'Commission'
-  | 'Tax'
-  | 'Penalty Hold'
-  | 'Refund'
-  | 'Split'
-  | 'Payout'
-  | 'Adjustment';
+export type FinancialOperationType =
+  | 'دفعة عميل'
+  | 'استرداد'
+  | 'عمولة المنصة'
+  | 'رسوم'
+  | 'غرامة معتمدة'
+  | 'صرف مستحقات';
 
-/**
- * Double-entry. `debitParty` and `creditParty` are both required — a
- * single-sided view would misrepresent the ledger.
- */
-export interface LedgerEntry {
-  /** e.g. `LED-2026-11840`. */
+export type FinancialOperationStatus = 'مكتملة' | 'قيد التنفيذ' | 'فاشلة' | 'مستردة';
+
+export interface FinancialOperation {
+  /** e.g. `FIN-2026-04412`. */
   id: string;
-  type: LedgerEntryType;
+  type: FinancialOperationType;
+  /** The trip this belongs to, when there is one. */
   shipmentId?: string;
-  debitParty: string;
-  creditParty: string;
+  /** الرحلة أو الشركة المرتبطة — whichever names the counterparty. */
+  partyName: string;
   /** Formatted, e.g. "3,850.00". */
   amount: string;
-  currency: 'SAR';
-  status: 'Posted' | 'Pending' | 'Reversed';
-  reference: string;
+  /** Into the platform or out of it. Drives the sign and the tone. */
+  direction: 'credit' | 'debit';
+  status: FinancialOperationStatus;
+  /** Gateway or settlement reference, when the operation has one. */
+  reference?: string;
   createdAt: string;
-}
-
-export interface AdminPayment {
-  id: string;
-  shipmentId?: string;
-  payerName: string;
-  payerType: 'فرد' | 'شركة';
-  method: string;
-  amount: string;
-  subtotal?: string;
-  vat?: string;
-  /** SRS §13.1 payment state matrix. */
-  status: 'Pending' | 'Authorized' | 'Captured' | 'Failed' | 'Expired' | 'Refunded';
-  gatewayReference: string;
-  date: string;
-  time: string;
-  note?: string;
-}
-
-/* ==========================================================================
-   M04-E11 — Payouts
-   ========================================================================== */
-
-export type PayoutStatus =
-  | 'Pending Settlement'
-  | 'Ready for Payout'
-  | 'Payout Pending'
-  | 'Paid Out'
-  | 'Failed'
-  | 'On Hold';
-
-export interface Payout {
-  /** e.g. `PO-2026-0331`. */
-  id: string;
-  driverName: string;
-  driverId: string;
-  driverInitial: string;
-  /** Trip IDs rolled into this payout. */
-  shipmentIds: string[];
-  /** Gross earnings before deductions. */
-  grossAmount: string;
-  /** Penalty holds and platform deductions. */
-  deductions: string;
-  netAmount: string;
-  /** Masked IBAN, e.g. "SA** •••• 4471". */
-  bankAccount: string;
-  status: PayoutStatus;
-  settledAt: string;
-  paidAt?: string;
-  failureReason?: string;
+  method?: string;
 }
 
 /* ==========================================================================
@@ -317,59 +293,6 @@ export interface AuditEntry {
   /** Before/after pairs for the diff view. Empty for pure approvals. */
   changes?: { field: string; before: string; after: string }[];
   reason?: string;
-}
-
-/* ==========================================================================
-   M04-E07 — Geography
-   ========================================================================== */
-
-export interface Port {
-  id: string;
-  name: string;
-  cityId: string;
-  /** Drives the "هل يحتاج تصريح" branch when a trip is created. */
-  requiresPermit: boolean;
-  instructions?: string;
-  active: boolean;
-}
-
-export interface City {
-  id: string;
-  name: string;
-  countryId: string;
-  active: boolean;
-}
-
-export interface Country {
-  id: string;
-  name: string;
-  /** ISO-2, rendered LTR. */
-  code: string;
-  active: boolean;
-  /** True when the platform operates domestically here vs cross-border only. */
-  domestic: boolean;
-}
-
-/* ==========================================================================
-   M04-E08 — Catalog
-   ========================================================================== */
-
-export interface CargoType {
-  id: string;
-  name: string;
-  requiresTemperature: boolean;
-  dangerousGoods: boolean;
-  specialHandling: boolean;
-  oversized: boolean;
-  active: boolean;
-}
-
-export interface TruckTypeDef {
-  id: string;
-  name: string;
-  /** "حتى 40 طن · 13.6 م" */
-  capacityNote: string;
-  active: boolean;
 }
 
 /* ==========================================================================
@@ -450,33 +373,50 @@ export interface AdminShipment {
   amount: string;
 }
 
+
 /* ==========================================================================
-   M04-E13 — Support (admin view)
+   M04-E15 — Notification dispatch log
    ========================================================================== */
 
-export interface SupportMessage {
+export type DispatchStatus = 'أُرسل' | 'جارٍ الإرسال' | 'فشل جزئي' | 'فشل';
+
+export interface NotificationDispatch {
+  /** e.g. `NTF-2026-0318`. */
   id: string;
-  author: string;
-  role: 'العميل' | 'السائق' | 'الإدارة';
-  body: string;
-  at: string;
+  /** The template/event this went out under. */
+  event: string;
+  audience: string;
+  channels: string[];
+  /** How many recipients it reached. */
+  recipients: number;
+  status: DispatchStatus;
+  sentAt: string;
+  /** Set when the send was triggered by an operator rather than by an event. */
+  sentBy?: string;
 }
 
-export interface AdminSupportCase {
+/* ==========================================================================
+   M04-E01 — Operational updates feed
+
+   Read-only by construction. The home page reports what changed; the queues own
+   the decisions. An update carries a destination, never an action — see
+   docs/design-system/10-admin-portal-guide.md.
+   ========================================================================== */
+
+export type OperationalUpdateKind = 'رحلة' | 'طلب اعتماد' | 'غرامة';
+
+export interface OperationalUpdate {
   id: string;
-  type: string;
-  shipmentId?: string;
-  reporter: string;
-  reporterRole: 'العميل' | 'السائق' | 'الشركة';
-  priority: 'عالية' | 'متوسطة' | 'منخفضة';
-  status: 'مفتوحة' | 'قيد المعالجة' | 'مغلقة';
-  openedAt: string;
-  /** "3 أيام" — how long it has been open. */
-  age: string;
-  description: string;
-  messages: SupportMessage[];
-  attachments: string[];
-  /** M04-E13-F02: the alternative-POD path when normal delivery proof failed. */
-  needsAlternativePod: boolean;
-  resolution?: string;
+  kind: OperationalUpdateKind;
+  /** `LW-2026-002960` / `DRV-2026-0412` / `PEN-2026-0061`. Rendered LTR. */
+  reference: string;
+  title: string;
+  /** Current state, in the glossary's Arabic. */
+  status: string;
+  /** Display timestamp, and the sort key. */
+  at: string;
+  /** Minutes since the session clock — the actual sort key. */
+  ageMinutes: number;
+  /** Where فتح التفاصيل goes. */
+  href: string;
 }

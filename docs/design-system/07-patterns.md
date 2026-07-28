@@ -241,6 +241,23 @@ created for itself.
 
 ---
 
+## One decision per real-world event
+
+The Admin portal had a driver queue and a truck queue. They were two queues for
+one event: a driver registers *with* a truck and its papers, so approving them
+separately produced "approved driver, pending truck" — a state with no
+operational meaning and no screen that could act on it.
+
+They are now one request with one decision, and the audit log gets **one**
+entry, not two. Each document still carries its own approve/reject inside the
+panel, because a submission can be sound apart from one bad paper and the
+reviewer has to be able to say exactly that.
+
+The general rule: **model the decision, not the entity.** If two queues always
+empty together, they were one queue.
+
+---
+
 ## Queue counts are derived, never written down
 
 A count that says 12 while the table shows 11 is worse than no count. They come

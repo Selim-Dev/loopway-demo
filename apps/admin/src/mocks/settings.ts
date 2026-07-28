@@ -1,102 +1,6 @@
-import type {
-  CargoType,
-  City,
-  Compatibility,
-  Country,
-  NotificationTemplate,
-  Port,
-  PricingSettings,
-  TruckTypeDef,
-} from '@loopway/ui';
+import type { NotificationDispatch, NotificationTemplate, PricingSettings } from '@loopway/ui';
 
-/** Settings fixtures — SRS M04-E07 / E08 / E09 / E15. */
-
-/* ---- Geography (E07) ---- */
-export const COUNTRIES: Country[] = [
-  { id: 'SA', name: 'السعودية', code: 'SA', active: true, domestic: true },
-  { id: 'AE', name: 'الإمارات', code: 'AE', active: true, domestic: false },
-  { id: 'KW', name: 'الكويت', code: 'KW', active: true, domestic: false },
-  { id: 'BH', name: 'البحرين', code: 'BH', active: true, domestic: false },
-  { id: 'QA', name: 'قطر', code: 'QA', active: false, domestic: false },
-  { id: 'OM', name: 'عُمان', code: 'OM', active: false, domestic: false },
-];
-
-export const CITIES: City[] = [
-  { id: 'RUH', name: 'الرياض', countryId: 'SA', active: true },
-  { id: 'JED', name: 'جدة', countryId: 'SA', active: true },
-  { id: 'DMM', name: 'الدمام', countryId: 'SA', active: true },
-  { id: 'MED', name: 'المدينة', countryId: 'SA', active: true },
-  { id: 'MKH', name: 'مكة', countryId: 'SA', active: true },
-  { id: 'ABT', name: 'أبها', countryId: 'SA', active: true },
-  { id: 'NJR', name: 'نجران', countryId: 'SA', active: true },
-  { id: 'TBK', name: 'تبوك', countryId: 'SA', active: true },
-  { id: 'KHB', name: 'الخبر', countryId: 'SA', active: true },
-  { id: 'DXB', name: 'دبي', countryId: 'AE', active: true },
-  { id: 'AUH', name: 'أبوظبي', countryId: 'AE', active: true },
-  { id: 'SHJ', name: 'الشارقة', countryId: 'AE', active: false },
-  { id: 'KWI', name: 'مدينة الكويت', countryId: 'KW', active: true },
-  { id: 'BAH', name: 'المنامة', countryId: 'BH', active: true },
-];
-
-export const PORTS: Port[] = [
-  { id: 'P-KAP', name: 'ميناء الملك عبدالعزيز', cityId: 'DMM', requiresPermit: true, instructions: 'الدخول عبر البوابة 3 فقط. التصريح يُقدَّم ورقياً عند البوابة مع صورة الاستمارة.', active: true },
-  { id: 'P-JIP', name: 'ميناء جدة الإسلامي', cityId: 'JED', requiresPermit: true, instructions: 'يُشترط تصريح ساري ورقم حجز بوابة مسبق.', active: true },
-  { id: 'P-RDP', name: 'الميناء الجاف بالرياض', cityId: 'RUH', requiresPermit: false, active: true },
-  { id: 'P-JAP', name: 'ميناء جبل علي', cityId: 'DXB', requiresPermit: true, instructions: 'تصريح المنطقة الحرة إلزامي قبل التحميل بـ 24 ساعة.', active: true },
-  { id: 'P-KHP', name: 'ميناء الخفجي', cityId: 'DMM', requiresPermit: true, active: true },
-  { id: 'P-SHW', name: 'منفذ الشويخ', cityId: 'KWI', requiresPermit: true, instructions: 'يتطلب بيان جمركي مُخلَّص مسبقاً.', active: true },
-  { id: 'P-BTH', name: 'منفذ البطحاء', cityId: 'DMM', requiresPermit: true, active: true },
-  { id: 'P-KFB', name: 'جسر الملك فهد', cityId: 'KHB', requiresPermit: false, active: true },
-];
-
-/* ---- Catalog (E08) ---- */
-export const CARGO_TYPES: CargoType[] = [
-  { id: 'C-GEN', name: 'بضائع عامة', requiresTemperature: false, dangerousGoods: false, specialHandling: false, oversized: false, active: true },
-  { id: 'C-BLD', name: 'مواد بناء', requiresTemperature: false, dangerousGoods: false, specialHandling: false, oversized: false, active: true },
-  { id: 'C-RFR', name: 'مواد غذائية مبردة', requiresTemperature: true, dangerousGoods: false, specialHandling: true, oversized: false, active: true },
-  { id: 'C-DNG', name: 'مواد خطرة', requiresTemperature: false, dangerousGoods: true, specialHandling: true, oversized: false, active: true },
-  { id: 'C-HVY', name: 'معدات ثقيلة', requiresTemperature: false, dangerousGoods: false, specialHandling: true, oversized: true, active: true },
-  { id: 'C-OVR', name: 'حجم غير اعتيادي', requiresTemperature: false, dangerousGoods: false, specialHandling: true, oversized: true, active: true },
-  { id: 'C-ELC', name: 'إلكترونيات', requiresTemperature: false, dangerousGoods: false, specialHandling: true, oversized: false, active: true },
-  { id: 'C-TXT', name: 'منسوجات', requiresTemperature: false, dangerousGoods: false, specialHandling: false, oversized: false, active: true },
-];
-
-export const TRUCK_TYPE_DEFS: TruckTypeDef[] = [
-  { id: 'T-FB6', name: 'ستة محاور — سطحة', capacityNote: 'حتى 40 طن · 13.6 م', active: true },
-  { id: 'T-LOW', name: 'لوبد', capacityNote: 'حتى 60 طن · ارتفاعات غير اعتيادية', active: true },
-  { id: 'T-RFR', name: 'مبردة', capacityNote: 'حتى 25 طن · −25° إلى +25°', active: true },
-  { id: 'T-CUR', name: 'ستائر جانبية', capacityNote: 'حتى 24 طن · تحميل جانبي', active: true },
-  { id: 'T-BOX', name: 'صندوق مغلق', capacityNote: 'حتى 18 طن', active: true },
-  { id: 'T-TNK', name: 'صهريج', capacityNote: 'حتى 35,000 لتر', active: false },
-];
-
-/**
- * Compatibility matrix — keyed `${cargoId}:${truckId}`.
- * Only the non-default cells are stored; anything missing reads as `allowed`.
- */
-export const COMPATIBILITY: Record<string, Compatibility> = {
-  'C-RFR:T-FB6': 'blocked',
-  'C-RFR:T-LOW': 'blocked',
-  'C-RFR:T-CUR': 'blocked',
-  'C-RFR:T-BOX': 'warning',
-  'C-DNG:T-FB6': 'warning',
-  'C-DNG:T-CUR': 'blocked',
-  'C-DNG:T-RFR': 'blocked',
-  'C-DNG:T-BOX': 'warning',
-  'C-HVY:T-RFR': 'blocked',
-  'C-HVY:T-CUR': 'blocked',
-  'C-HVY:T-BOX': 'blocked',
-  'C-OVR:T-FB6': 'warning',
-  'C-OVR:T-RFR': 'blocked',
-  'C-OVR:T-CUR': 'blocked',
-  'C-OVR:T-BOX': 'blocked',
-  'C-ELC:T-FB6': 'warning',
-  'C-ELC:T-LOW': 'blocked',
-  'C-TXT:T-LOW': 'warning',
-  'C-GEN:T-LOW': 'warning',
-  'C-BLD:T-RFR': 'blocked',
-  'C-BLD:T-BOX': 'warning',
-};
+/** Settings fixtures — SRS M04-E09 (pricing) and M04-E15 (notifications). */
 
 /* ---- Pricing (E09) ---- */
 export const PRICING: PricingSettings = {
@@ -125,4 +29,16 @@ export const TEMPLATES: NotificationTemplate[] = [
   { id: 'TPL-08', event: 'إثبات التسليم', audience: 'العميل', title: 'تم تسليم شحنتك', body: 'تم تسليم الرحلة {{tripId}} وتأكيد الاستلام. يُحرَّر مبلغ الشحنة للسائق وتُغلق الرحلة.', channels: { push: true, inApp: true, sms: true }, variables: ['{{tripId}}'], active: true },
   { id: 'TPL-09', event: 'غرامة قيد المراجعة', audience: 'العميل', title: 'غرامة محتملة قيد المراجعة', body: 'أُنشئت غرامة محتملة بقيمة {{amount}} ر.س على الرحلة {{tripId}}. لن تُطبَّق مالياً قبل مراجعة الإدارة واعتمادها.', channels: { push: false, inApp: true, sms: false }, variables: ['{{tripId}}', '{{amount}}'], active: true },
   { id: 'TPL-10', event: 'تحويل مستحقات', audience: 'السائق', title: 'تم تحويل مستحقاتك', body: 'حُوّل مبلغ {{amount}} ر.س إلى حسابك {{bankAccount}} مقابل {{tripCount}} رحلات.', channels: { push: true, inApp: true, sms: true }, variables: ['{{amount}}', '{{bankAccount}}', '{{tripCount}}'], active: true },
+];
+
+/* ---- Notification dispatch log (E15) ---- */
+export const DISPATCHES: NotificationDispatch[] = [
+  { id: 'NTF-2026-0318', event: 'وصول عرض جديد', audience: 'العميل', channels: ['Push', 'داخل التطبيق'], recipients: 1, status: 'أُرسل', sentAt: '24 يوليو 2026 · 09:41 ص' },
+  { id: 'NTF-2026-0317', event: 'اعتماد طلب التسجيل', audience: 'السائق', channels: ['Push', 'SMS'], recipients: 1, status: 'أُرسل', sentAt: '24 يوليو 2026 · 08:12 ص' },
+  { id: 'NTF-2026-0316', event: 'تذكير بانتهاء وثيقة', audience: 'السائق', channels: ['Push'], recipients: 34, status: 'أُرسل', sentAt: '23 يوليو 2026 · 07:00 ص', sentBy: 'فريق التشغيل' },
+  { id: 'NTF-2026-0314', event: 'تأكيد الدفع', audience: 'العميل', channels: ['Push', 'داخل التطبيق'], recipients: 1, status: 'أُرسل', sentAt: '21 يوليو 2026 · 09:15 ص' },
+  { id: 'NTF-2026-0311', event: 'تحديث حالة الشحنة', audience: 'العميل', channels: ['داخل التطبيق'], recipients: 148, status: 'فشل جزئي', sentAt: '20 يوليو 2026 · 06:30 م', sentBy: 'فريق التشغيل' },
+  { id: 'NTF-2026-0308', event: 'إشعار صيانة مجدولة', audience: 'الكل', channels: ['Push', 'داخل التطبيق'], recipients: 512, status: 'أُرسل', sentAt: '19 يوليو 2026 · 10:00 م', sentBy: 'مدير المنصة' },
+  { id: 'NTF-2026-0305', event: 'تحويل المستحقات', audience: 'الشركة', channels: ['SMS'], recipients: 1, status: 'أُرسل', sentAt: '12 يوليو 2026 · 11:02 ص' },
+  { id: 'NTF-2026-0301', event: 'رفض طلب التسجيل', audience: 'السائق', channels: ['Push', 'SMS'], recipients: 1, status: 'فشل', sentAt: '3 يوليو 2026 · 05:05 م' },
 ];

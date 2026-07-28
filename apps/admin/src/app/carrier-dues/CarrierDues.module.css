@@ -1,0 +1,111 @@
+/* The per-trip dues breakdown. Composition only, on the product's own tokens. */
+
+.breakdown {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.trip {
+  border: 1px solid var(--lw-border-subtle);
+  border-radius: var(--web-r-btn);
+  padding: 12px 14px;
+  background: var(--lw-surface);
+}
+
+.tripHead {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.tripId {
+  font-size: var(--web-text-meta);
+  font-weight: 800;
+  color: var(--lw-green-600);
+}
+
+.tripRoute {
+  font-size: var(--web-text-micro);
+  font-weight: 700;
+  color: var(--lw-navy-800);
+}
+
+.tripMeta {
+  margin-top: 3px;
+  font-size: var(--web-text-micro);
+  font-weight: 600;
+  color: var(--lw-slate-500);
+}
+
+.lines {
+  margin: 10px 0 0;
+  padding: 10px 0 0;
+  border-top: 1px solid var(--lw-divider-2);
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.line {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.line dt {
+  font-size: var(--web-text-micro);
+  font-weight: 600;
+  color: var(--lw-slate-600);
+}
+
+.line dd {
+  margin: 0;
+  font-size: var(--web-text-meta);
+  font-weight: 700;
+  color: var(--lw-navy-900);
+}
+
+/* Deductions read red because they reduce what the carrier receives. This is
+   not the "destructive" use of red the identity doc reserves — it is a minus
+   sign on a number, which is the one other place red is legible. */
+.deduct {
+  color: var(--lw-red-600);
+}
+
+.lineNet {
+  margin-top: 3px;
+  padding-top: 8px;
+  border-top: 1px dashed var(--lw-border);
+}
+
+.lineNet dt {
+  font-weight: 700;
+  color: var(--lw-navy-900);
+}
+
+.lineNet dd {
+  font-size: var(--web-text-label);
+  font-weight: 800;
+  color: var(--lw-green-700);
+}
+
+.total {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 16px;
+  border-radius: var(--web-r-btn);
+  background: var(--lw-navy-900);
+  color: #fff;
+  font-size: var(--web-text-label);
+  font-weight: 700;
+}
+
+.total span:last-child {
+  font-size: 1rem;
+  font-weight: 800;
+}

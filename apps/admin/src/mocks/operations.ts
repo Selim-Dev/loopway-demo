@@ -1,12 +1,6 @@
-import type {
-  AdminShipment,
-  AdminSupportCase,
-  AuditEntry,
-  CompanyCustomer,
-  IndividualCustomer,
-} from '@loopway/ui';
+import type { AdminShipment, AuditEntry, CompanyCustomer, IndividualCustomer, OperationalUpdate } from '@loopway/ui';
 
-/** Shipments, customers, support and the seed audit log — M04-E02/E05/E13/E16. */
+/** Shipments, customers, the updates feed and the seed audit log — M04-E01/E02/E05/E16. */
 
 export const ADMIN_SHIPMENTS: AdminShipment[] = [
   { id: 'LW-2026-002960', customerName: 'شركة الرحلة اللوجستية', customerType: 'شركة', driverName: 'خالد ناصر', from: 'الرياض', to: 'الدمام', scope: 'محلية', cargo: 'معدات ثقيلة • 30 طن', status: 'متجه للاستلام', paymentStatus: 'Captured', documentsComplete: true, hasPenalty: false, hasOpenCase: false, pickupDate: '20 يوليو 2026', amount: '3,850' },
@@ -46,86 +40,6 @@ export const COMPANY_CUSTOMERS: CompanyCustomer[] = [
   { id: 'LW-CO-9120', companyName: 'الأولى للمقاولات', initial: 'أ', commercialRegistration: '1010774412', vatNumber: '310774412200003', authorizedContact: 'ماجد الرشيد', mobile: '0558 447 9120', city: 'الرياض', status: 'Documents Expired', joinedAt: '15 نوفمبر 2025', shipmentCount: 17, totalSpend: '58,300', planName: 'باقة الأعمال', openCases: 0 },
 ];
 
-export const ADMIN_SUPPORT_CASES: AdminSupportCase[] = [
-  {
-    id: 'SC-0219', type: 'نزاع على إلغاء رحلة', shipmentId: 'LW-2026-002910', reporter: 'شركة الرحلة اللوجستية', reporterRole: 'الشركة',
-    priority: 'عالية', status: 'قيد المعالجة', openedAt: '16 يوليو 2026', age: '8 أيام',
-    description: 'أُلغيت الرحلة بعد تحرك السائق ونطلب مراجعة الغرامة المقترحة.',
-    messages: [
-      { id: 'M1', author: 'شركة الرحلة اللوجستية', role: 'العميل', body: 'أُلغيت الرحلة لأن المستلم لم يكن جاهزاً، ونرى أن الغرامة غير عادلة.', at: '16 يوليو 2026 · 01:02 م' },
-      { id: 'M2', author: 'فريق التشغيل', role: 'الإدارة', body: 'شكراً لتواصلكم. راجعنا سجل التتبّع والسائق كان قد قطع 18 كم فعلياً. الغرامة قيد المراجعة.', at: '16 يوليو 2026 · 03:40 م' },
-    ],
-    attachments: ['سجل التتبّع.pdf', 'مراسلات المستلم.png'],
-    needsAlternativePod: false,
-  },
-  {
-    id: 'SC-0217', type: 'تعذّر إثبات التسليم', shipmentId: 'LW-2026-002905', reporter: 'سعد المطيري', reporterRole: 'السائق',
-    priority: 'عالية', status: 'مفتوحة', openedAt: '8 يوليو 2026', age: '16 يوماً',
-    description: 'رمز التحقق لم يصل للمستلم والشحنة سُلّمت فعلياً. مطلوب تحقق بديل.',
-    messages: [
-      { id: 'M1', author: 'سعد المطيري', role: 'السائق', body: 'المستلم استلم البضاعة ووقّع على الورق، لكن رمز OTP لم يصله رغم إعادة الإرسال ثلاث مرات.', at: '8 يوليو 2026 · 02:12 م' },
-    ],
-    attachments: ['صورة التوقيع الورقي.jpg', 'صورة البضاعة عند التسليم.jpg'],
-    needsAlternativePod: true,
-  },
-  {
-    id: 'SC-0214', type: 'تأخر في التحميل', shipmentId: 'LW-2026-002955', reporter: 'مؤسسة نجد للنقل', reporterRole: 'الشركة',
-    priority: 'متوسطة', status: 'مفتوحة', openedAt: '17 يوليو 2026', age: '7 أيام',
-    description: 'انتظر السائق أكثر من الحد المسموح في موقع التحميل بسبب ازدحام البوابة.',
-    messages: [
-      { id: 'M1', author: 'مؤسسة نجد للنقل', role: 'العميل', body: 'الازدحام كان على بوابة الميناء وليس من طرفنا. نرجو إعادة النظر في الغرامة.', at: '17 يوليو 2026 · 10:20 ص' },
-    ],
-    attachments: ['صورة طابور البوابة.jpg'],
-    needsAlternativePod: false,
-  },
-  {
-    id: 'SC-0212', type: 'تلف في الحمولة', shipmentId: 'LW-2026-002944', reporter: 'شركة الرحلة اللوجستية', reporterRole: 'الشركة',
-    priority: 'عالية', status: 'مفتوحة', openedAt: '17 يوليو 2026', age: '7 أيام',
-    description: 'وصلت ثلاث قطع أثاث بأضرار ظاهرة. مطلوب تحديد المسؤولية.',
-    messages: [
-      { id: 'M1', author: 'شركة الرحلة اللوجستية', role: 'العميل', body: 'مرفق صور الأضرار عند الاستلام مع محضر المستلم.', at: '17 يوليو 2026 · 05:44 م' },
-    ],
-    attachments: ['أضرار-1.jpg', 'أضرار-2.jpg', 'محضر المستلم.pdf'],
-    needsAlternativePod: false,
-  },
-  {
-    id: 'SC-0210', type: 'مشكلة في الدفع', reporter: 'سارة العتيبي', reporterRole: 'العميل',
-    priority: 'متوسطة', status: 'مفتوحة', openedAt: '19 يوليو 2026', age: '5 أيام',
-    description: 'خُصم المبلغ مرتين من البطاقة على نفس الرحلة.',
-    messages: [
-      { id: 'M1', author: 'سارة العتيبي', role: 'العميل', body: 'ظهر خصمان بنفس المبلغ في كشف البنك بفارق دقيقتين.', at: '19 يوليو 2026 · 08:30 ص' },
-    ],
-    attachments: ['كشف البنك.pdf'],
-    needsAlternativePod: false,
-  },
-  {
-    id: 'SC-0208', type: 'اعتراض على تصريح مرفوض', shipmentId: 'LW-2026-002965', reporter: 'مصنع الخليج للكيماويات', reporterRole: 'الشركة',
-    priority: 'منخفضة', status: 'مفتوحة', openedAt: '21 يوليو 2026', age: '3 أيام',
-    description: 'رُفض تصريح المواد الخطرة رغم أنه سارٍ حتى ديسمبر.',
-    messages: [
-      { id: 'M1', author: 'مصنع الخليج للكيماويات', role: 'العميل', body: 'التصريح المرفق سارٍ حتى 12 ديسمبر 2026، نرجو إعادة المراجعة.', at: '21 يوليو 2026 · 11:15 ص' },
-    ],
-    attachments: ['تصريح-المواد-الخطرة.pdf'],
-    needsAlternativePod: false,
-  },
-  {
-    id: 'SC-0201', type: 'استفسار عن فاتورة', reporter: 'شركة الرحلة اللوجستية', reporterRole: 'الشركة',
-    priority: 'منخفضة', status: 'مغلقة', openedAt: '9 يوليو 2026', age: '15 يوماً',
-    description: 'طلب توضيح احتساب ضريبة القيمة المضافة على العملية TXN-2026-01840.',
-    messages: [
-      { id: 'M1', author: 'شركة الرحلة اللوجستية', role: 'العميل', body: 'كيف احتُسبت الضريبة على هذه العملية؟', at: '9 يوليو 2026 · 09:10 ص' },
-      { id: 'M2', author: 'فريق التشغيل', role: 'الإدارة', body: 'الضريبة 15% على المبلغ قبل الضريبة (1,260.87). أُرفقت الفاتورة التفصيلية.', at: '9 يوليو 2026 · 11:32 ص' },
-    ],
-    attachments: [],
-    needsAlternativePod: false,
-    resolution: 'أُرسلت الفاتورة التفصيلية وأُغلق البلاغ باتفاق الطرفين.',
-  },
-];
-
-/**
- * Seed audit entries. The store appends to this list on every admin decision,
- * so /audit fills up from the session's own activity — SRS BR-015.
- */
 export const SEED_AUDIT: AuditEntry[] = [
   { id: 'AUD-2026-90412', actor: 'فريق التشغيل', actorId: 'LW-ADM-0001', action: 'اعتماد', entityType: 'سائق', entityId: 'DRV-2026-0388', entityLabel: 'خالد ناصر', timestamp: '12 يوليو 2026 · 10:22 ص' },
   { id: 'AUD-2026-90409', actor: 'فريق التشغيل', actorId: 'LW-ADM-0001', action: 'اعتماد', entityType: 'شاحنة', entityId: 'TRK-2026-0170', entityLabel: '٤٢٨١ ر ن ب', timestamp: '12 يوليو 2026 · 10:25 ص' },
@@ -135,4 +49,25 @@ export const SEED_AUDIT: AuditEntry[] = [
   { id: 'AUD-2026-90360', actor: 'المسؤول المالي', actorId: 'LW-ADM-0004', action: 'تحويل مستحقات', entityType: 'مستحقات', entityId: 'PO-2026-0318', entityLabel: 'عبدالله الغامدي — 5,141.30 ر.س', timestamp: '12 يوليو 2026 · 11:00 ص' },
   { id: 'AUD-2026-90341', actor: 'فريق التشغيل', actorId: 'LW-ADM-0001', action: 'إيقاف حساب', entityType: 'سائق', entityId: 'DRV-2026-0377', entityLabel: 'بدر الشهراني', timestamp: '28 يونيو 2026 · 12:04 م', changes: [{ field: 'الحالة', before: 'معتمد', after: 'موقوف' }], reason: 'ثلاثة بلاغات تأخير متتالية خلال أسبوعين.' },
   { id: 'AUD-2026-90322', actor: 'فريق التشغيل', actorId: 'LW-ADM-0001', action: 'إغلاق بلاغ', entityType: 'بلاغ دعم', entityId: 'SC-0201', entityLabel: 'استفسار عن فاتورة', timestamp: '9 يوليو 2026 · 11:40 ص', reason: 'أُرسلت الفاتورة التفصيلية وأُغلق البلاغ باتفاق الطرفين.' },
+];
+
+/* ==========================================================================
+   M04-E01 — Operational updates
+
+   Only the shipment half is a fixture: `AdminShipment` carries no `updatedAt`,
+   so status changes need their own timestamps. The approval-request and
+   penalty halves are derived from live store state in AdminHome, which is why
+   a decision taken in a queue surfaces here without a reload.
+
+   `ageMinutes` is the sort key. It counts back from the pinned SESSION_DATE in
+   AdminStore rather than from a real clock — the fixtures live in July 2026 and
+   a wall clock would put every update in the future.
+   ========================================================================== */
+export const SHIPMENT_UPDATES: OperationalUpdate[] = [
+  { id: 'UPD-9012', kind: 'رحلة', reference: 'LW-2026-002962', title: 'الشحنة وصلت إلى منفذ البطحاء', status: 'عند الحدود', at: '24 يوليو 2026 · 09:52 ص', ageMinutes: 18, href: '/shipments' },
+  { id: 'UPD-9011', kind: 'رحلة', reference: 'LW-2026-002944', title: 'بدأ تسليم الشحنة في جدة', status: 'جاري التسليم', at: '24 يوليو 2026 · 08:35 ص', ageMinutes: 95, href: '/shipments' },
+  { id: 'UPD-9009', kind: 'رحلة', reference: 'LW-2026-002951', title: 'الشحنة تحركت من الدمام إلى دبي', status: 'في الطريق', at: '24 يوليو 2026 · 06:20 ص', ageMinutes: 230, href: '/shipments' },
+  { id: 'UPD-9007', kind: 'رحلة', reference: 'LW-2026-002955', title: 'اكتمل التحميل وخرجت الشاحنة', status: 'جاري التحميل', at: '23 يوليو 2026 · 07:40 م', ageMinutes: 890, href: '/shipments' },
+  { id: 'UPD-9004', kind: 'رحلة', reference: 'LW-2026-002948', title: 'وصلت خمسة عروض من السائقين', status: 'وصلت عروض', at: '23 يوليو 2026 · 02:05 م', ageMinutes: 1225, href: '/shipments' },
+  { id: 'UPD-9001', kind: 'رحلة', reference: 'LW-2026-002970', title: 'تم تأكيد الدفع وحجز المبلغ', status: 'مدفوعة', at: '22 يوليو 2026 · 11:18 ص', ageMinutes: 2812, href: '/shipments' },
 ];
