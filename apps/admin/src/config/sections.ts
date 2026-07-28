@@ -139,10 +139,17 @@ export const ADMIN_GROUPS: SidebarGroup[] = [
       { label: 'إدارة الإشعارات', icon: 'bell', href: '/notifications' },
     ],
   },
-  {
-    label: 'التشغيل',
-    items: [{ label: 'سجل القرارات والاعتمادات', icon: 'clock', href: '/audit' }],
-  },
+  // Hidden from the sidebar on request. The whole group goes, not just the
+  // item — it was the only entry, and a group heading with nothing under it
+  // renders as an orphan label.
+  //
+  // `/audit` itself still works: the route, the screen and the store's audit
+  // trail are untouched, and the links to it from /account still resolve.
+  // Uncomment these four lines to bring it back.
+  // {
+  //   label: 'التشغيل',
+  //   items: [{ label: 'سجل القرارات والاعتمادات', icon: 'clock', href: '/audit' }],
+  // },
 ];
 
 export function findSection(href: string): AdminSection | undefined {
